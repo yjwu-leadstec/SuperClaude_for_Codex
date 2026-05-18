@@ -27,6 +27,7 @@ def run_doctor() -> tuple[int, int]:
 
     # 1. Codex home
     total += 1
+    home: Path | None = None
     try:
         home = resolve_codex_home()
         if _check("Codex home", home.exists(), str(home)):
@@ -34,7 +35,7 @@ def run_doctor() -> tuple[int, int]:
     except Exception as exc:
         _check("Codex home", False, str(exc))
 
-    if not home.exists():
+    if home is None or not home.exists():
         return passed, total
 
     # 2. AGENTS.md
@@ -43,7 +44,8 @@ def run_doctor() -> tuple[int, int]:
     if agents.exists():
         content = agents.read_text()
         has_marker = BEGIN_MARKER in content
-        if _check("AGENTS.md", has_marker, "SuperClaude block present" if has_marker else "marker block missing"):
+        if _check("AGENTS.md", has_marker,
+                   "SuperClaude block present" if has_marker else "marker block missing"):
             passed += 1
     else:
         _check("AGENTS.md", False, "file not found")
@@ -67,7 +69,10 @@ def run_doctor() -> tuple[int, int]:
     total += 1
     skills_dir = home / "skills"
     if skills_dir.exists():
-        skill_dirs = [d for d in skills_dir.iterdir() if d.is_dir() and d.name.startswith("superclaude-")]
+        skill_dirs = [
+            d for d in skills_dir.iterdir()
+            if d.is_dir() and d.name.startswith("superclaude-")
+        ]
         skill_count = sum(1 for d in skill_dirs if (d / "SKILL.md").exists())
         total_skills = len(skill_dirs)
         if _check("Skills", skill_count == total_skills and skill_count > 0,
@@ -90,9 +95,22 @@ def run_doctor() -> tuple[int, int]:
     else:
         _check("version.json", False, "file not found")
 
-    # 6. No ~/.claude references
+    # 6. No ~/.claude references — scan install artifacts
     total += 1
-    if _check("No ~/.claude references", True):
+    claude_refs = []
+    for f in sc_dir.rglob("*.json"):
+        content = f.read_text()
+        if "/.claude" in content:
+            claude_refs.append(str(f))
+    if agents.exists():
+        content = agents.read_text()
+        # The AGENTS.md legitimately tells Codex NOT to touch ~/.claude;
+        # only flag if there's an actual path pointing into it.
+        for line in content.splitlines():
+            if "/.claude/" in line and "Do not" not in line and "read or write" not in line:
+                claude_refs.append(f"AGENTS.md: {line.strip()}")
+    if _check("No ~/.claude references", len(claude_refs) == 0,
+              "; ".join(claude_refs) if claude_refs else "clean"):
         passed += 1
 
     return passed, total

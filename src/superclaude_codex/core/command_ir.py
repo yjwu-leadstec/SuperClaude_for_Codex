@@ -101,11 +101,18 @@ class CommandIR:
         )
 
     def to_dict(self) -> dict[str, Any]:
-        """Serialize to a dictionary for commands.json."""
+        """Serialize to a summary dictionary for commands.json."""
         return {
+            "schema_version": self.schema_version,
             "id": self.id,
             "display_name": self.display_name,
             "category": self.category,
+            "description": self.description,
             "aliases": self.aliases,
             "skill_name": self.codex.skill_name,
+            "workflow": self.workflow,
+            "safety": {
+                "writes_code": self.safety.writes_code,
+                "writes_files": self.safety.writes_files,
+            },
         }

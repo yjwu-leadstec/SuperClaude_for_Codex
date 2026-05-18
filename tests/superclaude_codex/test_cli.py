@@ -1,5 +1,7 @@
 """Tests for the superclaude-codex CLI entry point."""
 
+import os
+
 from click.testing import CliRunner
 
 from superclaude_codex.cli.main import main
@@ -19,28 +21,31 @@ def test_version():
     assert "0.1.0" in result.output
 
 
-def test_install_subcommand():
+def test_install_subcommand(tmp_codex_home):
     runner = CliRunner()
     result = runner.invoke(main, ["install"])
-    assert result.exit_code == 0
+    assert result.exit_code == 0, result.output
 
 
-def test_install_dry_run():
+def test_install_dry_run(tmp_codex_home):
     runner = CliRunner()
     result = runner.invoke(main, ["install", "--dry-run"])
     assert result.exit_code == 0
+    assert "dry-run" in result.output
 
 
-def test_doctor_subcommand():
+def test_doctor_subcommand(tmp_codex_home):
+    """Doctor on empty home should not crash (checks will fail gracefully)."""
     runner = CliRunner()
     result = runner.invoke(main, ["doctor"])
-    assert result.exit_code == 0
+    # May exit non-zero if not installed, but should not crash
+    assert result.exception is None or isinstance(result.exception, SystemExit)
 
 
-def test_verify_subcommand():
+def test_verify_subcommand(tmp_codex_home):
     runner = CliRunner()
     result = runner.invoke(main, ["verify"])
-    assert result.exit_code == 0
+    assert result.exception is None or isinstance(result.exception, SystemExit)
 
 
 def test_commands_list():

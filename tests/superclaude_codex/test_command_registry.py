@@ -60,8 +60,11 @@ class TestCommandIR:
         cmd = CommandIR.from_dict(VALID_COMMAND)
         d = cmd.to_dict()
         assert d["id"] == "brainstorm"
+        assert d["schema_version"] == 1
         assert d["skill_name"] == "superclaude-brainstorm"
         assert d["aliases"] == ["/sc:brainstorm", "sc:brainstorm", "brainstorm"]
+        assert d["workflow"] == ["understand_request", "generate_alternatives"]
+        assert "writes_code" in d["safety"]
 
 
 class TestValidation:
