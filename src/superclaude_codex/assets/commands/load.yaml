@@ -1,0 +1,35 @@
+schema_version: 1
+id: load
+display_name: /sc:load
+category: utility
+description: Session lifecycle management with Serena MCP integration for project
+  context loading
+aliases:
+- /sc:load
+- sc:load
+- load
+triggers:
+- Session initialization and project context loading requests
+- Cross-session persistence and memory retrieval needs
+- Project activation and context management requirements
+- Session lifecycle management and checkpoint loading scenarios
+workflow:
+- initialize
+- discover
+- load
+- activate
+- validate
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: false
+output_contract:
+  primary: session_state
+  required_sections:
+  - restored_context
+codex:
+  skill_name: superclaude-load
+  default_reasoning: medium
+  web_search: optional

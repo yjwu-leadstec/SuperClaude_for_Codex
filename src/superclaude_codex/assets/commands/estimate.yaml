@@ -1,0 +1,44 @@
+schema_version: 1
+id: estimate
+display_name: /sc:estimate
+category: discovery
+description: Provide development estimates for tasks, features, or projects with intelligent
+  analysis
+aliases:
+- /sc:estimate
+- sc:estimate
+- estimate
+triggers:
+- Development planning requiring time, effort, or complexity estimates
+- Project scoping and resource allocation decisions
+- Feature breakdown needing systematic estimation methodology
+- Risk assessment and confidence interval analysis requirements
+workflow:
+- analyze
+- calculate
+- validate
+- present
+- track
+personas:
+- system-architect
+- performance
+- project-manager
+mcp:
+  optional:
+  - sequential-thinking
+  - context7
+safety:
+  writes_code: false
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: estimate
+  required_sections:
+  - scope
+  - effort_breakdown
+  - risks
+  - timeline
+codex:
+  skill_name: superclaude-estimate
+  default_reasoning: medium
+  web_search: optional

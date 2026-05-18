@@ -1,0 +1,30 @@
+schema_version: 1
+id: index-repo
+display_name: /sc:index-repo
+category: utility
+description: Repository Indexing - 94% token reduction (58K → 3K)
+aliases:
+- /sc:index-repo
+- sc:index-repo
+- index-repo
+triggers: []
+workflow:
+- analyze_request
+- execute
+- validate
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: repository_index
+  required_sections:
+  - structure
+  - key_files
+  - summary
+codex:
+  skill_name: superclaude-index-repo
+  default_reasoning: medium
+  web_search: optional

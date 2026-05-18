@@ -1,0 +1,39 @@
+schema_version: 1
+id: design
+display_name: /sc:design
+category: discovery
+description: Design system architecture, APIs, and component interfaces with comprehensive
+  specifications
+aliases:
+- /sc:design
+- sc:design
+- design
+triggers:
+- Architecture planning and system design requests
+- API specification and interface design needs
+- Component design and technical specification requirements
+- Database schema and data model design requests
+workflow:
+- analyze
+- plan
+- design
+- validate
+- document
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: architecture_spec
+  required_sections:
+  - system_overview
+  - components
+  - interfaces
+  - data_flow
+  - deployment
+codex:
+  skill_name: superclaude-design
+  default_reasoning: high
+  web_search: optional

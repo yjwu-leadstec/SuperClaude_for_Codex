@@ -1,0 +1,29 @@
+schema_version: 1
+id: agent
+display_name: /sc:agent
+category: utility
+description: ''
+aliases:
+- /sc:agent
+- sc:agent
+- agent
+triggers: []
+workflow:
+- analyze_request
+- execute
+- validate
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: agent_result
+  required_sections:
+  - delegation_summary
+  - output
+codex:
+  skill_name: superclaude-agent
+  default_reasoning: medium
+  web_search: optional

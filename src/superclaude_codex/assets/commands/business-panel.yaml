@@ -1,0 +1,30 @@
+schema_version: 1
+id: business-panel
+display_name: /sc:business-panel
+category: discovery
+description: ''
+aliases:
+- /sc:business-panel
+- sc:business-panel
+- business-panel
+triggers: []
+workflow:
+- analyze_request
+- execute
+- validate
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: business_analysis
+  required_sections:
+  - market_assessment
+  - strategy
+  - recommendations
+codex:
+  skill_name: superclaude-business-panel
+  default_reasoning: medium
+  web_search: optional

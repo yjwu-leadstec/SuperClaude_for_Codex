@@ -1,0 +1,48 @@
+schema_version: 1
+id: task
+display_name: /sc:task
+category: project_management
+description: Execute complex tasks with intelligent workflow management and delegation
+aliases:
+- /sc:task
+- sc:task
+- task
+triggers:
+- Complex tasks requiring multi-agent coordination and delegation
+- Projects needing structured workflow management and cross-session persistence
+- Operations requiring intelligent MCP server routing and domain expertise
+- Tasks benefiting from systematic execution and progressive enhancement
+workflow:
+- analyze
+- delegate
+- coordinate
+- validate
+- optimize
+personas:
+- system-architect
+- analyzer
+- frontend
+- backend
+- security
+- devops
+- project-manager
+mcp:
+  optional:
+  - sequential-thinking
+  - context7
+  - magic
+  - playwright
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: task_list
+  required_sections:
+  - tasks
+  - priorities
+  - assignments
+codex:
+  skill_name: superclaude-task
+  default_reasoning: medium
+  web_search: optional

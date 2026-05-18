@@ -1,0 +1,41 @@
+schema_version: 1
+id: research
+display_name: /sc:research
+category: research
+description: Deep web research with adaptive planning and intelligent search
+aliases:
+- /sc:research
+- sc:research
+- research
+triggers:
+- Research questions beyond knowledge cutoff
+- Complex research questions
+- Current events and real-time information
+- Academic or technical research requirements
+- Market analysis and competitive intelligence
+workflow:
+- analyze_request
+- execute
+- validate
+personas:
+- deep-research-agent
+mcp:
+  optional:
+  - tavily
+  - sequential-thinking
+  - playwright
+safety:
+  writes_code: false
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: research_report
+  required_sections:
+  - findings
+  - sources
+  - synthesis
+  - recommendations
+codex:
+  skill_name: superclaude-research
+  default_reasoning: high
+  web_search: required

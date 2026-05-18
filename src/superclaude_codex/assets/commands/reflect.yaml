@@ -1,0 +1,36 @@
+schema_version: 1
+id: reflect
+display_name: /sc:reflect
+category: quality
+description: Task reflection and validation using Serena MCP analysis capabilities
+aliases:
+- /sc:reflect
+- sc:reflect
+- reflect
+triggers:
+- Task completion requiring validation and quality assessment
+- Session progress analysis and reflection on work accomplished
+- Cross-session learning and insight capture for project improvement
+- Quality gates requiring comprehensive task adherence verification
+workflow:
+- analyze
+- validate
+- reflect
+- document
+- optimize
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: retrospective
+  required_sections:
+  - what_worked
+  - what_failed
+  - action_items
+codex:
+  skill_name: superclaude-reflect
+  default_reasoning: medium
+  web_search: optional

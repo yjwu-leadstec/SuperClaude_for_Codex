@@ -1,0 +1,35 @@
+schema_version: 1
+id: git
+display_name: /sc:git
+category: version_control
+description: Git operations with intelligent commit messages and workflow optimization
+aliases:
+- /sc:git
+- sc:git
+- git
+triggers:
+- 'Git repository operations: status, add, commit, push, pull, branch'
+- Need for intelligent commit message generation
+- Repository workflow optimization requests
+- Branch management and merge operations
+workflow:
+- analyze
+- validate
+- execute
+- optimize
+- report
+personas: []
+mcp: {}
+safety:
+  writes_code: true
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: git_operations
+  required_sections:
+  - changes_summary
+  - commit_info
+codex:
+  skill_name: superclaude-git
+  default_reasoning: medium
+  web_search: optional

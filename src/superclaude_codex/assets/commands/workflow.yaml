@@ -1,0 +1,48 @@
+schema_version: 1
+id: workflow
+display_name: /sc:workflow
+category: project_management
+description: Generate structured implementation workflows from PRDs and feature requirements
+aliases:
+- /sc:workflow
+- sc:workflow
+- workflow
+triggers:
+- PRD and feature specification analysis for implementation planning
+- Structured workflow generation for development projects
+- Multi-persona coordination for complex implementation strategies
+- Cross-session workflow management and dependency mapping
+workflow:
+- analyze
+- plan
+- coordinate
+- execute
+- validate
+personas:
+- system-architect
+- analyzer
+- frontend
+- backend
+- security
+- devops
+- project-manager
+mcp:
+  optional:
+  - sequential-thinking
+  - context7
+  - magic
+  - playwright
+safety:
+  writes_code: false
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: workflow_spec
+  required_sections:
+  - steps
+  - dependencies
+  - automation
+codex:
+  skill_name: superclaude-workflow
+  default_reasoning: medium
+  web_search: optional

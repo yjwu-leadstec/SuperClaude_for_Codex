@@ -1,0 +1,30 @@
+schema_version: 1
+id: help
+display_name: /sc:help
+category: documentation
+description: List all available /sc commands and their functionality
+aliases:
+- /sc:help
+- sc:help
+- help
+triggers:
+- Command discovery and reference lookup requests
+- Framework exploration and capability understanding needs
+- Documentation requests for available SuperClaude commands
+workflow:
+- display
+- complete
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: false
+output_contract:
+  primary: help_text
+  required_sections:
+  - command_info
+codex:
+  skill_name: superclaude-help
+  default_reasoning: medium
+  web_search: optional

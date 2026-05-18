@@ -1,0 +1,35 @@
+schema_version: 1
+id: spawn
+display_name: /sc:spawn
+category: utility
+description: Meta-system task orchestration with intelligent breakdown and delegation
+aliases:
+- /sc:spawn
+- sc:spawn
+- spawn
+triggers:
+- Complex multi-domain operations requiring intelligent task breakdown
+- Large-scale system operations spanning multiple technical areas
+- Operations requiring parallel coordination and dependency management
+- Meta-level orchestration beyond standard command capabilities
+workflow:
+- analyze
+- decompose
+- orchestrate
+- monitor
+- integrate
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: spawn_result
+  required_sections:
+  - subtasks
+  - results
+codex:
+  skill_name: superclaude-spawn
+  default_reasoning: medium
+  web_search: optional

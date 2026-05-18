@@ -1,0 +1,36 @@
+schema_version: 1
+id: document
+display_name: /sc:document
+category: documentation
+description: Generate focused documentation for components, functions, APIs, and features
+aliases:
+- /sc:document
+- sc:document
+- document
+triggers:
+- Documentation requests for specific components, functions, or features
+- API documentation and reference material generation needs
+- Code comment and inline documentation requirements
+- User guide and technical documentation creation requests
+workflow:
+- analyze
+- identify
+- generate
+- format
+- integrate
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: documentation
+  required_sections:
+  - content
+  - structure
+  - references
+codex:
+  skill_name: superclaude-document
+  default_reasoning: medium
+  web_search: optional

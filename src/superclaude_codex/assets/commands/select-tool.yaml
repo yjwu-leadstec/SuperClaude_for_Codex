@@ -1,0 +1,36 @@
+schema_version: 1
+id: select-tool
+display_name: /sc:select-tool
+category: utility
+description: Intelligent MCP tool selection based on complexity scoring and operation
+  analysis
+aliases:
+- /sc:select-tool
+- sc:select-tool
+- select-tool
+triggers:
+- Operations requiring optimal MCP tool selection between Serena and Morphllm
+- Meta-system decisions needing complexity analysis and capability matching
+- Tool routing decisions requiring performance vs accuracy trade-offs
+- Operations benefiting from intelligent tool capability assessment
+workflow:
+- parse
+- score
+- match
+- select
+- validate
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: false
+output_contract:
+  primary: tool_selection
+  required_sections:
+  - recommended_tool
+  - rationale
+codex:
+  skill_name: superclaude-select-tool
+  default_reasoning: medium
+  web_search: optional

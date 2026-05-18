@@ -1,0 +1,39 @@
+schema_version: 1
+id: pm
+display_name: /sc:pm
+category: project_management
+description: Project Manager Agent - Default orchestration agent that coordinates
+  all sub-agents and manages workflows seamlessly
+aliases:
+- /sc:pm
+- sc:pm
+- pm
+triggers: []
+workflow:
+- analyze_request
+- execute
+- validate
+personas:
+- pm-agent
+mcp:
+  optional:
+  - sequential-thinking
+  - context7
+  - magic
+  - playwright
+  - tavily
+  - chrome-devtools
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: project_status
+  required_sections:
+  - progress
+  - blockers
+  - next_steps
+codex:
+  skill_name: superclaude-pm
+  default_reasoning: medium
+  web_search: optional

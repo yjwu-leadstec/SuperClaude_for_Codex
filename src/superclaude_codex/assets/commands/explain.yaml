@@ -1,0 +1,43 @@
+schema_version: 1
+id: explain
+display_name: /sc:explain
+category: development
+description: Provide clear explanations of code, concepts, and system behavior with
+  educational clarity
+aliases:
+- /sc:explain
+- sc:explain
+- explain
+triggers:
+- Code understanding and documentation requests for complex functionality
+- System behavior explanation needs for architectural components
+- Educational content generation for knowledge transfer
+- Framework-specific concept clarification requirements
+workflow:
+- analyze
+- assess
+- structure
+- generate
+- validate
+personas:
+- educator
+- system-architect
+- security
+mcp:
+  optional:
+  - sequential-thinking
+  - context7
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: false
+output_contract:
+  primary: explanation
+  required_sections:
+  - overview
+  - details
+  - examples
+codex:
+  skill_name: superclaude-explain
+  default_reasoning: medium
+  web_search: optional

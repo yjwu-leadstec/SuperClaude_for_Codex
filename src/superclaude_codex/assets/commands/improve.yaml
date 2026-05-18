@@ -1,0 +1,43 @@
+schema_version: 1
+id: improve
+display_name: /sc:improve
+category: development
+description: Apply systematic improvements to code quality, performance, and maintainability
+aliases:
+- /sc:improve
+- sc:improve
+- improve
+triggers:
+- Code quality enhancement and refactoring requests
+- Performance optimization and bottleneck resolution needs
+- Maintainability improvements and technical debt reduction
+- Best practices application and coding standards enforcement
+workflow:
+- analyze
+- plan
+- execute
+- validate
+- document
+personas:
+- system-architect
+- performance
+- quality-engineer
+- security
+mcp:
+  optional:
+  - sequential-thinking
+  - context7
+safety:
+  writes_code: true
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: improvement_report
+  required_sections:
+  - changes_made
+  - before_after
+  - metrics
+codex:
+  skill_name: superclaude-improve
+  default_reasoning: medium
+  web_search: optional

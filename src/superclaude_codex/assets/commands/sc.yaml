@@ -1,0 +1,29 @@
+schema_version: 1
+id: sc
+display_name: /sc:sc
+category: utility
+description: SuperClaude command dispatcher - Use /sc [command] to access all SuperClaude
+  features
+aliases:
+- /sc:sc
+- sc:sc
+- sc
+triggers: []
+workflow:
+- analyze_request
+- execute
+- validate
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: false
+output_contract:
+  primary: command_list
+  required_sections:
+  - available_commands
+codex:
+  skill_name: superclaude-sc
+  default_reasoning: medium
+  web_search: optional

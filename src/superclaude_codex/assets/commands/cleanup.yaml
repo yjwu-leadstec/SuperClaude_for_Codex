@@ -1,0 +1,43 @@
+schema_version: 1
+id: cleanup
+display_name: /sc:cleanup
+category: development
+description: Systematically clean up code, remove dead code, and optimize project
+  structure
+aliases:
+- /sc:cleanup
+- sc:cleanup
+- cleanup
+triggers:
+- Code maintenance and technical debt reduction requests
+- Dead code removal and import optimization needs
+- Project structure improvement and organization requirements
+- Codebase hygiene and quality improvement initiatives
+workflow:
+- analyze
+- plan
+- execute
+- validate
+- report
+personas:
+- system-architect
+- quality-engineer
+- security
+mcp:
+  optional:
+  - sequential-thinking
+  - context7
+safety:
+  writes_code: true
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: cleanup_report
+  required_sections:
+  - removed_items
+  - refactored_items
+  - impact_summary
+codex:
+  skill_name: superclaude-cleanup
+  default_reasoning: medium
+  web_search: optional

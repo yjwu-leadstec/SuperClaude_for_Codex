@@ -1,0 +1,30 @@
+schema_version: 1
+id: recommend
+display_name: /sc:recommend
+category: utility
+description: Ultra-intelligent command recommendation engine - recommends the most
+  suitable SuperClaude commands for any user input
+aliases:
+- /sc:recommend
+- sc:recommend
+- recommend
+triggers: []
+workflow:
+- analyze_request
+- execute
+- validate
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: false
+  requires_user_confirmation_for_scope_change: false
+output_contract:
+  primary: recommendations
+  required_sections:
+  - suggested_commands
+  - rationale
+codex:
+  skill_name: superclaude-recommend
+  default_reasoning: medium
+  web_search: optional

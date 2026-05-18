@@ -1,0 +1,44 @@
+schema_version: 1
+id: spec-panel
+display_name: /sc:spec-panel
+category: discovery
+description: Multi-expert specification review and improvement using renowned specification
+  and software engineering experts
+aliases:
+- /sc:spec-panel
+- sc:spec-panel
+- spec-panel
+triggers:
+- Specification quality review and improvement requests
+- Technical documentation validation and enhancement needs
+- Requirements analysis and completeness verification
+- Professional specification writing guidance and mentoring
+workflow:
+- analyze
+- assemble
+- review
+- collaborate
+- synthesize
+- improve
+personas:
+- technical-writer
+- system-system-architect
+- quality-engineer-engineer
+mcp:
+  optional:
+  - sequential-thinking
+  - context7
+safety:
+  writes_code: false
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: specification_review
+  required_sections:
+  - feedback
+  - improvements
+  - approval_status
+codex:
+  skill_name: superclaude-spec-panel
+  default_reasoning: medium
+  web_search: optional

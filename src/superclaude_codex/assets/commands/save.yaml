@@ -1,0 +1,35 @@
+schema_version: 1
+id: save
+display_name: /sc:save
+category: utility
+description: Session lifecycle management with Serena MCP integration for session
+  context persistence
+aliases:
+- /sc:save
+- sc:save
+- save
+triggers:
+- Session completion and project context persistence needs
+- Cross-session memory management and checkpoint creation requests
+- Project understanding preservation and discovery archival scenarios
+- Session lifecycle management and progress tracking requirements
+workflow:
+- analyze
+- persist
+- checkpoint
+- validate
+- prepare
+personas: []
+mcp: {}
+safety:
+  writes_code: false
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: session_snapshot
+  required_sections:
+  - saved_context
+codex:
+  skill_name: superclaude-save
+  default_reasoning: medium
+  web_search: optional

@@ -1,0 +1,40 @@
+schema_version: 1
+id: build
+display_name: /sc:build
+category: development
+description: Build, compile, and package projects with intelligent error handling
+  and optimization
+aliases:
+- /sc:build
+- sc:build
+- build
+triggers:
+- Project compilation and packaging requests for different environments
+- Build optimization and artifact generation needs
+- Error debugging during build processes
+- Deployment preparation and artifact packaging requirements
+workflow:
+- analyze
+- validate
+- execute
+- optimize
+- package
+personas:
+- devops-engineer
+mcp:
+  optional:
+  - playwright
+safety:
+  writes_code: true
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: build_report
+  required_sections:
+  - build_output
+  - errors_resolved
+  - artifacts
+codex:
+  skill_name: superclaude-build
+  default_reasoning: medium
+  web_search: optional

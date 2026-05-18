@@ -1,0 +1,42 @@
+schema_version: 1
+id: index
+display_name: /sc:index
+category: utility
+description: Generate comprehensive project documentation and knowledge base with
+  intelligent organization
+aliases:
+- /sc:index
+- sc:index
+- index
+triggers:
+- Project documentation creation and maintenance requirements
+- Knowledge base generation and organization needs
+- API documentation and structure analysis requirements
+- Cross-referencing and navigation enhancement requests
+workflow:
+- analyze
+- organize
+- generate
+- validate
+- maintain
+personas:
+- system-architect
+- scribe
+- quality-engineer
+mcp:
+  optional:
+  - sequential-thinking
+  - context7
+safety:
+  writes_code: false
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+output_contract:
+  primary: index
+  required_sections:
+  - structure
+  - summary
+codex:
+  skill_name: superclaude-index
+  default_reasoning: medium
+  web_search: optional
