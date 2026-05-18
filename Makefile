@@ -104,6 +104,34 @@ translate:
 	@echo "✅ Translation complete!"
 	@echo "📝 Files updated: README-zh.md, README-ja.md"
 
+# ── SuperClaude for Codex (new package) ──────────────────────────
+
+.PHONY: dev-codex test-codex lint-codex format-codex clean-codex
+
+dev-codex: ## Install superclaude-for-codex in editable mode with dev deps
+	@echo "🔧 Installing SuperClaude for Codex (development mode)..."
+	@cp pyproject.toml pyproject.toml.bak
+	@cp pyproject-codex.toml pyproject.toml
+	uv pip install -e ".[dev]"
+	@mv pyproject.toml.bak pyproject.toml
+	@echo "✅ superclaude-codex installed. Run 'superclaude-codex --version' to verify."
+
+test-codex: ## Run superclaude-for-codex tests
+	@echo "Running superclaude-codex tests..."
+	uv run pytest tests/superclaude_codex/ -v
+
+lint-codex: ## Lint superclaude-codex source
+	@echo "Linting superclaude-codex..."
+	uv run ruff check src/superclaude_codex/
+
+format-codex: ## Format superclaude-codex source
+	@echo "Formatting superclaude-codex..."
+	uv run ruff format src/superclaude_codex/
+
+clean-codex: ## Clean superclaude-codex build artifacts
+	rm -rf dist/superclaude_codex/ *.egg-info
+	find src/superclaude_codex -type d -name __pycache__ -exec rm -rf {} +
+
 # Show help
 help:
 	@echo "SuperClaude Framework - Available commands:"
@@ -126,6 +154,13 @@ help:
 	@echo ""
 	@echo "📚 Documentation:"
 	@echo "  make translate       - Translate README to Chinese and Japanese"
+	@echo ""
+	@echo "🚀 SuperClaude for Codex (new package):"
+	@echo "  make dev-codex       - Install superclaude-for-codex in dev mode"
+	@echo "  make test-codex      - Run superclaude-codex tests"
+	@echo "  make lint-codex      - Lint superclaude-codex source"
+	@echo "  make format-codex    - Format superclaude-codex source"
+	@echo "  make clean-codex     - Clean superclaude-codex build artifacts"
 	@echo ""
 	@echo "🧹 Cleanup:"
 	@echo "  make uninstall-legacy - Remove old SuperClaude files from ~/.claude"

@@ -1,0 +1,89 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "superclaude-for-codex"
+version = "0.1.0"
+description = "Codex-native structured development workflows — SuperClaude for OpenAI Codex"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Kazuki Nakai"},
+    {name = "NomenAK", email = "anton.knoery@gmail.com"},
+    {name = "Mithun Gowda B", email = "mithungowda.b7411@gmail.com"}
+]
+requires-python = ">=3.10"
+keywords = ["codex", "openai", "ai", "automation", "framework", "development", "workflows"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Environment :: Console",
+]
+
+dependencies = [
+    "click>=8.0.0",
+    "rich>=13.0.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/SuperClaude-Org/SuperClaude_Framework"
+GitHub = "https://github.com/SuperClaude-Org/SuperClaude_Framework"
+"Bug Tracker" = "https://github.com/SuperClaude-Org/SuperClaude_Framework/issues"
+
+[project.scripts]
+superclaude-codex = "superclaude_codex.cli.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/superclaude_codex"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/superclaude_codex/",
+    "tests/superclaude_codex/",
+    "README.md",
+    "LICENSE",
+    "pyproject-codex.toml",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/superclaude_codex"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+]
+
+[tool.coverage.run]
+source = ["src/superclaude_codex"]
+omit = ["*/tests/*", "*/test_*"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+ignore = ["E501"]
