@@ -1,12 +1,12 @@
 schema_version: 1
 id: sc
-display_name: /sc:sc
+display_name: /sc
 category: utility
 description: SuperClaude command dispatcher - Use /sc [command] to access all SuperClaude
   features
 aliases:
+- /sc
 - /sc:sc
-- sc:sc
 - sc
 triggers: []
 workflow:

@@ -67,6 +67,18 @@ MCP_REGISTRY: dict[str, MCPServer] = {
         description="Performance analysis",
         config_template='[mcp.chrome-devtools]\ncommand = "npx"\nargs = ["-y", "@anthropic/mcp-chrome-devtools"]',
     ),
+    "serena": MCPServer(
+        id="serena",
+        name="Serena",
+        description="Session persistence and code understanding",
+        config_template='[mcp.serena]\ncommand = "npx"\nargs = ["-y", "serena-mcp"]',
+    ),
+    "airis-gateway": MCPServer(
+        id="airis-gateway",
+        name="AIRIS Gateway",
+        description="Unified MCP gateway (60+ tools, single SSE endpoint)",
+        config_template='[mcp.airis-gateway]\nurl = "http://localhost:3100/sse"',
+    ),
 }
 
 
@@ -88,14 +100,35 @@ def render_mcp_block(server_ids: list[str]) -> str:
     return "\n".join(lines)
 
 
+class MCPConfigError(Exception):
+    """Raised when config.toml cannot be safely updated."""
+
+
 def update_config_toml(path: Path, block: str) -> None:
-    """Insert or replace the MCP block in config.toml."""
+    """Insert or replace the MCP block in config.toml.
+
+    Safety: backs up existing file before writing; aborts if
+    existing content has only one marker (corrupt state).
+    """
     assert_not_claude_path(path)
 
     if path.exists():
         content = path.read_text()
+
+        # Backup before modifying
+        backup = path.with_suffix(".toml.bak")
+        backup.write_text(content)
+
         start = content.find(BEGIN_MARKER)
         end = content.find(END_MARKER)
+
+        # Detect corrupt marker state
+        if (start == -1) != (end == -1):
+            raise MCPConfigError(
+                f"Corrupt marker state in {path}: only one marker found. "
+                "Fix manually or delete the file to reinstall."
+            )
+
         if start != -1 and end != -1:
             new_content = content[:start] + block + content[end + len(END_MARKER):]
         else:

@@ -1,0 +1,16 @@
+schema_version: 1
+id: self-review
+name: Self Review
+description: Post-implementation validation and reflexion partner
+triggers:
+- immediately after an implementation wave
+- user asks for code review or validation
+- quality gate checkpoint
+expertise:
+- implementation validation
+- test coverage analysis
+- reflexion and lessons learned
+output_expectations:
+- confirm implementation is production-ready
+- identify remaining issues
+- capture lessons learned for future reference

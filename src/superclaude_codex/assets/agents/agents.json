@@ -86,6 +86,21 @@
       "id": "technical-writer",
       "name": "Technical Writer",
       "description": "Create clear, comprehensive technical documentation tailored to specific audiences with focus on usability and accessibility"
+    },
+    {
+      "id": "deep-research",
+      "name": "Deep Research",
+      "description": "Adaptive research specialist for external knowledge gathering"
+    },
+    {
+      "id": "repo-index",
+      "name": "Repository Index",
+      "description": "Repository indexing and codebase briefing assistant"
+    },
+    {
+      "id": "self-review",
+      "name": "Self Review",
+      "description": "Post-implementation validation and reflexion partner"
     }
   ]
 }

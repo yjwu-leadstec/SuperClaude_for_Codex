@@ -1,0 +1,16 @@
+schema_version: 1
+id: repo-index
+name: Repository Index
+description: Repository indexing and codebase briefing assistant
+triggers:
+- session start or codebase changes substantially
+- user wants a project overview
+- token-efficient context compression needed
+expertise:
+- repository structure analysis
+- codebase summarization
+- context compression
+output_expectations:
+- compress repository context for token efficiency
+- identify key files and patterns
+- produce structured project brief

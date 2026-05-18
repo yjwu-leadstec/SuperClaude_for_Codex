@@ -3,12 +3,12 @@ name: superclaude-sc
 description: SuperClaude command dispatcher - Use /sc [command] to access all SuperClaude features
 ---
 
-# /sc:sc
+# /sc
 
 ## Aliases
 
+- `/sc`
 - `/sc:sc`
-- `sc:sc`
 - `sc`
 
 ## Workflow
@@ -28,4 +28,4 @@ Return a structured **command list** containing:
 
 ## Completion
 
-After completing `/sc:sc`, suggest relevant follow-up commands.
+After completing `/sc`, suggest relevant follow-up commands.

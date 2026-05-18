@@ -9,6 +9,7 @@ Prefer the matching skill in `~/.codex/skills/superclaude-*`.
 
 ### Available Commands
 
+- `/sc` — SuperClaude command dispatcher - Use /sc [command] to access all SuperClaude features
 - `/sc:agent` — 
 - `/sc:analyze` — Comprehensive code analysis across quality, security, performance, and architecture.
 - `/sc:brainstorm` — Interactive requirements discovery through Socratic dialogue and systematic exploration.
@@ -31,7 +32,6 @@ Prefer the matching skill in `~/.codex/skills/superclaude-*`.
 - `/sc:reflect` — Task reflection and validation using Serena MCP analysis capabilities
 - `/sc:research` — Deep web research with adaptive planning and intelligent search
 - `/sc:save` — Session lifecycle management with Serena MCP integration for session context persistence
-- `/sc:sc` — SuperClaude command dispatcher - Use /sc [command] to access all SuperClaude features
 - `/sc:select-tool` — Intelligent MCP tool selection based on complexity scoring and operation analysis
 - `/sc:spawn` — Meta-system task orchestration with intelligent breakdown and delegation
 - `/sc:spec-panel` — Multi-expert specification review and improvement using renowned specification and software engineering experts
@@ -42,6 +42,7 @@ Prefer the matching skill in `~/.codex/skills/superclaude-*`.
 
 ### Routing
 
+- `/sc` uses the `superclaude-sc` skill.
 - `/sc:agent` uses the `superclaude-agent` skill.
 - `/sc:analyze` uses the `superclaude-analyze` skill.
 - `/sc:brainstorm` uses the `superclaude-brainstorm` skill.
@@ -64,7 +65,6 @@ Prefer the matching skill in `~/.codex/skills/superclaude-*`.
 - `/sc:reflect` uses the `superclaude-reflect` skill.
 - `/sc:research` uses the `superclaude-research` skill.
 - `/sc:save` uses the `superclaude-save` skill.
-- `/sc:sc` uses the `superclaude-sc` skill.
 - `/sc:select-tool` uses the `superclaude-select-tool` skill.
 - `/sc:spawn` uses the `superclaude-spawn` skill.
 - `/sc:spec-panel` uses the `superclaude-spec-panel` skill.
