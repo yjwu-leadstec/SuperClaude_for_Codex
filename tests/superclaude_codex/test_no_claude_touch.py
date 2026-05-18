@@ -102,8 +102,9 @@ class TestImportGuard:
     def test_no_claude_path_references_in_source(self):
         """Check for ~/.claude references, allowing only guard/error code in paths.py."""
         src = Path(__file__).resolve().parent.parent.parent / "src" / "superclaude_codex"
-        # paths.py legitimately references ~/.claude in guard logic and error messages
-        allowed_files = {"codex/paths.py"}
+        # These files legitimately reference ~/.claude in guard logic,
+        # generated instructions, or check labels — not actual file I/O.
+        allowed_files = {"codex/paths.py", "codex/agents_md.py", "codex/verify.py"}
         violations = []
         for py in src.rglob("*.py"):
             rel = str(py.relative_to(src))

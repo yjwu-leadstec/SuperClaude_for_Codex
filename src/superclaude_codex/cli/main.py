@@ -20,19 +20,43 @@ def main():
 @click.option("--force", is_flag=True, help="Force reinstall if assets already exist.")
 def install(dry_run: bool, force: bool):
     """Install SuperClaude commands and skills to Codex."""
-    click.echo("Not implemented yet. See issue #6")
+    from superclaude_codex.codex.installer import InstallError, Installer
+
+    installer = Installer(force=force, dry_run=dry_run)
+    try:
+        report = installer.run()
+        if dry_run:
+            click.echo(f"[dry-run] Would install to: {report.codex_home}")
+            click.echo(f"[dry-run] Commands: {report.commands_installed}")
+        else:
+            click.echo(f"✅ Installed {report.commands_installed} commands to {report.codex_home}")
+            click.echo(f"   Files written: {len(report.files_written)}")
+    except InstallError as exc:
+        click.echo(f"❌ Installation failed: {exc}", err=True)
+        raise SystemExit(1)
 
 
 @main.command()
 def doctor():
     """Check SuperClaude for Codex installation health."""
-    click.echo("Not implemented yet. See issue #9")
+    from superclaude_codex.codex.verify import run_doctor
+
+    passed, total = run_doctor()
+    if passed == total:
+        click.echo(f"\n✅ All {total} checks passed.")
+    else:
+        click.echo(f"\n⚠️  {passed}/{total} checks passed.")
+        raise SystemExit(1)
 
 
 @main.command()
 def verify():
     """Run smoke checks on the installation."""
-    click.echo("Not implemented yet. See issue #9")
+    from superclaude_codex.codex.verify import run_doctor
+
+    passed, total = run_doctor()
+    if passed < total:
+        raise SystemExit(1)
 
 
 @main.group()
@@ -43,20 +67,55 @@ def commands():
 @commands.command("list")
 def commands_list():
     """List all registered commands."""
-    click.echo("Not implemented yet. See issue #4")
+    from superclaude_codex.core.registry import CommandRegistry
+
+    reg = CommandRegistry()
+    reg.load_all()
+    cats = reg.list_by_category()
+    for cat, cmds in sorted(cats.items()):
+        click.echo(f"\n{cat.upper()}")
+        for cmd in cmds:
+            click.echo(f"  {cmd.display_name:20s} {cmd.description}")
 
 
 @commands.command("validate")
 def commands_validate():
     """Validate all command IR schemas."""
-    click.echo("Not implemented yet. See issue #4")
+    from superclaude_codex.core.registry import CommandRegistry
+
+    reg = CommandRegistry()
+    reg.load_all()
+    result = reg.validate_all()
+    cmds = reg.list_commands()
+    if result.is_valid:
+        click.echo(f"✅ {len(cmds)} commands validated successfully.")
+    else:
+        click.echo(f"❌ Validation errors:")
+        for e in result.errors:
+            click.echo(f"  {e.command_id}.{e.field}: {e.message}")
+        raise SystemExit(1)
 
 
 @commands.command("show")
 @click.argument("command_id")
 def commands_show(command_id: str):
     """Show details of a specific command."""
-    click.echo(f"Not implemented yet. See issue #4 (command: {command_id})")
+    from superclaude_codex.core.registry import CommandRegistry
+
+    reg = CommandRegistry()
+    reg.load_all()
+    cmd = reg.get_command(command_id) or reg.get_command_by_alias(f"/sc:{command_id}")
+    if not cmd:
+        click.echo(f"❌ Command not found: {command_id}")
+        raise SystemExit(1)
+    click.echo(f"ID:          {cmd.id}")
+    click.echo(f"Display:     {cmd.display_name}")
+    click.echo(f"Category:    {cmd.category}")
+    click.echo(f"Description: {cmd.description}")
+    click.echo(f"Aliases:     {', '.join(cmd.aliases)}")
+    click.echo(f"Skill:       {cmd.codex.skill_name}")
+    click.echo(f"Workflow:    {' → '.join(cmd.workflow)}")
+    click.echo(f"Personas:    {', '.join(cmd.personas)}")
 
 
 @main.group()
