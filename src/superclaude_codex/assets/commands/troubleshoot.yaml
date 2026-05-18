@@ -1,0 +1,63 @@
+schema_version: 1
+id: troubleshoot
+display_name: /sc:troubleshoot
+category: quality
+description: Diagnose and resolve issues in code, builds, deployments, and system behavior.
+
+aliases:
+  - /sc:troubleshoot
+  - sc:troubleshoot
+  - troubleshoot
+
+triggers:
+  - user reports an error or bug
+  - user asks to debug something
+  - build or deployment failure
+  - system behavior issue
+
+inputs:
+  positional:
+    - name: issue_description
+      required: false
+      description: Description of the problem or error message
+  flags:
+    - name: scope
+      values: [code, build, deploy, runtime, all]
+      default: all
+
+workflow:
+  - understand_symptom
+  - gather_context
+  - form_hypothesis
+  - investigate_root_cause
+  - verify_with_evidence
+  - propose_fix
+  - validate_fix
+
+personas:
+  - root-cause-analyst
+  - python-expert
+  - devops-architect
+
+mcp:
+  optional:
+    - context7
+    - tavily
+
+safety:
+  writes_code: true
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+
+output_contract:
+  primary: diagnosis_report
+  required_sections:
+    - symptom
+    - root_cause
+    - fix_applied
+    - verification
+
+codex:
+  skill_name: superclaude-troubleshoot
+  default_reasoning: high
+  web_search: optional

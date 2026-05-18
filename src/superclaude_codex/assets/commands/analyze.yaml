@@ -1,0 +1,66 @@
+schema_version: 1
+id: analyze
+display_name: /sc:analyze
+category: quality
+description: Comprehensive code analysis across quality, security, performance, and architecture.
+
+aliases:
+  - /sc:analyze
+  - sc:analyze
+  - analyze
+
+triggers:
+  - user asks to analyze code
+  - user wants a code review
+  - user asks about code quality
+  - security or performance audit request
+
+inputs:
+  positional:
+    - name: target
+      required: false
+      description: File, directory, or pattern to analyze (default ".")
+  flags:
+    - name: focus
+      values: [quality, security, performance, architecture, all]
+      default: all
+    - name: depth
+      values: [quick, standard, deep]
+      default: standard
+
+workflow:
+  - identify_analysis_scope
+  - read_target_files
+  - analyze_code_quality
+  - analyze_security_patterns
+  - analyze_performance
+  - analyze_architecture
+  - generate_report
+
+personas:
+  - quality-engineer
+  - security-engineer
+  - performance-engineer
+  - system-architect
+
+mcp:
+  optional:
+    - context7
+
+safety:
+  writes_code: false
+  writes_files: true
+  requires_user_confirmation_for_scope_change: false
+
+output_contract:
+  primary: analysis_report
+  required_sections:
+    - summary
+    - findings
+    - recommendations
+    - severity_breakdown
+
+codex:
+  skill_name: superclaude-analyze
+  default_reasoning: high
+  web_search: optional

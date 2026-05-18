@@ -1,0 +1,71 @@
+schema_version: 1
+id: implement
+display_name: /sc:implement
+category: development
+description: Feature and code implementation with intelligent persona activation.
+
+aliases:
+  - /sc:implement
+  - sc:implement
+  - implement
+
+triggers:
+  - user asks to implement a feature
+  - user wants to write code for a component
+  - feature development request
+  - code implementation need
+
+inputs:
+  positional:
+    - name: feature_description
+      required: false
+      description: What to implement
+  flags:
+    - name: type
+      values: [component, api, service, feature]
+      default: feature
+    - name: framework
+      values: [react, vue, express, fastapi, django]
+    - name: with-tests
+      type: boolean
+      default: true
+
+workflow:
+  - analyze_requirements
+  - detect_technology_context
+  - plan_implementation
+  - activate_relevant_personas
+  - generate_code
+  - write_tests
+  - validate_security
+  - validate_quality
+
+personas:
+  - architect
+  - frontend-architect
+  - backend-architect
+  - security-engineer
+  - quality-engineer
+
+mcp:
+  optional:
+    - context7
+    - sequential-thinking
+
+safety:
+  writes_code: true
+  writes_files: true
+  requires_user_confirmation_for_scope_change: true
+
+output_contract:
+  primary: implementation
+  required_sections:
+    - implementation_plan
+    - code_changes
+    - tests
+    - validation_summary
+
+codex:
+  skill_name: superclaude-implement
+  default_reasoning: high
+  web_search: optional
