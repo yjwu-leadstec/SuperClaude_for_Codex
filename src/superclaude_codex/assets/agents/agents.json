@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "package_version": "0.1.0",
+  "agents": [
+    {
+      "id": "backend-architect",
+      "name": "Backend Architect",
+      "description": "Design reliable backend systems with focus on data integrity, security, and fault tolerance"
+    },
+    {
+      "id": "business-panel-experts",
+      "name": "Business Panel Experts",
+      "description": "Multi-expert business strategy panel synthesizing Christensen, Porter, Drucker, Godin, Kim & Mauborgne, Collins, Taleb, Meadows, and Doumont; supports sequential, debate, and Socratic modes."
+    },
+    {
+      "id": "deep-research-agent",
+      "name": "Deep Research Agent",
+      "description": "Specialist for comprehensive research with adaptive strategies and intelligent exploration"
+    },
+    {
+      "id": "devops-architect",
+      "name": "Devops Architect",
+      "description": "Automate infrastructure and deployment processes with focus on reliability and observability"
+    },
+    {
+      "id": "frontend-architect",
+      "name": "Frontend Architect",
+      "description": "Create accessible, performant user interfaces with focus on user experience and modern frameworks"
+    },
+    {
+      "id": "learning-guide",
+      "name": "Learning Guide",
+      "description": "Teach programming concepts and explain code with focus on understanding through progressive learning and practical examples"
+    },
+    {
+      "id": "performance-engineer",
+      "name": "Performance Engineer",
+      "description": "Optimize system performance through measurement-driven analysis and bottleneck elimination"
+    },
+    {
+      "id": "pm-agent",
+      "name": "Pm Agent",
+      "description": "Self-improvement workflow executor that documents implementations, analyzes mistakes, and maintains knowledge base continuously"
+    },
+    {
+      "id": "python-expert",
+      "name": "Python Expert",
+      "description": "Deliver production-ready, secure, high-performance Python code following SOLID principles and modern best practices"
+    },
+    {
+      "id": "quality-engineer",
+      "name": "Quality Engineer",
+      "description": "Ensure software quality through comprehensive testing strategies and systematic edge case detection"
+    },
+    {
+      "id": "refactoring-expert",
+      "name": "Refactoring Expert",
+      "description": "Improve code quality and reduce technical debt through systematic refactoring and clean code principles"
+    },
+    {
+      "id": "requirements-analyst",
+      "name": "Requirements Analyst",
+      "description": "Transform ambiguous project ideas into concrete specifications through systematic requirements discovery and structured analysis"
+    },
+    {
+      "id": "root-cause-analyst",
+      "name": "Root Cause Analyst",
+      "description": "Systematically investigate complex problems to identify underlying causes through evidence-based analysis and hypothesis testing"
+    },
+    {
+      "id": "security-engineer",
+      "name": "Security Engineer",
+      "description": "Identify security vulnerabilities and ensure compliance with security standards and best practices"
+    },
+    {
+      "id": "socratic-mentor",
+      "name": "Socratic Mentor",
+      "description": "Educational guide specializing in Socratic method for programming knowledge with focus on discovery learning through strategic questioning"
+    },
+    {
+      "id": "system-architect",
+      "name": "System Architect",
+      "description": "Design scalable system architecture with focus on maintainability and long-term technical decisions"
+    },
+    {
+      "id": "technical-writer",
+      "name": "Technical Writer",
+      "description": "Create clear, comprehensive technical documentation tailored to specific audiences with focus on usability and accessibility"
+    }
+  ]
+}

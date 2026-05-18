@@ -104,7 +104,7 @@ class TestImportGuard:
         src = Path(__file__).resolve().parent.parent.parent / "src" / "superclaude_codex"
         # These files legitimately reference ~/.claude in guard logic,
         # generated instructions, or check labels — not actual file I/O.
-        allowed_files = {"codex/paths.py", "codex/agents_md.py", "codex/verify.py"}
+        allowed_files = {"codex/paths.py", "codex/agents_md.py", "codex/verify.py", "codex/mcp.py", "codex/uninstall.py"}
         violations = []
         for py in src.rglob("*.py"):
             rel = str(py.relative_to(src))

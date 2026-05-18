@@ -1,0 +1,16 @@
+schema_version: 1
+id: deep-research-agent
+name: Deep Research Agent
+description: Specialist for comprehensive research with adaptive strategies and intelligent
+  exploration
+triggers:
+- /sc:research command activation
+- Complex investigation requirements
+- Complex information synthesis needs
+- Academic research contexts
+- Real-time information requests
+expertise: []
+output_expectations:
+- explain tradeoffs
+- prefer existing project patterns
+- include tests for behavior changes

@@ -126,7 +126,11 @@ def mcp():
 @mcp.command("list")
 def mcp_list():
     """List available MCP servers."""
-    click.echo("Not implemented yet. See issue #17")
+    from superclaude_codex.codex.mcp import list_servers
+
+    for server in list_servers():
+        key_note = f" (requires {server.api_key_env})" if server.requires_api_key else ""
+        click.echo(f"  {server.id:25s} {server.description}{key_note}")
 
 
 @mcp.command("install")
@@ -135,4 +139,52 @@ def mcp_list():
 @click.option("--all", "install_all", is_flag=True, help="Install all available MCP servers.")
 def mcp_install(servers: tuple, dry_run: bool, install_all: bool):
     """Install MCP servers to Codex config."""
-    click.echo("Not implemented yet. See issue #17")
+    from superclaude_codex.codex.mcp import (
+        MCP_REGISTRY,
+        get_api_key_warnings,
+        render_mcp_block,
+        update_config_toml,
+    )
+    from superclaude_codex.codex.paths import get_config_toml_path
+
+    if install_all:
+        server_ids = list(MCP_REGISTRY.keys())
+    elif servers:
+        server_ids = list(servers)
+        unknown = [s for s in server_ids if s not in MCP_REGISTRY]
+        if unknown:
+            click.echo(f"❌ Unknown servers: {', '.join(unknown)}", err=True)
+            raise SystemExit(1)
+    else:
+        click.echo("Specify servers or use --all")
+        raise SystemExit(1)
+
+    warnings = get_api_key_warnings(server_ids)
+    for w in warnings:
+        click.echo(f"⚠️  {w}")
+
+    block = render_mcp_block(server_ids)
+    config_path = get_config_toml_path()
+
+    if dry_run:
+        click.echo(f"[dry-run] Would write to: {config_path}")
+        click.echo(block)
+    else:
+        update_config_toml(config_path, block)
+        click.echo(f"✅ Installed {len(server_ids)} MCP servers to {config_path}")
+
+
+@main.command()
+@click.option("--dry-run", is_flag=True, help="Preview what would be removed.")
+@click.confirmation_option(prompt="Remove SuperClaude for Codex assets?")
+def uninstall(dry_run: bool):
+    """Remove SuperClaude for Codex assets from Codex."""
+    from superclaude_codex.codex.uninstall import uninstall as do_uninstall
+
+    actions = do_uninstall(dry_run=dry_run)
+    for action in actions:
+        click.echo(f"  {action}")
+    if not actions:
+        click.echo("Nothing to remove.")
+    elif not dry_run:
+        click.echo(f"\n✅ Uninstalled SuperClaude for Codex.")

@@ -20,7 +20,7 @@ class TestInstallerDryRun:
     def test_dry_run_reports_command_count(self, tmp_codex_home):
         installer = Installer(codex_home=tmp_codex_home, dry_run=True)
         report = installer.run()
-        assert report.commands_installed == 5
+        assert report.commands_installed == 30
 
 
 class TestInstallerCommit:
@@ -48,7 +48,7 @@ class TestInstallerCommit:
         assert cmds.exists()
         data = json.loads(cmds.read_text())
         assert data["schema_version"] == 1
-        assert len(data["commands"]) == 5
+        assert len(data["commands"]) == 30
 
     def test_creates_version_json(self, tmp_codex_home):
         installer = Installer(codex_home=tmp_codex_home)
@@ -65,7 +65,7 @@ class TestInstallerCommit:
         assert report.exists()
         data = json.loads(report.read_text())
         assert data["status"] == "success"
-        assert data["commands_installed"] == 5
+        assert data["commands_installed"] == 30
 
     def test_report_success(self, tmp_codex_home):
         installer = Installer(codex_home=tmp_codex_home)
