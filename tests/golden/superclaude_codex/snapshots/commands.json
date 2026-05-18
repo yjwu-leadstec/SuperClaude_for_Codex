@@ -1,0 +1,718 @@
+{
+  "schema_version": 1,
+  "package_version": "0.1.0",
+  "commands": [
+    {
+      "schema_version": 1,
+      "id": "agent",
+      "display_name": "/sc:agent",
+      "category": "utility",
+      "description": "",
+      "aliases": [
+        "/sc:agent",
+        "sc:agent",
+        "agent"
+      ],
+      "skill_name": "superclaude-agent",
+      "workflow": [
+        "analyze_request",
+        "execute",
+        "validate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "analyze",
+      "display_name": "/sc:analyze",
+      "category": "quality",
+      "description": "Comprehensive code analysis across quality, security, performance, and architecture.",
+      "aliases": [
+        "/sc:analyze",
+        "sc:analyze",
+        "analyze"
+      ],
+      "skill_name": "superclaude-analyze",
+      "workflow": [
+        "identify_analysis_scope",
+        "read_target_files",
+        "analyze_code_quality",
+        "analyze_security_patterns",
+        "analyze_performance",
+        "analyze_architecture",
+        "generate_report"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "brainstorm",
+      "display_name": "/sc:brainstorm",
+      "category": "discovery",
+      "description": "Interactive requirements discovery through Socratic dialogue and systematic exploration.",
+      "aliases": [
+        "/sc:brainstorm",
+        "sc:brainstorm",
+        "brainstorm"
+      ],
+      "skill_name": "superclaude-brainstorm",
+      "workflow": [
+        "understand_request",
+        "inspect_project_context",
+        "ask_targeted_questions",
+        "generate_alternatives",
+        "challenge_assumptions",
+        "produce_design_doc"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "build",
+      "display_name": "/sc:build",
+      "category": "development",
+      "description": "Build, compile, and package projects with intelligent error handling and optimization",
+      "aliases": [
+        "/sc:build",
+        "sc:build",
+        "build"
+      ],
+      "skill_name": "superclaude-build",
+      "workflow": [
+        "analyze",
+        "validate",
+        "execute",
+        "optimize",
+        "package"
+      ],
+      "safety": {
+        "writes_code": true,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "business-panel",
+      "display_name": "/sc:business-panel",
+      "category": "discovery",
+      "description": "",
+      "aliases": [
+        "/sc:business-panel",
+        "sc:business-panel",
+        "business-panel"
+      ],
+      "skill_name": "superclaude-business-panel",
+      "workflow": [
+        "analyze_request",
+        "execute",
+        "validate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "cleanup",
+      "display_name": "/sc:cleanup",
+      "category": "development",
+      "description": "Systematically clean up code, remove dead code, and optimize project structure",
+      "aliases": [
+        "/sc:cleanup",
+        "sc:cleanup",
+        "cleanup"
+      ],
+      "skill_name": "superclaude-cleanup",
+      "workflow": [
+        "analyze",
+        "plan",
+        "execute",
+        "validate",
+        "report"
+      ],
+      "safety": {
+        "writes_code": true,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "design",
+      "display_name": "/sc:design",
+      "category": "discovery",
+      "description": "Design system architecture, APIs, and component interfaces with comprehensive specifications",
+      "aliases": [
+        "/sc:design",
+        "sc:design",
+        "design"
+      ],
+      "skill_name": "superclaude-design",
+      "workflow": [
+        "analyze",
+        "plan",
+        "design",
+        "validate",
+        "document"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "document",
+      "display_name": "/sc:document",
+      "category": "documentation",
+      "description": "Generate focused documentation for components, functions, APIs, and features",
+      "aliases": [
+        "/sc:document",
+        "sc:document",
+        "document"
+      ],
+      "skill_name": "superclaude-document",
+      "workflow": [
+        "analyze",
+        "identify",
+        "generate",
+        "format",
+        "integrate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "estimate",
+      "display_name": "/sc:estimate",
+      "category": "discovery",
+      "description": "Provide development estimates for tasks, features, or projects with intelligent analysis",
+      "aliases": [
+        "/sc:estimate",
+        "sc:estimate",
+        "estimate"
+      ],
+      "skill_name": "superclaude-estimate",
+      "workflow": [
+        "analyze",
+        "calculate",
+        "validate",
+        "present",
+        "track"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "explain",
+      "display_name": "/sc:explain",
+      "category": "development",
+      "description": "Provide clear explanations of code, concepts, and system behavior with educational clarity",
+      "aliases": [
+        "/sc:explain",
+        "sc:explain",
+        "explain"
+      ],
+      "skill_name": "superclaude-explain",
+      "workflow": [
+        "analyze",
+        "assess",
+        "structure",
+        "generate",
+        "validate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "git",
+      "display_name": "/sc:git",
+      "category": "version_control",
+      "description": "Git operations with intelligent commit messages and workflow optimization",
+      "aliases": [
+        "/sc:git",
+        "sc:git",
+        "git"
+      ],
+      "skill_name": "superclaude-git",
+      "workflow": [
+        "analyze",
+        "validate",
+        "execute",
+        "optimize",
+        "report"
+      ],
+      "safety": {
+        "writes_code": true,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "help",
+      "display_name": "/sc:help",
+      "category": "documentation",
+      "description": "List all available /sc commands and their functionality",
+      "aliases": [
+        "/sc:help",
+        "sc:help",
+        "help"
+      ],
+      "skill_name": "superclaude-help",
+      "workflow": [
+        "display",
+        "complete"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "implement",
+      "display_name": "/sc:implement",
+      "category": "development",
+      "description": "Feature and code implementation with intelligent persona activation.",
+      "aliases": [
+        "/sc:implement",
+        "sc:implement",
+        "implement"
+      ],
+      "skill_name": "superclaude-implement",
+      "workflow": [
+        "analyze_requirements",
+        "detect_technology_context",
+        "plan_implementation",
+        "activate_relevant_personas",
+        "generate_code",
+        "write_tests",
+        "validate_security",
+        "validate_quality"
+      ],
+      "safety": {
+        "writes_code": true,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "improve",
+      "display_name": "/sc:improve",
+      "category": "development",
+      "description": "Apply systematic improvements to code quality, performance, and maintainability",
+      "aliases": [
+        "/sc:improve",
+        "sc:improve",
+        "improve"
+      ],
+      "skill_name": "superclaude-improve",
+      "workflow": [
+        "analyze",
+        "plan",
+        "execute",
+        "validate",
+        "document"
+      ],
+      "safety": {
+        "writes_code": true,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "index-repo",
+      "display_name": "/sc:index-repo",
+      "category": "utility",
+      "description": "Repository Indexing - 94% token reduction (58K → 3K)",
+      "aliases": [
+        "/sc:index-repo",
+        "sc:index-repo",
+        "index-repo"
+      ],
+      "skill_name": "superclaude-index-repo",
+      "workflow": [
+        "analyze_request",
+        "execute",
+        "validate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "index",
+      "display_name": "/sc:index",
+      "category": "utility",
+      "description": "Generate comprehensive project documentation and knowledge base with intelligent organization",
+      "aliases": [
+        "/sc:index",
+        "sc:index",
+        "index"
+      ],
+      "skill_name": "superclaude-index",
+      "workflow": [
+        "analyze",
+        "organize",
+        "generate",
+        "validate",
+        "maintain"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "load",
+      "display_name": "/sc:load",
+      "category": "utility",
+      "description": "Session lifecycle management with Serena MCP integration for project context loading",
+      "aliases": [
+        "/sc:load",
+        "sc:load",
+        "load"
+      ],
+      "skill_name": "superclaude-load",
+      "workflow": [
+        "initialize",
+        "discover",
+        "load",
+        "activate",
+        "validate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "pm",
+      "display_name": "/sc:pm",
+      "category": "project_management",
+      "description": "Project Manager Agent - Default orchestration agent that coordinates all sub-agents and manages workflows seamlessly",
+      "aliases": [
+        "/sc:pm",
+        "sc:pm",
+        "pm"
+      ],
+      "skill_name": "superclaude-pm",
+      "workflow": [
+        "analyze_request",
+        "execute",
+        "validate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "recommend",
+      "display_name": "/sc:recommend",
+      "category": "utility",
+      "description": "Ultra-intelligent command recommendation engine - recommends the most suitable SuperClaude commands for any user input",
+      "aliases": [
+        "/sc:recommend",
+        "sc:recommend",
+        "recommend"
+      ],
+      "skill_name": "superclaude-recommend",
+      "workflow": [
+        "analyze_request",
+        "execute",
+        "validate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "reflect",
+      "display_name": "/sc:reflect",
+      "category": "quality",
+      "description": "Task reflection and validation using Serena MCP analysis capabilities",
+      "aliases": [
+        "/sc:reflect",
+        "sc:reflect",
+        "reflect"
+      ],
+      "skill_name": "superclaude-reflect",
+      "workflow": [
+        "analyze",
+        "validate",
+        "reflect",
+        "document",
+        "optimize"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "research",
+      "display_name": "/sc:research",
+      "category": "research",
+      "description": "Deep web research with adaptive planning and intelligent search",
+      "aliases": [
+        "/sc:research",
+        "sc:research",
+        "research"
+      ],
+      "skill_name": "superclaude-research",
+      "workflow": [
+        "analyze_request",
+        "execute",
+        "validate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "save",
+      "display_name": "/sc:save",
+      "category": "utility",
+      "description": "Session lifecycle management with Serena MCP integration for session context persistence",
+      "aliases": [
+        "/sc:save",
+        "sc:save",
+        "save"
+      ],
+      "skill_name": "superclaude-save",
+      "workflow": [
+        "analyze",
+        "persist",
+        "checkpoint",
+        "validate",
+        "prepare"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "sc",
+      "display_name": "/sc:sc",
+      "category": "utility",
+      "description": "SuperClaude command dispatcher - Use /sc [command] to access all SuperClaude features",
+      "aliases": [
+        "/sc:sc",
+        "sc:sc",
+        "sc"
+      ],
+      "skill_name": "superclaude-sc",
+      "workflow": [
+        "analyze_request",
+        "execute",
+        "validate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "select-tool",
+      "display_name": "/sc:select-tool",
+      "category": "utility",
+      "description": "Intelligent MCP tool selection based on complexity scoring and operation analysis",
+      "aliases": [
+        "/sc:select-tool",
+        "sc:select-tool",
+        "select-tool"
+      ],
+      "skill_name": "superclaude-select-tool",
+      "workflow": [
+        "parse",
+        "score",
+        "match",
+        "select",
+        "validate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "spawn",
+      "display_name": "/sc:spawn",
+      "category": "utility",
+      "description": "Meta-system task orchestration with intelligent breakdown and delegation",
+      "aliases": [
+        "/sc:spawn",
+        "sc:spawn",
+        "spawn"
+      ],
+      "skill_name": "superclaude-spawn",
+      "workflow": [
+        "analyze",
+        "decompose",
+        "orchestrate",
+        "monitor",
+        "integrate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "spec-panel",
+      "display_name": "/sc:spec-panel",
+      "category": "discovery",
+      "description": "Multi-expert specification review and improvement using renowned specification and software engineering experts",
+      "aliases": [
+        "/sc:spec-panel",
+        "sc:spec-panel",
+        "spec-panel"
+      ],
+      "skill_name": "superclaude-spec-panel",
+      "workflow": [
+        "analyze",
+        "assemble",
+        "review",
+        "collaborate",
+        "synthesize",
+        "improve"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "task",
+      "display_name": "/sc:task",
+      "category": "project_management",
+      "description": "Execute complex tasks with intelligent workflow management and delegation",
+      "aliases": [
+        "/sc:task",
+        "sc:task",
+        "task"
+      ],
+      "skill_name": "superclaude-task",
+      "workflow": [
+        "analyze",
+        "delegate",
+        "coordinate",
+        "validate",
+        "optimize"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": false
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "test",
+      "display_name": "/sc:test",
+      "category": "quality",
+      "description": "Execute tests with coverage analysis and automated quality reporting.",
+      "aliases": [
+        "/sc:test",
+        "sc:test",
+        "test"
+      ],
+      "skill_name": "superclaude-test",
+      "workflow": [
+        "detect_test_framework",
+        "identify_test_scope",
+        "run_or_generate_tests",
+        "analyze_coverage",
+        "report_results"
+      ],
+      "safety": {
+        "writes_code": true,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "troubleshoot",
+      "display_name": "/sc:troubleshoot",
+      "category": "quality",
+      "description": "Diagnose and resolve issues in code, builds, deployments, and system behavior.",
+      "aliases": [
+        "/sc:troubleshoot",
+        "sc:troubleshoot",
+        "troubleshoot"
+      ],
+      "skill_name": "superclaude-troubleshoot",
+      "workflow": [
+        "understand_symptom",
+        "gather_context",
+        "form_hypothesis",
+        "investigate_root_cause",
+        "verify_with_evidence",
+        "propose_fix",
+        "validate_fix"
+      ],
+      "safety": {
+        "writes_code": true,
+        "writes_files": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "id": "workflow",
+      "display_name": "/sc:workflow",
+      "category": "project_management",
+      "description": "Generate structured implementation workflows from PRDs and feature requirements",
+      "aliases": [
+        "/sc:workflow",
+        "sc:workflow",
+        "workflow"
+      ],
+      "skill_name": "superclaude-workflow",
+      "workflow": [
+        "analyze",
+        "plan",
+        "coordinate",
+        "execute",
+        "validate"
+      ],
+      "safety": {
+        "writes_code": false,
+        "writes_files": true
+      }
+    }
+  ]
+}
