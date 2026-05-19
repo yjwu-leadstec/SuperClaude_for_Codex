@@ -3,13 +3,11 @@
 import json
 from pathlib import Path
 
-import pytest
 import yaml
 
 from superclaude_codex.core.command_ir import CommandIR
 from superclaude_codex.core.registry import CommandRegistry
 from superclaude_codex.core.validation import validate_command, validate_no_duplicates
-
 
 VALID_COMMAND = {
     "schema_version": 1,

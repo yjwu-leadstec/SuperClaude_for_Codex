@@ -48,9 +48,13 @@ info "Installing superclaude-for-codex..."
 cd "$SCRIPT_DIR"
 
 if command -v uv &>/dev/null; then
+    # uv: create venv if needed, then install
+    if [ ! -d ".venv" ]; then
+        uv venv --python "$PYTHON" 2>&1 | tail -1
+    fi
     uv pip install -e ".[dev]" 2>&1 | tail -3
 elif command -v pip &>/dev/null; then
-    pip install -e ".[dev]" 2>&1 | tail -3
+    "$PYTHON" -m pip install -e ".[dev]" 2>&1 | tail -3
 else
     "$PYTHON" -m pip install -e ".[dev]" 2>&1 | tail -3
 fi

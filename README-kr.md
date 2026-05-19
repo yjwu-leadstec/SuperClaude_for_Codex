@@ -32,8 +32,8 @@ SuperClaude for Codex는 OpenAI Codex에 **30개의 `/sc:*` 명령어**와 **20�
 ## 빠른 시작
 
 ```bash
-git clone https://github.com/yjwu-leadstec/SuperClaude_Framework.git
-cd SuperClaude_Framework
+git clone https://github.com/yjwu-leadstec/SuperClaude_for_Codex.git
+cd SuperClaude_for_Codex
 ./install-codex.sh
 ```
 

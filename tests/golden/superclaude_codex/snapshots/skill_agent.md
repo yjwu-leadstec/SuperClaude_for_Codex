@@ -1,6 +1,6 @@
 ---
 name: superclaude-agent
-description: 
+description: AI agent delegation for specialized task execution
 ---
 
 # /sc:agent

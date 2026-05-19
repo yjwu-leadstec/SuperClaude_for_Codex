@@ -10,11 +10,11 @@ Prefer the matching skill in `~/.codex/skills/superclaude-*`.
 ### Available Commands
 
 - `/sc` — SuperClaude command dispatcher - Use /sc [command] to access all SuperClaude features
-- `/sc:agent` — 
+- `/sc:agent` — AI agent delegation for specialized task execution
 - `/sc:analyze` — Comprehensive code analysis across quality, security, performance, and architecture.
 - `/sc:brainstorm` — Interactive requirements discovery through Socratic dialogue and systematic exploration.
 - `/sc:build` — Build, compile, and package projects with intelligent error handling and optimization
-- `/sc:business-panel` — 
+- `/sc:business-panel` — Multi-expert business strategy panel with sequential, debate, and Socratic modes
 - `/sc:cleanup` — Systematically clean up code, remove dead code, and optimize project structure
 - `/sc:design` — Design system architecture, APIs, and component interfaces with comprehensive specifications
 - `/sc:document` — Generate focused documentation for components, functions, APIs, and features

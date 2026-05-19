@@ -1,7 +1,6 @@
 """Shared test fixtures for superclaude_codex tests."""
 
 import os
-from pathlib import Path
 
 import pytest
 

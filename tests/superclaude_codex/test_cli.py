@@ -1,6 +1,5 @@
 """Tests for the superclaude-codex CLI entry point."""
 
-import os
 
 from click.testing import CliRunner
 

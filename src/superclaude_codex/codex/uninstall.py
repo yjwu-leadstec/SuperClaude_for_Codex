@@ -5,6 +5,7 @@ Removes only SuperClaude-managed assets, preserving user content.
 
 from __future__ import annotations
 
+import re
 import shutil
 from pathlib import Path
 
@@ -57,7 +58,6 @@ def uninstall(codex_home: Path | None = None, dry_run: bool = False) -> list[str
             # Remove marker block while preserving surrounding whitespace
             new_content = content[:start] + content[end + len(END_MARKER):]
             # Collapse multiple blank lines left by removal, but keep file format
-            import re
             new_content = re.sub(r"\n{3,}", "\n\n", new_content)
             if not new_content.strip():
                 new_content = ""

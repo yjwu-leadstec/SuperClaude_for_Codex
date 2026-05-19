@@ -1,6 +1,6 @@
 ---
 name: superclaude-business-panel
-description: 
+description: Multi-expert business strategy panel with sequential, debate, and Socratic modes
 ---
 
 # /sc:business-panel

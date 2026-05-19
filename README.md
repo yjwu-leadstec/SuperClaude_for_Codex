@@ -43,8 +43,8 @@ SuperClaude for Codex brings **30 structured `/sc:*` commands** and **20 special
 ## Quick Start
 
 ```bash
-git clone https://github.com/yjwu-leadstec/SuperClaude_Framework.git
-cd SuperClaude_Framework
+git clone https://github.com/yjwu-leadstec/SuperClaude_for_Codex.git
+cd SuperClaude_for_Codex
 ./install-codex.sh
 ```
 

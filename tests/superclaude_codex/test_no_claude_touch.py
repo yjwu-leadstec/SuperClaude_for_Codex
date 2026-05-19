@@ -5,11 +5,7 @@ a sentinel file inside ~/.claude and verify it is never modified.
 """
 
 import os
-import subprocess
-import sys
 from pathlib import Path
-
-import pytest
 
 from click.testing import CliRunner
 
@@ -24,7 +20,7 @@ class TestNoClaude:
         original = sentinel.read_text()
 
         runner = CliRunner()
-        result = runner.invoke(main, ["install"])
+        runner.invoke(main, ["install"])
 
         assert sentinel.read_text() == original
         assert sentinel.exists()
@@ -34,7 +30,7 @@ class TestNoClaude:
         original = sentinel.read_text()
 
         runner = CliRunner()
-        result = runner.invoke(main, ["doctor"])
+        runner.invoke(main, ["doctor"])
 
         assert sentinel.read_text() == original
 
@@ -43,7 +39,7 @@ class TestNoClaude:
         original = sentinel.read_text()
 
         runner = CliRunner()
-        result = runner.invoke(main, ["verify"])
+        runner.invoke(main, ["verify"])
 
         assert sentinel.read_text() == original
 
@@ -52,7 +48,7 @@ class TestNoClaude:
         original = sentinel.read_text()
 
         runner = CliRunner()
-        result = runner.invoke(main, ["commands", "list"])
+        runner.invoke(main, ["commands", "list"])
 
         assert sentinel.read_text() == original
 
@@ -61,7 +57,7 @@ class TestNoClaude:
         original = sentinel.read_text()
 
         runner = CliRunner()
-        result = runner.invoke(main, ["mcp", "list"])
+        runner.invoke(main, ["mcp", "list"])
 
         assert sentinel.read_text() == original
 

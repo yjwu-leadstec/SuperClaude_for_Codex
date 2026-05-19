@@ -32,8 +32,8 @@ SuperClaude for Codex 为 OpenAI Codex 提供 **30 个结构化 `/sc:*` 命令**
 ## 快速开始
 
 ```bash
-git clone https://github.com/yjwu-leadstec/SuperClaude_Framework.git
-cd SuperClaude_Framework
+git clone https://github.com/yjwu-leadstec/SuperClaude_for_Codex.git
+cd SuperClaude_for_Codex
 ./install-codex.sh
 ```
 

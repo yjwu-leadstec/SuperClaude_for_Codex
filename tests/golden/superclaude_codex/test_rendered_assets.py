@@ -4,7 +4,6 @@ These tests render all commands and compare the output to golden snapshots.
 Run with --update-golden to regenerate snapshots.
 """
 
-import json
 from pathlib import Path
 
 import pytest

@@ -28,7 +28,7 @@ jobs:
           uv pip install -e ".[dev]"
 
       - name: Lint
-        run: uv run ruff check src/superclaude_codex/
+        run: uv run ruff check src/superclaude_codex/ tests/
 
       - name: Run tests
         run: uv run pytest tests/superclaude_codex/ tests/golden/ -v --tb=short

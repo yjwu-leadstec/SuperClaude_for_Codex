@@ -2,7 +2,7 @@ schema_version: 1
 id: agent
 display_name: /sc:agent
 category: utility
-description: ''
+description: AI agent delegation for specialized task execution
 aliases:
 - /sc:agent
 - sc:agent

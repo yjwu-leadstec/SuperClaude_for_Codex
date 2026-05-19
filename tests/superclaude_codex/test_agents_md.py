@@ -1,6 +1,5 @@
 """Tests for AGENTS.md renderer."""
 
-from pathlib import Path
 
 import yaml
 

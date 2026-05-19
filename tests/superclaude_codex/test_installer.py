@@ -1,12 +1,11 @@
 """Tests for the atomic installer."""
 
 import json
-from pathlib import Path
 
 import pytest
 
-from superclaude_codex.codex.installer import InstallError, Installer
 from superclaude_codex.codex.agents_md import BEGIN_MARKER, END_MARKER
+from superclaude_codex.codex.installer import Installer
 
 
 class TestInstallerDryRun:

@@ -1,13 +1,11 @@
 """Tests for Skill renderer."""
 
-from pathlib import Path
 
 import yaml
 
 from superclaude_codex.codex.skills import render_all_skills, render_skill, write_skill
 from superclaude_codex.core.command_ir import CommandIR
 from superclaude_codex.core.registry import CommandRegistry
-
 
 VALID_COMMAND = {
     "schema_version": 1, "id": "brainstorm", "display_name": "/sc:brainstorm",
