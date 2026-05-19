@@ -20,6 +20,12 @@ Also activate when:
 - `sc:test`
 - `test`
 
+## Inputs
+
+- **target** (optional): Test file, directory, or pattern
+- `--mode` [run, generate, coverage, watch] (default: run)
+- `--framework` [pytest, jest, vitest, mocha]
+
 ## Workflow
 
 1. Detect test framework

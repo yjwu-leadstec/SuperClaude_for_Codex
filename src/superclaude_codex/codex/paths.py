@@ -17,9 +17,11 @@ class UnsafePathError(ValueError):
 
 
 # System paths that must never be used as CODEX_HOME
+# Paths where rmtree/write could cause real damage.
+# /tmp excluded: pytest tmp_path lives there and is safe for install tests.
 _FORBIDDEN_PATHS = frozenset({
     "/", "/etc", "/usr", "/var", "/bin", "/sbin", "/lib",
-    "/sys", "/proc", "/dev", "/boot", "/tmp", "/opt",
+    "/sys", "/proc", "/dev", "/boot", "/opt",
 })
 
 
@@ -61,16 +63,26 @@ def assert_not_claude_path(path: Path) -> None:
 
 
 def assert_safe_path(path: Path) -> None:
-    """Raise UnsafePathError if path is a system-critical directory."""
-    try:
-        resolved = str(path.resolve())
-    except OSError:
-        resolved = str(path)
+    """Raise UnsafePathError if path IS a system-critical directory.
 
-    # Check both raw and resolved paths (macOS resolves /etc → /private/etc)
-    raw = str(path)
-    forbidden_resolved = {str(Path(p).resolve()) for p in _FORBIDDEN_PATHS}
-    if resolved in _FORBIDDEN_PATHS | forbidden_resolved or raw in _FORBIDDEN_PATHS:
+    Blocks exact matches like /etc, /usr, / but allows subdirectories
+    like /etc/superclaude-codex (a dedicated dir is fine to own).
+    """
+    try:
+        resolved = path.resolve()
+    except OSError:
+        resolved = path
+
+    # Build set of forbidden exact paths + macOS /private/* equivalents
+    forbidden: set[Path] = set()
+    for p in _FORBIDDEN_PATHS:
+        forbidden.add(Path(p))
+        try:
+            forbidden.add(Path(p).resolve())
+        except OSError:
+            pass
+
+    if resolved in forbidden:
         raise UnsafePathError(
             f"Refusing to use system path as CODEX_HOME: {path}\n"
             "Set CODEX_HOME to a user-writable directory like ~/.codex."

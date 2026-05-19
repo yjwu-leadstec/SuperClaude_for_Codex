@@ -20,6 +20,17 @@ Also activate when:
 - `sc:analyze`
 - `analyze`
 
+## Inputs
+
+- **target** (optional): File, directory, or pattern to analyze (default ".")
+- `--focus` [quality, security, performance, architecture, all] (default: all)
+- `--depth` [quick, standard, deep] (default: standard)
+
+## Codex Behavior
+
+- Reasoning effort: **high**
+- Web search: **optional**
+
 ## Workflow
 
 1. Identify analysis scope

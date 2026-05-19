@@ -81,13 +81,17 @@ class TestPathHelpers:
 
 
 class TestSystemPathGuard:
-    @pytest.mark.parametrize("dangerous", ["/", "/etc", "/usr", "/var", "/bin", "/tmp"])
-    def test_rejects_system_paths(self, dangerous):
+    @pytest.mark.parametrize("dangerous", ["/", "/etc", "/usr", "/var", "/bin"])
+    def test_rejects_exact_system_paths(self, dangerous):
         with pytest.raises(UnsafePathError):
             assert_safe_path(Path(dangerous))
 
     def test_allows_user_paths(self, tmp_path):
         assert_safe_path(tmp_path / ".codex")  # no exception
+
+    def test_allows_subdirs_of_system_paths(self):
+        # /etc/superclaude-codex is a dedicated subdir, not /etc itself
+        assert_safe_path(Path("/etc/superclaude-codex"))  # no exception
 
     def test_resolve_rejects_system_codex_home(self, monkeypatch):
         monkeypatch.setenv("CODEX_HOME", "/etc")

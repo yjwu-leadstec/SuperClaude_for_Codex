@@ -23,11 +23,12 @@ Expected output:
 ✅ Codex home: /home/user/.codex
 ✅ AGENTS.md: SuperClaude block present
 ✅ commands.json: valid, 30 commands
+✅ agents.json: valid, 20 agents
 ✅ Skills: 30/30 installed
 ✅ version.json: v0.1.0
 ✅ No ~/.claude references: clean
 
-✅ All 6 checks passed.
+✅ All 7 checks passed.
 ```
 
 ## MCP Servers (Optional)

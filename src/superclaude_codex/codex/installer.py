@@ -73,7 +73,9 @@ class Installer:
 
     def run(self) -> InstallReport:
         """Execute the full install pipeline."""
+        from superclaude_codex.codex.paths import assert_safe_path
         assert_not_claude_path(self.codex_home)
+        assert_safe_path(self.codex_home)
         self.report.timestamp = datetime.now(timezone.utc).isoformat()
 
         try:
@@ -93,6 +95,19 @@ class Installer:
 
     def _prepare(self) -> None:
         """Resolve paths, load registry, create backup."""
+        # Check if already installed (unless --force)
+        sc_dir = get_superclaude_dir(self.codex_home)
+        if sc_dir.exists() and not self.force and not self.dry_run:
+            version_file = sc_dir / "version.json"
+            if version_file.exists():
+                import json as _json
+                existing = _json.loads(version_file.read_text())
+                if existing.get("version") == __version__:
+                    raise InstallError(
+                        f"SuperClaude for Codex v{__version__} is already installed. "
+                        "Use --force to reinstall."
+                    )
+
         # Load command registry
         self._registry = CommandRegistry()
         self._registry.load_all()

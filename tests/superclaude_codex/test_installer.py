@@ -74,10 +74,15 @@ class TestInstallerCommit:
 
 
 class TestInstallerIdempotent:
-    def test_repeat_install(self, tmp_codex_home):
+    def test_repeat_install_blocked_without_force(self, tmp_codex_home):
+        Installer(codex_home=tmp_codex_home).run()
+        with pytest.raises(Exception, match="already installed"):
+            Installer(codex_home=tmp_codex_home).run()
+
+    def test_repeat_install_with_force(self, tmp_codex_home):
         Installer(codex_home=tmp_codex_home).run()
         first_content = (tmp_codex_home / "AGENTS.md").read_text()
-        Installer(codex_home=tmp_codex_home).run()
+        Installer(codex_home=tmp_codex_home, force=True).run()
         second_content = (tmp_codex_home / "AGENTS.md").read_text()
         assert first_content == second_content
 

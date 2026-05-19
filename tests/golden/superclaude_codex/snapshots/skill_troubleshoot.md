@@ -20,6 +20,16 @@ Also activate when:
 - `sc:troubleshoot`
 - `troubleshoot`
 
+## Inputs
+
+- **issue_description** (optional): Description of the problem or error message
+- `--scope` [code, build, deploy, runtime, all] (default: all)
+
+## Codex Behavior
+
+- Reasoning effort: **high**
+- Web search: **optional**
+
 ## Workflow
 
 1. Understand symptom

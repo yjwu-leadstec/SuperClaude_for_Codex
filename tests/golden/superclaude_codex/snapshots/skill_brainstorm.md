@@ -21,6 +21,12 @@ Also activate when:
 - `sc:brainstorm`
 - `brainstorm`
 
+## Inputs
+
+- **topic** (optional): The idea or topic to brainstorm about
+- `--strategy` [systematic, agile, enterprise] (default: systematic)
+- `--depth` [shallow, normal, deep] (default: normal)
+
 ## Workflow
 
 1. Understand request

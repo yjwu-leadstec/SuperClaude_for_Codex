@@ -20,6 +20,18 @@ Also activate when:
 - `sc:implement`
 - `implement`
 
+## Inputs
+
+- **feature_description** (optional): What to implement
+- `--type` [component, api, service, feature] (default: feature)
+- `--framework` [react, vue, express, fastapi, django]
+- `--with-tests` [boolean] (default: True)
+
+## Codex Behavior
+
+- Reasoning effort: **high**
+- Web search: **optional**
+
 ## Workflow
 
 1. Analyze requirements

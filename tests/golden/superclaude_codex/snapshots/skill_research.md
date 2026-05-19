@@ -21,6 +21,11 @@ Also activate when:
 - `sc:research`
 - `research`
 
+## Codex Behavior
+
+- Reasoning effort: **high**
+- Web search: **required**
+
 ## Workflow
 
 1. Analyze request

@@ -20,6 +20,11 @@ Also activate when:
 - `sc:design`
 - `design`
 
+## Codex Behavior
+
+- Reasoning effort: **high**
+- Web search: **optional**
+
 ## Workflow
 
 1. Analyze

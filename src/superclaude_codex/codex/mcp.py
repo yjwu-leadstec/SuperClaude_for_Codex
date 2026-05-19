@@ -31,13 +31,13 @@ MCP_REGISTRY: dict[str, MCPServer] = {
         id="context7",
         name="Context7",
         description="Official documentation lookup",
-        config_template='[mcp.context7]\ncommand = "npx"\nargs = ["-y", "@context7/mcp"]',
+        config_template='[mcp_servers.context7]\ncommand = "npx"\nargs = ["-y", "@context7/mcp"]',
     ),
     "tavily": MCPServer(
         id="tavily",
         name="Tavily",
         description="Web search for deep research",
-        config_template='[mcp.tavily]\ncommand = "npx"\nargs = ["-y", "tavily-mcp"]',
+        config_template='[mcp_servers.tavily]\ncommand = "npx"\nargs = ["-y", "tavily-mcp"]',
         requires_api_key=True,
         api_key_env="TAVILY_API_KEY",
     ),
@@ -45,37 +45,37 @@ MCP_REGISTRY: dict[str, MCPServer] = {
         id="playwright",
         name="Playwright",
         description="Cross-browser automation",
-        config_template='[mcp.playwright]\ncommand = "npx"\nargs = ["-y", "@anthropic/mcp-playwright"]',
+        config_template='[mcp_servers.playwright]\ncommand = "npx"\nargs = ["-y", "@anthropic/mcp-playwright"]',
     ),
     "sequential-thinking": MCPServer(
         id="sequential-thinking",
         name="Sequential Thinking",
         description="Multi-step reasoning",
-        config_template='[mcp.sequential-thinking]\ncommand = "npx"\nargs = ["-y", "@anthropic/mcp-sequential-thinking"]',
+        config_template='[mcp_servers.sequential-thinking]\ncommand = "npx"\nargs = ["-y", "@anthropic/mcp-sequential-thinking"]',
     ),
     "magic": MCPServer(
         id="magic",
         name="Magic",
         description="UI component generation",
-        config_template='[mcp.magic]\ncommand = "npx"\nargs = ["-y", "@anthropic/mcp-magic"]',
+        config_template='[mcp_servers.magic]\ncommand = "npx"\nargs = ["-y", "@anthropic/mcp-magic"]',
     ),
     "chrome-devtools": MCPServer(
         id="chrome-devtools",
         name="Chrome DevTools",
         description="Performance analysis",
-        config_template='[mcp.chrome-devtools]\ncommand = "npx"\nargs = ["-y", "@anthropic/mcp-chrome-devtools"]',
+        config_template='[mcp_servers.chrome-devtools]\ncommand = "npx"\nargs = ["-y", "@anthropic/mcp-chrome-devtools"]',
     ),
     "serena": MCPServer(
         id="serena",
         name="Serena",
         description="Session persistence and code understanding",
-        config_template='[mcp.serena]\ncommand = "npx"\nargs = ["-y", "serena-mcp"]',
+        config_template='[mcp_servers.serena]\ncommand = "npx"\nargs = ["-y", "serena-mcp"]',
     ),
     "airis-gateway": MCPServer(
         id="airis-gateway",
         name="AIRIS Gateway",
         description="Unified MCP gateway (60+ tools, single SSE endpoint)",
-        config_template='[mcp.airis-gateway]\nurl = "http://localhost:3100/sse"',
+        config_template='[mcp_servers.airis-gateway]\nurl = "http://localhost:3100/sse"',
     ),
 }
 
@@ -119,14 +119,14 @@ def update_config_toml(path: Path, block: str) -> None:
     if path.exists():
         content = path.read_text()
 
-        # Backup before modifying
+        # Backup before modifying (create with restrictive permissions)
         import os as _os
         backup = path.with_suffix(".toml.bak")
-        backup.write_text(content)
+        fd = _os.open(str(backup), _os.O_WRONLY | _os.O_CREAT | _os.O_TRUNC, 0o600)
         try:
-            _os.chmod(backup, 0o600)
-        except OSError:
-            pass
+            _os.write(fd, content.encode())
+        finally:
+            _os.close(fd)
 
         start = content.find(BEGIN_MARKER)
         end = content.find(END_MARKER)

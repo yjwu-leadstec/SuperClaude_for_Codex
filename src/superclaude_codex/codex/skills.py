@@ -42,6 +42,30 @@ def render_skill(command: CommandIR) -> str:
             lines.append(f"- `{alias}`")
         lines.append("")
 
+    # Inputs
+    inputs = command.inputs
+    positional = inputs.get("positional", [])
+    flags = inputs.get("flags", [])
+    if positional or flags:
+        lines.append("## Inputs")
+        lines.append("")
+        for p in positional:
+            req = " (required)" if p.get("required") else " (optional)"
+            lines.append(f"- **{p.get('name', '?')}**{req}: {p.get('description', '')}")
+        for f in flags:
+            vals = ", ".join(f["values"]) if "values" in f else f.get("type", "")
+            default = f" (default: {f['default']})" if "default" in f else ""
+            lines.append(f"- `--{f.get('name', '?')}` [{vals}]{default}")
+        lines.append("")
+
+    # Codex behavior
+    if command.codex.default_reasoning != "medium" or command.codex.web_search != "optional":
+        lines.append("## Codex Behavior")
+        lines.append("")
+        lines.append(f"- Reasoning effort: **{command.codex.default_reasoning}**")
+        lines.append(f"- Web search: **{command.codex.web_search}**")
+        lines.append("")
+
     # Workflow
     if command.workflow:
         lines.append("## Workflow")
