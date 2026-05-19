@@ -99,7 +99,7 @@ class Installer:
         validation = self._registry.validate_all()
         if not validation.is_valid:
             msgs = [f"{e.command_id}.{e.field}: {e.message}" for e in validation.errors]
-            raise InstallError(f"Command validation failed:\n" + "\n".join(msgs))
+            raise InstallError("Command validation failed:\n" + "\n".join(msgs))
 
         self.report.commands_installed = len(self._registry.list_commands())
 

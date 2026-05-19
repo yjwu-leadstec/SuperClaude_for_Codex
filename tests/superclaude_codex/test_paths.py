@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from superclaude_codex.codex.paths import (
-    ClaudePathViolation,
+    ClaudePathError,
     assert_not_claude_path,
     get_agents_md_path,
     get_config_toml_path,
@@ -32,13 +32,13 @@ class TestResolveCodexHome:
     def test_rejects_claude_path(self, monkeypatch):
         claude = str(Path.home() / ".claude")
         monkeypatch.setenv("CODEX_HOME", claude)
-        with pytest.raises(ClaudePathViolation):
+        with pytest.raises(ClaudePathError):
             resolve_codex_home()
 
     def test_rejects_claude_subpath(self, monkeypatch):
         sub = str(Path.home() / ".claude" / "subdir")
         monkeypatch.setenv("CODEX_HOME", sub)
-        with pytest.raises(ClaudePathViolation):
+        with pytest.raises(ClaudePathError):
             resolve_codex_home()
 
 
@@ -47,11 +47,11 @@ class TestAssertNotClaudePath:
         assert_not_claude_path(tmp_path / ".codex")
 
     def test_rejects_claude_dir(self):
-        with pytest.raises(ClaudePathViolation):
+        with pytest.raises(ClaudePathError):
             assert_not_claude_path(Path.home() / ".claude")
 
     def test_rejects_claude_child(self):
-        with pytest.raises(ClaudePathViolation):
+        with pytest.raises(ClaudePathError):
             assert_not_claude_path(Path.home() / ".claude" / "commands" / "sc")
 
     def test_allows_unrelated_path(self):

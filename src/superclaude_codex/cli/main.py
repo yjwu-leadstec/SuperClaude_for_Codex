@@ -20,7 +20,7 @@ def main():
 @click.option("--force", is_flag=True, help="Force reinstall if assets already exist.")
 def install(dry_run: bool, force: bool):
     """Install SuperClaude commands and skills to Codex."""
-    from superclaude_codex.codex.installer import InstallError, Installer
+    from superclaude_codex.codex.installer import Installer, InstallError
 
     installer = Installer(force=force, dry_run=dry_run)
     try:
@@ -90,7 +90,7 @@ def commands_validate():
     if result.is_valid:
         click.echo(f"✅ {len(cmds)} commands validated successfully.")
     else:
-        click.echo(f"❌ Validation errors:")
+        click.echo("❌ Validation errors:")
         for e in result.errors:
             click.echo(f"  {e.command_id}.{e.field}: {e.message}")
         raise SystemExit(1)
@@ -187,4 +187,4 @@ def uninstall(dry_run: bool):
     if not actions:
         click.echo("Nothing to remove.")
     elif not dry_run:
-        click.echo(f"\n✅ Uninstalled SuperClaude for Codex.")
+        click.echo("\n✅ Uninstalled SuperClaude for Codex.")

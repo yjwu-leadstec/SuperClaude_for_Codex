@@ -8,7 +8,7 @@ import os
 from pathlib import Path
 
 
-class ClaudePathViolation(ValueError):
+class ClaudePathError(ValueError):
     """Raised when an operation would touch ~/.claude."""
 
 
@@ -29,7 +29,7 @@ def resolve_codex_home() -> Path:
 
 
 def assert_not_claude_path(path: Path) -> None:
-    """Raise ClaudePathViolation if path is under ~/.claude."""
+    """Raise ClaudePathError if path is under ~/.claude."""
     try:
         resolved = path.resolve()
     except OSError:
@@ -42,7 +42,7 @@ def assert_not_claude_path(path: Path) -> None:
         claude_resolved = claude_dir
 
     if resolved == claude_resolved or claude_resolved in resolved.parents:
-        raise ClaudePathViolation(
+        raise ClaudePathError(
             f"Refusing to operate on ~/.claude path: {path}\n"
             "SuperClaude for Codex only writes to ~/.codex."
         )

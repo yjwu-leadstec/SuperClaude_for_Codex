@@ -8,10 +8,9 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-import click
-
 from superclaude_codex.codex.agents_md import BEGIN_MARKER, END_MARKER
-from superclaude_codex.codex.mcp import BEGIN_MARKER as MCP_BEGIN, END_MARKER as MCP_END
+from superclaude_codex.codex.mcp import BEGIN_MARKER as MCP_BEGIN
+from superclaude_codex.codex.mcp import END_MARKER as MCP_END
 from superclaude_codex.codex.paths import (
     assert_not_claude_path,
     get_agents_md_path,

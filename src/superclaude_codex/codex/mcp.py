@@ -9,9 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-import click
-
-from superclaude_codex.codex.paths import assert_not_claude_path, get_config_toml_path
+from superclaude_codex.codex.paths import assert_not_claude_path
 
 BEGIN_MARKER = "# BEGIN SUPERCLAUDE FOR CODEX MCP"
 END_MARKER = "# END SUPERCLAUDE FOR CODEX MCP"
