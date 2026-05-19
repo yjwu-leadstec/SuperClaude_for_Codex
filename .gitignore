@@ -98,12 +98,9 @@ Pipfile.lock
 # Poetry
 poetry.lock
 
-# Claude Code - only ignore user-specific files, keep settings.json and skills/
-.claude/history/
-.claude/cache/
-.claude/*.lock
-!.claude/settings.json
-!.claude/skills/
+# Local agent configuration
+.claude/
+.agents/
 
 # SuperClaude specific
 .serena/

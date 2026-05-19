@@ -35,7 +35,7 @@ Closes #
 - [ ] No breaking changes, or if so: `!` commit + MIGRATION.md documented
 
 ### Documentation
-- [ ] Updated documentation as needed (README, CLAUDE.md, docs/, etc.)
+- [ ] Updated documentation as needed (README, AGENTS.md, docs/, etc.)
 - [ ] Added comments for complex logic
 - [ ] API changes are properly documented
 

@@ -179,7 +179,6 @@ superclaude-codex uninstall
 | [Installation Guide](docs/codex/installation.md) | Detailed setup instructions |
 | [Command Reference](docs/codex/commands.md) | All 30 commands |
 | [Troubleshooting](docs/codex/troubleshooting.md) | Common issues and FAQ |
-| [Rebuild Plan](docs/Development/superclaude-for-codex-rebuild-plan.md) | Architecture and design decisions |
 
 ---
 
