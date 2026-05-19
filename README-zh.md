@@ -93,9 +93,29 @@ superclaude-codex uninstall
 
 ---
 
+## 项目来源与致谢
+
+本项目是基于 [SuperClaude Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework) 的 **Codex 原生重写版本**。SuperClaude 是一个优秀的配置框架，为 Claude Code 提供结构化命令、认知角色和开发方法论。
+
+衷心感谢原 SuperClaude 的作者和贡献者们：
+
+- **[Kazuki Nakai](https://github.com/SuperClaude-Org)** — 原创作者和项目负责人
+- **[NomenAK](https://github.com/NomenAK)** — 核心贡献者
+- **[Mithun Gowda B](https://github.com/mithungowda)** — 核心贡献者
+- 以及所有 [SuperClaude 社区贡献者](https://github.com/SuperClaude-Org/SuperClaude_Framework/graphs/contributors)
+
+本项目的命令设计、Agent 角色和工作流模式均参考自原 SuperClaude 的语义定义，但实现完全是全新的 Codex 原生代码。
+
+如果你使用的是 Claude Code 而非 Codex，请查看原项目：**[SuperClaude Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework)**
+
+---
+
 ## 声明
 
-本项目与 OpenAI 或 Anthropic 无关。Codex 是 [OpenAI](https://openai.com/) 的产品。
+本项目与 OpenAI、Anthropic 或 SuperClaude 组织无关。
+- Codex 是 [OpenAI](https://openai.com/) 的产品
+- Claude Code 是 [Anthropic](https://www.anthropic.com/) 的产品
+- SuperClaude Framework 由 [SuperClaude-Org](https://github.com/SuperClaude-Org) 维护
 
 ## 许可
 

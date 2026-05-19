@@ -220,10 +220,30 @@ Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
+## Origin & Acknowledgments
+
+This project is a **Codex-native rewrite** based on the [SuperClaude Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework) — an excellent configuration framework that enhances Claude Code with structured commands, cognitive personas, and development methodologies.
+
+We deeply appreciate the work of the original SuperClaude authors and contributors:
+
+- **[Kazuki Nakai](https://github.com/SuperClaude-Org)** — Original creator and project lead
+- **[NomenAK](https://github.com/NomenAK)** — Core contributor
+- **[Mithun Gowda B](https://github.com/mithungowda)** — Core contributor
+- And all the [SuperClaude community contributors](https://github.com/SuperClaude-Org/SuperClaude_Framework/graphs/contributors)
+
+The original SuperClaude's command design, agent personas, and workflow patterns served as the semantic source for this project's Command IR definitions. The implementation is entirely new and Codex-native, but the ideas and developer experience goals originated from the SuperClaude community's pioneering work.
+
+If you're using Claude Code rather than Codex, check out the original project — it's fantastic:
+**[SuperClaude Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework)**
+
+---
+
 ## Disclaimer
 
-This project is not affiliated with or endorsed by OpenAI or Anthropic.
-Codex is a product built and maintained by [OpenAI](https://openai.com/).
+This project is not affiliated with or endorsed by OpenAI, Anthropic, or the SuperClaude organization.
+- Codex is a product built and maintained by [OpenAI](https://openai.com/).
+- Claude Code is a product built and maintained by [Anthropic](https://www.anthropic.com/).
+- SuperClaude Framework is maintained by [SuperClaude-Org](https://github.com/SuperClaude-Org).
 
 ## License
 
@@ -232,5 +252,5 @@ MIT License — see [LICENSE](LICENSE).
 ---
 
 <div align="center">
-  <sub>Built for developers who push boundaries</sub>
+  <sub>Built on the shoulders of SuperClaude, for developers who push boundaries</sub>
 </div>
