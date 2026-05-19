@@ -59,7 +59,7 @@ include = [
     "tests/superclaude_codex/",
     "README.md",
     "LICENSE",
-    "pyproject-codex.toml",
+    "pyproject.toml",
 ]
 
 [tool.pytest.ini_options]
