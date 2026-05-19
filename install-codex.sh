@@ -12,18 +12,10 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PYPROJECT_BACKUP=""
 
 info()  { echo "  $*"; }
 ok()    { echo "  ✅ $*"; }
 fail()  { echo "  ❌ $*" >&2; }
-
-cleanup() {
-    if [ -n "$PYPROJECT_BACKUP" ] && [ -f "$PYPROJECT_BACKUP" ]; then
-        mv "$PYPROJECT_BACKUP" "$SCRIPT_DIR/pyproject.toml"
-    fi
-}
-trap cleanup EXIT
 
 echo ""
 echo "🚀 SuperClaude for Codex Installer"
@@ -51,21 +43,10 @@ if [ -z "$PYTHON" ]; then
 fi
 ok "Python $version ($PYTHON)"
 
-# 2. Swap pyproject.toml temporarily
-info "Preparing package configuration..."
+# 2. Install package
+info "Installing superclaude-for-codex..."
 cd "$SCRIPT_DIR"
 
-if [ ! -f pyproject-codex.toml ]; then
-    fail "pyproject-codex.toml not found. Are you in the right directory?"
-    exit 1
-fi
-
-PYPROJECT_BACKUP="$SCRIPT_DIR/pyproject.toml.install-bak"
-cp pyproject.toml "$PYPROJECT_BACKUP"
-cp pyproject-codex.toml pyproject.toml
-
-# 3. Install package
-info "Installing superclaude-for-codex..."
 if command -v uv &>/dev/null; then
     uv pip install -e ".[dev]" 2>&1 | tail -3
 elif command -v pip &>/dev/null; then
@@ -73,13 +54,9 @@ elif command -v pip &>/dev/null; then
 else
     "$PYTHON" -m pip install -e ".[dev]" 2>&1 | tail -3
 fi
-
-# 4. Restore original pyproject.toml
-mv "$PYPROJECT_BACKUP" pyproject.toml
-PYPROJECT_BACKUP=""
 ok "Package installed"
 
-# 5. Verify CLI
+# 3. Verify CLI
 if ! command -v superclaude-codex &>/dev/null; then
     fail "superclaude-codex command not found on PATH"
     info "You may need to add pip's bin directory to your PATH"
@@ -87,12 +64,12 @@ if ! command -v superclaude-codex &>/dev/null; then
 fi
 ok "CLI available: $(superclaude-codex --version)"
 
-# 6. Install to Codex
+# 4. Install to Codex
 info "Installing commands and skills to Codex..."
 superclaude-codex install
 ok "Installation complete"
 
-# 7. Doctor check
+# 5. Doctor check
 echo ""
 info "Running health check..."
 superclaude-codex doctor

@@ -2,17 +2,9 @@ name: Test SuperClaude for Codex
 
 on:
   push:
-    paths:
-      - 'src/superclaude_codex/**'
-      - 'tests/superclaude_codex/**'
-      - 'tests/golden/**'
-      - 'pyproject-codex.toml'
+    branches: [master]
   pull_request:
-    paths:
-      - 'src/superclaude_codex/**'
-      - 'tests/superclaude_codex/**'
-      - 'tests/golden/**'
-      - 'pyproject-codex.toml'
+    branches: [master]
 
 jobs:
   test:
@@ -31,11 +23,7 @@ jobs:
         run: uv python install ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: |
-          cp pyproject-codex.toml pyproject.toml.bak
-          cp pyproject-codex.toml pyproject.toml
-          uv pip install -e ".[dev]" --system
-          mv pyproject.toml.bak pyproject.toml
+        run: uv sync --dev
 
       - name: Lint
         run: uv run ruff check src/superclaude_codex/
@@ -50,9 +38,9 @@ jobs:
 
       - name: CLI smoke test
         run: |
-          superclaude-codex --version
-          superclaude-codex commands list
-          superclaude-codex commands validate
+          uv run superclaude-codex --version
+          uv run superclaude-codex commands list
+          uv run superclaude-codex commands validate
 
   install-smoke:
     runs-on: ubuntu-latest
@@ -67,20 +55,15 @@ jobs:
       - name: Set up Python
         run: uv python install 3.12
 
-      - name: Build wheel
+      - name: Build and install
         run: |
-          cp pyproject-codex.toml pyproject.toml
           uv build
-          mv pyproject.toml pyproject-codex.toml
-
-      - name: Install from wheel
-        run: |
-          uv pip install dist/*.whl --system
+          uv pip install dist/*.whl --python $(uv python find 3.12)
 
       - name: Smoke test install
         run: |
           tmpdir=$(mktemp -d)
-          CODEX_HOME="$tmpdir/.codex" superclaude-codex install
-          CODEX_HOME="$tmpdir/.codex" superclaude-codex doctor
-          CODEX_HOME="$tmpdir/.codex" superclaude-codex commands validate
+          CODEX_HOME="$tmpdir/.codex" uv run superclaude-codex install
+          CODEX_HOME="$tmpdir/.codex" uv run superclaude-codex doctor
+          CODEX_HOME="$tmpdir/.codex" uv run superclaude-codex commands validate
           rm -rf "$tmpdir"
