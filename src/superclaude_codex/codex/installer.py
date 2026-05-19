@@ -134,6 +134,28 @@ class Installer:
                 self._backups["superclaude-for-codex"] = backup
                 self.report.files_backed_up.append(str(sc_dir))
 
+    def _render_agents_json(self) -> str:
+        """Load agent YAML definitions and render agents.json."""
+        import yaml
+
+        agents_dir = Path(__file__).resolve().parent.parent / "assets" / "agents"
+        agents = []
+        if agents_dir.is_dir():
+            for f in sorted(agents_dir.glob("*.yaml")):
+                with open(f) as fh:
+                    data = yaml.safe_load(fh)
+                if data and isinstance(data, dict) and "id" in data:
+                    agents.append({
+                        "id": data["id"],
+                        "name": data.get("name", data["id"]),
+                        "description": data.get("description", ""),
+                    })
+        return json.dumps(
+            {"schema_version": 1, "package_version": __version__, "agents": agents},
+            indent=2,
+            ensure_ascii=False,
+        )
+
     def _stage(self) -> None:
         """Validate all outputs can be rendered (in memory)."""
         # Render AGENTS.md block
@@ -141,6 +163,9 @@ class Installer:
 
         # Render commands.json
         self._commands_json = self._registry.export_commands_json_str()
+
+        # Render agents.json from asset files
+        self._agents_json = self._render_agents_json()
 
         # Render version.json
         self._version_json = json.dumps(
@@ -180,6 +205,7 @@ class Installer:
             staged_sc = staging / "superclaude-for-codex"
             staged_sc.mkdir()
             (staged_sc / "commands.json").write_text(self._commands_json)
+            (staged_sc / "agents.json").write_text(self._agents_json)
             (staged_sc / "version.json").write_text(self._version_json)
 
             # All staging writes succeeded — now commit to final location
@@ -220,9 +246,12 @@ class Installer:
             if staging.exists():
                 shutil.rmtree(staging)
 
-        # Clean up backup on success
-        if self._backup_dir and self._backup_dir.exists():
-            shutil.rmtree(self._backup_dir)
+        # Clean up backup on success (non-critical — don't trigger rollback if this fails)
+        try:
+            if self._backup_dir and self._backup_dir.exists():
+                shutil.rmtree(self._backup_dir)
+        except OSError:
+            pass  # Backup cleanup failure is non-critical after successful install
 
     def _rollback(self) -> None:
         """Restore backed-up files on failure, and clean up any new files written."""

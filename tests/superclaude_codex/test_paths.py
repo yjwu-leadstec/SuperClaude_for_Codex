@@ -7,7 +7,9 @@ import pytest
 
 from superclaude_codex.codex.paths import (
     ClaudePathError,
+    UnsafePathError,
     assert_not_claude_path,
+    assert_safe_path,
     get_agents_md_path,
     get_config_toml_path,
     get_skills_dir,
@@ -76,3 +78,18 @@ class TestPathHelpers:
         """All helpers should resolve via CODEX_HOME when no arg given."""
         assert get_agents_md_path() == tmp_codex_home / "AGENTS.md"
         assert get_skills_dir() == tmp_codex_home / "skills"
+
+
+class TestSystemPathGuard:
+    @pytest.mark.parametrize("dangerous", ["/", "/etc", "/usr", "/var", "/bin", "/tmp"])
+    def test_rejects_system_paths(self, dangerous):
+        with pytest.raises(UnsafePathError):
+            assert_safe_path(Path(dangerous))
+
+    def test_allows_user_paths(self, tmp_path):
+        assert_safe_path(tmp_path / ".codex")  # no exception
+
+    def test_resolve_rejects_system_codex_home(self, monkeypatch):
+        monkeypatch.setenv("CODEX_HOME", "/etc")
+        with pytest.raises(UnsafePathError):
+            resolve_codex_home()

@@ -75,7 +75,21 @@ def run_doctor() -> tuple[int, int]:
     else:
         _check("commands.json", False, "file not found")
 
-    # 4. Skills
+    # 4. agents.json
+    total += 1
+    agents_json = sc_dir / "agents.json"
+    if agents_json.exists():
+        try:
+            data = json.loads(agents_json.read_text())
+            count = len(data.get("agents", []))
+            if _check("agents.json", True, f"valid, {count} agents"):
+                passed += 1
+        except json.JSONDecodeError:
+            _check("agents.json", False, "invalid JSON")
+    else:
+        _check("agents.json", False, "file not found")
+
+    # 5. Skills
     total += 1
     skills_dir = home / "skills"
     if skills_dir.exists():

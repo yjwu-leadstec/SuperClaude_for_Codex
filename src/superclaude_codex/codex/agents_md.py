@@ -95,7 +95,13 @@ def update_agents_md(path: Path, block: str) -> None:
     - Raises AgentsBlockError if markers are in invalid state.
     - Never modifies content outside the markers.
     """
+    max_size = 1_048_576  # 1 MB
     if path.exists():
+        if path.stat().st_size > max_size:
+            raise AgentsBlockError(
+                f"AGENTS.md is too large ({path.stat().st_size} bytes, max {max_size}). "
+                "This may be a binary file or corrupted."
+            )
         content = path.read_text()
         existing = extract_existing_block(content)  # may raise
         if existing:

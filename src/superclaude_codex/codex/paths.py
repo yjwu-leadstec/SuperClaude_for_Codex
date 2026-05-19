@@ -1,7 +1,7 @@
 """Codex home directory resolution and path safety guards.
 
 All file operations in superclaude-for-codex MUST go through these
-functions to ensure we never read or write ~/.claude.
+functions to ensure we never read or write ~/.claude or system paths.
 """
 
 import os
@@ -10,6 +10,17 @@ from pathlib import Path
 
 class ClaudePathError(ValueError):
     """Raised when an operation would touch ~/.claude."""
+
+
+class UnsafePathError(ValueError):
+    """Raised when CODEX_HOME points to a dangerous system path."""
+
+
+# System paths that must never be used as CODEX_HOME
+_FORBIDDEN_PATHS = frozenset({
+    "/", "/etc", "/usr", "/var", "/bin", "/sbin", "/lib",
+    "/sys", "/proc", "/dev", "/boot", "/tmp", "/opt",
+})
 
 
 def resolve_codex_home() -> Path:
@@ -25,6 +36,7 @@ def resolve_codex_home() -> Path:
     else:
         path = Path.home() / ".codex"
     assert_not_claude_path(path)
+    assert_safe_path(path)
     return path
 
 
@@ -45,6 +57,23 @@ def assert_not_claude_path(path: Path) -> None:
         raise ClaudePathError(
             f"Refusing to operate on ~/.claude path: {path}\n"
             "SuperClaude for Codex only writes to ~/.codex."
+        )
+
+
+def assert_safe_path(path: Path) -> None:
+    """Raise UnsafePathError if path is a system-critical directory."""
+    try:
+        resolved = str(path.resolve())
+    except OSError:
+        resolved = str(path)
+
+    # Check both raw and resolved paths (macOS resolves /etc → /private/etc)
+    raw = str(path)
+    forbidden_resolved = {str(Path(p).resolve()) for p in _FORBIDDEN_PATHS}
+    if resolved in _FORBIDDEN_PATHS | forbidden_resolved or raw in _FORBIDDEN_PATHS:
+        raise UnsafePathError(
+            f"Refusing to use system path as CODEX_HOME: {path}\n"
+            "Set CODEX_HOME to a user-writable directory like ~/.codex."
         )
 
 

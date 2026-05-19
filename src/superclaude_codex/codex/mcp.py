@@ -120,8 +120,13 @@ def update_config_toml(path: Path, block: str) -> None:
         content = path.read_text()
 
         # Backup before modifying
+        import os as _os
         backup = path.with_suffix(".toml.bak")
         backup.write_text(content)
+        try:
+            _os.chmod(backup, 0o600)
+        except OSError:
+            pass
 
         start = content.find(BEGIN_MARKER)
         end = content.find(END_MARKER)
