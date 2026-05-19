@@ -74,6 +74,7 @@ class Installer:
     def run(self) -> InstallReport:
         """Execute the full install pipeline."""
         from superclaude_codex.codex.paths import assert_safe_path
+
         assert_not_claude_path(self.codex_home)
         assert_safe_path(self.codex_home)
         self.report.timestamp = datetime.now(timezone.utc).isoformat()
@@ -101,6 +102,7 @@ class Installer:
             version_file = sc_dir / "version.json"
             if version_file.exists():
                 import json as _json
+
                 existing = _json.loads(version_file.read_text())
                 if existing.get("version") == __version__:
                     raise InstallError(
@@ -160,11 +162,16 @@ class Installer:
                 with open(f) as fh:
                     data = yaml.safe_load(fh)
                 if data and isinstance(data, dict) and "id" in data:
-                    agents.append({
-                        "id": data["id"],
-                        "name": data.get("name", data["id"]),
-                        "description": data.get("description", ""),
-                    })
+                    agents.append(
+                        {
+                            "id": data["id"],
+                            "name": data.get("name", data["id"]),
+                            "description": data.get("description", ""),
+                            "triggers": data.get("triggers", []),
+                            "expertise": data.get("expertise", []),
+                            "output_expectations": data.get("output_expectations", []),
+                        }
+                    )
         return json.dumps(
             {"schema_version": 1, "package_version": __version__, "agents": agents},
             indent=2,

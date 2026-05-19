@@ -59,10 +59,13 @@ class TestCommandIR:
         d = cmd.to_dict()
         assert d["id"] == "brainstorm"
         assert d["schema_version"] == 1
-        assert d["skill_name"] == "superclaude-brainstorm"
+        assert d["codex"]["skill_name"] == "superclaude-brainstorm"
         assert d["aliases"] == ["/sc:brainstorm", "sc:brainstorm", "brainstorm"]
         assert d["workflow"] == ["understand_request", "generate_alternatives"]
         assert "writes_code" in d["safety"]
+        assert d["personas"] == ["analyst", "product"]
+        assert d["output_contract"]["primary"] == "design_doc"
+        assert d["codex"]["default_reasoning"] == "medium"
 
 
 class TestValidation:
@@ -170,9 +173,14 @@ class TestRegistry:
 
     def test_list_by_category(self, tmp_path):
         self._write_yaml(tmp_path, "brainstorm", VALID_COMMAND)
-        impl = {**VALID_COMMAND, "id": "implement", "display_name": "/sc:implement",
-                "category": "development", "aliases": ["/sc:implement"],
-                "codex": {"skill_name": "superclaude-implement"}}
+        impl = {
+            **VALID_COMMAND,
+            "id": "implement",
+            "display_name": "/sc:implement",
+            "category": "development",
+            "aliases": ["/sc:implement"],
+            "codex": {"skill_name": "superclaude-implement"},
+        }
         self._write_yaml(tmp_path, "implement", impl)
         reg = CommandRegistry(assets_dir=tmp_path)
         reg.load_all()

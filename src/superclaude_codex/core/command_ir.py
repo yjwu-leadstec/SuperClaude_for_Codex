@@ -101,7 +101,7 @@ class CommandIR:
         )
 
     def to_dict(self) -> dict[str, Any]:
-        """Serialize to a summary dictionary for commands.json."""
+        """Serialize the full Command IR for commands.json."""
         return {
             "schema_version": self.schema_version,
             "id": self.id,
@@ -109,10 +109,23 @@ class CommandIR:
             "category": self.category,
             "description": self.description,
             "aliases": self.aliases,
-            "skill_name": self.codex.skill_name,
+            "triggers": self.triggers,
+            "inputs": self.inputs,
             "workflow": self.workflow,
+            "personas": self.personas,
+            "mcp": self.mcp,
             "safety": {
                 "writes_code": self.safety.writes_code,
                 "writes_files": self.safety.writes_files,
+                "requires_user_confirmation_for_scope_change": self.safety.requires_user_confirmation_for_scope_change,
+            },
+            "output_contract": {
+                "primary": self.output_contract.primary,
+                "required_sections": self.output_contract.required_sections,
+            },
+            "codex": {
+                "skill_name": self.codex.skill_name,
+                "default_reasoning": self.codex.default_reasoning,
+                "web_search": self.codex.web_search,
             },
         }

@@ -114,13 +114,16 @@ def update_config_toml(path: Path, block: str) -> None:
     Safety: backs up existing file before writing; aborts if
     existing content has only one marker (corrupt state).
     """
+    import os as _os
+    import tempfile
+
     assert_not_claude_path(path)
 
     if path.exists():
         content = path.read_text()
 
         # Backup before modifying (create with restrictive permissions)
-        import os as _os
+
         backup = path.with_suffix(".toml.bak")
         fd = _os.open(str(backup), _os.O_WRONLY | _os.O_CREAT | _os.O_TRUNC, 0o600)
         try:
@@ -139,7 +142,7 @@ def update_config_toml(path: Path, block: str) -> None:
             )
 
         if start != -1 and end != -1:
-            new_content = content[:start] + block + content[end + len(END_MARKER):]
+            new_content = content[:start] + block + content[end + len(END_MARKER) :]
         else:
             sep = "\n\n" if content.strip() else ""
             new_content = content + sep + block + "\n"
@@ -147,13 +150,30 @@ def update_config_toml(path: Path, block: str) -> None:
         new_content = block + "\n"
 
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(new_content)
+
+    # Atomic write via temp file + os.replace()
+    original_mode = path.stat().st_mode if path.exists() else 0o644
+    tmp_fd, tmp_path = tempfile.mkstemp(
+        dir=str(path.parent), prefix=".config-", suffix=".tmp"
+    )
+    try:
+        with _os.fdopen(tmp_fd, "w") as tmp_f:
+            tmp_f.write(new_content)
+        _os.chmod(tmp_path, original_mode)
+        _os.replace(tmp_path, str(path))
+    except BaseException:
+        try:
+            _os.unlink(tmp_path)
+        except OSError:
+            pass
+        raise
 
 
 def get_api_key_warnings(server_ids: list[str]) -> list[str]:
     """Return warnings for servers that need API keys."""
     warnings = []
     import os
+
     for sid in server_ids:
         server = MCP_REGISTRY.get(sid)
         if server and server.requires_api_key:

@@ -1,6 +1,5 @@
 """Tests for Skill renderer."""
 
-
 import yaml
 
 from superclaude_codex.codex.skills import render_all_skills, render_skill, write_skill
@@ -8,15 +7,24 @@ from superclaude_codex.core.command_ir import CommandIR
 from superclaude_codex.core.registry import CommandRegistry
 
 VALID_COMMAND = {
-    "schema_version": 1, "id": "brainstorm", "display_name": "/sc:brainstorm",
-    "category": "discovery", "description": "Brainstorm ideas.",
+    "schema_version": 1,
+    "id": "brainstorm",
+    "display_name": "/sc:brainstorm",
+    "category": "discovery",
+    "description": "Brainstorm ideas.",
     "aliases": ["/sc:brainstorm", "sc:brainstorm"],
     "triggers": ["user wants to brainstorm"],
     "workflow": ["understand_request", "generate_alternatives"],
     "personas": ["analyst", "product"],
     "mcp": {"optional": ["context7"]},
-    "safety": {"writes_code": False, "requires_user_confirmation_for_scope_change": True},
-    "output_contract": {"primary": "design_doc", "required_sections": ["problem_statement"]},
+    "safety": {
+        "writes_code": False,
+        "requires_user_confirmation_for_scope_change": True,
+    },
+    "output_contract": {
+        "primary": "design_doc",
+        "required_sections": ["problem_statement"],
+    },
     "codex": {"skill_name": "superclaude-brainstorm"},
 }
 
@@ -87,10 +95,15 @@ class TestRenderAllSkills:
         assets = tmp_path / "assets"
         assets.mkdir()
         (assets / "brainstorm.yaml").write_text(yaml.dump(VALID_COMMAND))
-        impl = {**VALID_COMMAND, "id": "implement", "display_name": "/sc:implement",
-                "aliases": ["/sc:implement"], "codex": {"skill_name": "superclaude-implement"},
-                "output_contract": {"primary": "impl", "required_sections": ["code"]},
-                "safety": {"writes_code": True}}
+        impl = {
+            **VALID_COMMAND,
+            "id": "implement",
+            "display_name": "/sc:implement",
+            "aliases": ["/sc:implement"],
+            "codex": {"skill_name": "superclaude-implement"},
+            "output_contract": {"primary": "impl", "required_sections": ["code"]},
+            "safety": {"writes_code": True},
+        }
         (assets / "implement.yaml").write_text(yaml.dump(impl))
 
         reg = CommandRegistry(assets_dir=assets)

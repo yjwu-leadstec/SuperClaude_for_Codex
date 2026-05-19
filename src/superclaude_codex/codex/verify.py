@@ -94,13 +94,17 @@ def run_doctor() -> tuple[int, int]:
     skills_dir = home / "skills"
     if skills_dir.exists():
         skill_dirs = [
-            d for d in skills_dir.iterdir()
+            d
+            for d in skills_dir.iterdir()
             if d.is_dir() and d.name.startswith("superclaude-")
         ]
         skill_count = sum(1 for d in skill_dirs if (d / "SKILL.md").exists())
         total_skills = len(skill_dirs)
-        if _check("Skills", skill_count == total_skills and skill_count > 0,
-                   f"{skill_count}/{total_skills} installed"):
+        if _check(
+            "Skills",
+            skill_count == total_skills and skill_count > 0,
+            f"{skill_count}/{total_skills} installed",
+        ):
             passed += 1
     else:
         _check("Skills", False, "directory not found")
@@ -131,10 +135,17 @@ def run_doctor() -> tuple[int, int]:
         # The AGENTS.md legitimately tells Codex NOT to touch ~/.claude;
         # only flag if there's an actual path pointing into it.
         for line in content.splitlines():
-            if "/.claude/" in line and "Do not" not in line and "read or write" not in line:
+            if (
+                "/.claude/" in line
+                and "Do not" not in line
+                and "read or write" not in line
+            ):
                 claude_refs.append(f"AGENTS.md: {line.strip()}")
-    if _check("No ~/.claude references", len(claude_refs) == 0,
-              "; ".join(claude_refs) if claude_refs else "clean"):
+    if _check(
+        "No ~/.claude references",
+        len(claude_refs) == 0,
+        "; ".join(claude_refs) if claude_refs else "clean",
+    ):
         passed += 1
 
     return passed, total

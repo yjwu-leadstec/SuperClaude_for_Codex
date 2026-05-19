@@ -19,10 +19,22 @@ class UnsafePathError(ValueError):
 # System paths that must never be used as CODEX_HOME
 # Paths where rmtree/write could cause real damage.
 # /tmp excluded: pytest tmp_path lives there and is safe for install tests.
-_FORBIDDEN_PATHS = frozenset({
-    "/", "/etc", "/usr", "/var", "/bin", "/sbin", "/lib",
-    "/sys", "/proc", "/dev", "/boot", "/opt",
-})
+_FORBIDDEN_PATHS = frozenset(
+    {
+        "/",
+        "/etc",
+        "/usr",
+        "/var",
+        "/bin",
+        "/sbin",
+        "/lib",
+        "/sys",
+        "/proc",
+        "/dev",
+        "/boot",
+        "/opt",
+    }
+)
 
 
 def resolve_codex_home() -> Path:

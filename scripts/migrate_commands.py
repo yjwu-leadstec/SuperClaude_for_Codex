@@ -33,8 +33,17 @@ CATEGORY_MAP = {
 
 # Claude-only tool references to remove
 CLAUDE_TOOLS = {
-    "TodoWrite", "Glob", "Grep", "Read", "Write", "Edit", "MultiEdit",
-    "WebSearch", "WebFetch", "Task", "sequentialthinking",
+    "TodoWrite",
+    "Glob",
+    "Grep",
+    "Read",
+    "Write",
+    "Edit",
+    "MultiEdit",
+    "WebSearch",
+    "WebFetch",
+    "Task",
+    "sequentialthinking",
 }
 
 
@@ -82,33 +91,78 @@ def extract_workflow(content: str) -> list[str]:
 def extract_safety(content: str, name: str) -> dict:
     """Determine safety settings based on command nature."""
     code_commands = {
-        "implement", "build", "improve", "cleanup", "test", "troubleshoot", "git",
+        "implement",
+        "build",
+        "improve",
+        "cleanup",
+        "test",
+        "troubleshoot",
+        "git",
     }
     file_commands = code_commands | {
-        "brainstorm", "design", "document", "workflow", "research",
-        "save", "index", "index-repo", "estimate", "spec-panel",
+        "brainstorm",
+        "design",
+        "document",
+        "workflow",
+        "research",
+        "save",
+        "index",
+        "index-repo",
+        "estimate",
+        "spec-panel",
     }
     return {
         "writes_code": name in code_commands,
         "writes_files": name in file_commands,
-        "requires_user_confirmation_for_scope_change": name not in {"help", "sc", "recommend", "select-tool", "load", "explain"},
+        "requires_user_confirmation_for_scope_change": name
+        not in {"help", "sc", "recommend", "select-tool", "load", "explain"},
     }
 
 
 def extract_output_contract(content: str, name: str) -> dict:
     """Determine output contract based on command."""
     contracts = {
-        "brainstorm": ("design_doc", ["problem_statement", "constraints", "approaches_considered", "recommended_approach", "next_steps"]),
-        "design": ("architecture_spec", ["system_overview", "components", "interfaces", "data_flow", "deployment"]),
-        "implement": ("implementation", ["implementation_plan", "code_changes", "tests", "validation_summary"]),
+        "brainstorm": (
+            "design_doc",
+            [
+                "problem_statement",
+                "constraints",
+                "approaches_considered",
+                "recommended_approach",
+                "next_steps",
+            ],
+        ),
+        "design": (
+            "architecture_spec",
+            ["system_overview", "components", "interfaces", "data_flow", "deployment"],
+        ),
+        "implement": (
+            "implementation",
+            ["implementation_plan", "code_changes", "tests", "validation_summary"],
+        ),
         "build": ("build_report", ["build_output", "errors_resolved", "artifacts"]),
-        "test": ("test_report", ["test_results", "coverage_summary", "failures_and_fixes"]),
-        "analyze": ("analysis_report", ["summary", "findings", "recommendations", "severity_breakdown"]),
-        "troubleshoot": ("diagnosis_report", ["symptom", "root_cause", "fix_applied", "verification"]),
+        "test": (
+            "test_report",
+            ["test_results", "coverage_summary", "failures_and_fixes"],
+        ),
+        "analyze": (
+            "analysis_report",
+            ["summary", "findings", "recommendations", "severity_breakdown"],
+        ),
+        "troubleshoot": (
+            "diagnosis_report",
+            ["symptom", "root_cause", "fix_applied", "verification"],
+        ),
         "improve": ("improvement_report", ["changes_made", "before_after", "metrics"]),
-        "cleanup": ("cleanup_report", ["removed_items", "refactored_items", "impact_summary"]),
+        "cleanup": (
+            "cleanup_report",
+            ["removed_items", "refactored_items", "impact_summary"],
+        ),
         "document": ("documentation", ["content", "structure", "references"]),
-        "research": ("research_report", ["findings", "sources", "synthesis", "recommendations"]),
+        "research": (
+            "research_report",
+            ["findings", "sources", "synthesis", "recommendations"],
+        ),
         "estimate": ("estimate", ["scope", "effort_breakdown", "risks", "timeline"]),
         "reflect": ("retrospective", ["what_worked", "what_failed", "action_items"]),
         "explain": ("explanation", ["overview", "details", "examples"]),
@@ -118,8 +172,14 @@ def extract_output_contract(content: str, name: str) -> dict:
         "task": ("task_list", ["tasks", "priorities", "assignments"]),
         "recommend": ("recommendations", ["suggested_commands", "rationale"]),
         "select-tool": ("tool_selection", ["recommended_tool", "rationale"]),
-        "business-panel": ("business_analysis", ["market_assessment", "strategy", "recommendations"]),
-        "spec-panel": ("specification_review", ["feedback", "improvements", "approval_status"]),
+        "business-panel": (
+            "business_analysis",
+            ["market_assessment", "strategy", "recommendations"],
+        ),
+        "spec-panel": (
+            "specification_review",
+            ["feedback", "improvements", "approval_status"],
+        ),
         "agent": ("agent_result", ["delegation_summary", "output"]),
         "spawn": ("spawn_result", ["subtasks", "results"]),
         "index-repo": ("repository_index", ["structure", "key_files", "summary"]),
@@ -207,7 +267,9 @@ def convert_command(md_path: Path) -> dict | None:
         "output_contract": output_contract,
         "codex": {
             "skill_name": f"superclaude-{name}",
-            "default_reasoning": "high" if name in ("implement", "troubleshoot", "analyze", "research", "design") else "medium",
+            "default_reasoning": "high"
+            if name in ("implement", "troubleshoot", "analyze", "research", "design")
+            else "medium",
             "web_search": "required" if name == "research" else "optional",
         },
     }
@@ -236,14 +298,22 @@ def main():
 
             out_path = NEW_COMMANDS_DIR / f"{result['id']}.yaml"
             with open(out_path, "w") as f:
-                yaml.dump(result, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
+                yaml.dump(
+                    result,
+                    f,
+                    default_flow_style=False,
+                    allow_unicode=True,
+                    sort_keys=False,
+                )
             converted += 1
             print(f"  ✅ {md_path.name} → {out_path.name}")
         except Exception as exc:
             errors.append(f"{md_path.name}: {exc}")
             print(f"  ❌ {md_path.name}: {exc}")
 
-    print(f"\nConverted: {converted}, Skipped (already migrated): {skipped}, Errors: {len(errors)}")
+    print(
+        f"\nConverted: {converted}, Skipped (already migrated): {skipped}, Errors: {len(errors)}"
+    )
     if errors:
         for e in errors:
             print(f"  ERROR: {e}")

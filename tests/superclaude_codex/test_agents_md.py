@@ -1,6 +1,5 @@
 """Tests for AGENTS.md renderer."""
 
-
 import yaml
 
 from superclaude_codex.codex.agents_md import (
@@ -15,9 +14,13 @@ from superclaude_codex.core.registry import CommandRegistry
 
 def _make_registry(tmp_path):
     data = {
-        "schema_version": 1, "id": "brainstorm", "display_name": "/sc:brainstorm",
-        "category": "discovery", "description": "Brainstorm ideas.",
-        "aliases": ["/sc:brainstorm"], "workflow": ["explore"],
+        "schema_version": 1,
+        "id": "brainstorm",
+        "display_name": "/sc:brainstorm",
+        "category": "discovery",
+        "description": "Brainstorm ideas.",
+        "aliases": ["/sc:brainstorm"],
+        "workflow": ["explore"],
         "output_contract": {"primary": "design_doc", "required_sections": ["summary"]},
         "codex": {"skill_name": "superclaude-brainstorm"},
         "safety": {"writes_code": False},
@@ -49,7 +52,9 @@ class TestRenderAgentsBlock:
 
 class TestExtractExistingBlock:
     def test_extracts_block(self):
-        content = f"User content\n\n{BEGIN_MARKER}\nstuff\n{END_MARKER}\n\nMore user content"
+        content = (
+            f"User content\n\n{BEGIN_MARKER}\nstuff\n{END_MARKER}\n\nMore user content"
+        )
         block = extract_existing_block(content)
         assert block is not None
         assert block.startswith(BEGIN_MARKER)
@@ -70,7 +75,9 @@ class TestUpdateAgentsMd:
 
     def test_replaces_existing_block(self, tmp_path):
         path = tmp_path / "AGENTS.md"
-        path.write_text(f"User rules\n\n{BEGIN_MARKER}\nold\n{END_MARKER}\n\nMore rules")
+        path.write_text(
+            f"User rules\n\n{BEGIN_MARKER}\nold\n{END_MARKER}\n\nMore rules"
+        )
         reg = _make_registry(tmp_path)
         block = render_agents_block(reg)
         update_agents_md(path, block)
@@ -80,7 +87,9 @@ class TestUpdateAgentsMd:
 
     def test_preserves_user_content(self, tmp_path):
         path = tmp_path / "AGENTS.md"
-        path.write_text(f"My custom rules\n\n{BEGIN_MARKER}\nold\n{END_MARKER}\n\nFooter")
+        path.write_text(
+            f"My custom rules\n\n{BEGIN_MARKER}\nold\n{END_MARKER}\n\nFooter"
+        )
         reg = _make_registry(tmp_path)
         block = render_agents_block(reg)
         update_agents_md(path, block)
@@ -114,6 +123,7 @@ class TestCorruptMarkers:
         import pytest
 
         from superclaude_codex.codex.agents_md import AgentsBlockError
+
         path = tmp_path / "AGENTS.md"
         path.write_text(f"Content\n{BEGIN_MARKER}\nstuff\n")
         reg = _make_registry(tmp_path)
@@ -125,6 +135,7 @@ class TestCorruptMarkers:
         import pytest
 
         from superclaude_codex.codex.agents_md import AgentsBlockError
+
         path = tmp_path / "AGENTS.md"
         path.write_text(f"Content\n{END_MARKER}\n")
         reg = _make_registry(tmp_path)
@@ -136,6 +147,7 @@ class TestCorruptMarkers:
         import pytest
 
         from superclaude_codex.codex.agents_md import AgentsBlockError
+
         path = tmp_path / "AGENTS.md"
         path.write_text(f"{BEGIN_MARKER}\nfoo\n{BEGIN_MARKER}\nbar\n{END_MARKER}\n")
         reg = _make_registry(tmp_path)

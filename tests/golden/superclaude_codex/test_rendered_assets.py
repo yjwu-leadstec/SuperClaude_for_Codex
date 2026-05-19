@@ -46,7 +46,9 @@ class TestAgentsMdGolden:
         reg = _get_registry()
         rendered = render_agents_block(reg)
         golden = _read_or_create_golden("agents_block.md", rendered, update_golden)
-        assert rendered == golden, "AGENTS.md block changed. Run --update-golden to accept."
+        assert rendered == golden, (
+            "AGENTS.md block changed. Run --update-golden to accept."
+        )
 
 
 class TestCommandsJsonGolden:
@@ -54,7 +56,9 @@ class TestCommandsJsonGolden:
         reg = _get_registry()
         rendered = reg.export_commands_json_str()
         golden = _read_or_create_golden("commands.json", rendered, update_golden)
-        assert rendered == golden, "commands.json changed. Run --update-golden to accept."
+        assert rendered == golden, (
+            "commands.json changed. Run --update-golden to accept."
+        )
 
 
 class TestSkillGolden:
@@ -70,35 +74,96 @@ class TestSkillGolden:
         assert cmd is not None, f"Command {cmd_id} not found"
         rendered = render_skill(cmd)
         golden = _read_or_create_golden(f"skill_{cmd_id}.md", rendered, self.update)
-        assert rendered == golden, f"SKILL.md for {cmd_id} changed. Run --update-golden."
+        assert rendered == golden, (
+            f"SKILL.md for {cmd_id} changed. Run --update-golden."
+        )
 
-    def test_brainstorm(self): self._check_skill("brainstorm")
-    def test_implement(self): self._check_skill("implement")
-    def test_analyze(self): self._check_skill("analyze")
-    def test_test(self): self._check_skill("test")
-    def test_troubleshoot(self): self._check_skill("troubleshoot")
-    def test_design(self): self._check_skill("design")
-    def test_build(self): self._check_skill("build")
-    def test_improve(self): self._check_skill("improve")
-    def test_cleanup(self): self._check_skill("cleanup")
-    def test_explain(self): self._check_skill("explain")
-    def test_reflect(self): self._check_skill("reflect")
-    def test_document(self): self._check_skill("document")
-    def test_help(self): self._check_skill("help")
-    def test_git(self): self._check_skill("git")
-    def test_pm(self): self._check_skill("pm")
-    def test_task(self): self._check_skill("task")
-    def test_workflow(self): self._check_skill("workflow")
-    def test_research(self): self._check_skill("research")
-    def test_business_panel(self): self._check_skill("business-panel")
-    def test_spec_panel(self): self._check_skill("spec-panel")
-    def test_estimate(self): self._check_skill("estimate")
-    def test_agent(self): self._check_skill("agent")
-    def test_index_repo(self): self._check_skill("index-repo")
-    def test_index(self): self._check_skill("index")
-    def test_recommend(self): self._check_skill("recommend")
-    def test_select_tool(self): self._check_skill("select-tool")
-    def test_spawn(self): self._check_skill("spawn")
-    def test_load(self): self._check_skill("load")
-    def test_save(self): self._check_skill("save")
-    def test_sc(self): self._check_skill("sc")
+    def test_brainstorm(self):
+        self._check_skill("brainstorm")
+
+    def test_implement(self):
+        self._check_skill("implement")
+
+    def test_analyze(self):
+        self._check_skill("analyze")
+
+    def test_test(self):
+        self._check_skill("test")
+
+    def test_troubleshoot(self):
+        self._check_skill("troubleshoot")
+
+    def test_design(self):
+        self._check_skill("design")
+
+    def test_build(self):
+        self._check_skill("build")
+
+    def test_improve(self):
+        self._check_skill("improve")
+
+    def test_cleanup(self):
+        self._check_skill("cleanup")
+
+    def test_explain(self):
+        self._check_skill("explain")
+
+    def test_reflect(self):
+        self._check_skill("reflect")
+
+    def test_document(self):
+        self._check_skill("document")
+
+    def test_help(self):
+        self._check_skill("help")
+
+    def test_git(self):
+        self._check_skill("git")
+
+    def test_pm(self):
+        self._check_skill("pm")
+
+    def test_task(self):
+        self._check_skill("task")
+
+    def test_workflow(self):
+        self._check_skill("workflow")
+
+    def test_research(self):
+        self._check_skill("research")
+
+    def test_business_panel(self):
+        self._check_skill("business-panel")
+
+    def test_spec_panel(self):
+        self._check_skill("spec-panel")
+
+    def test_estimate(self):
+        self._check_skill("estimate")
+
+    def test_agent(self):
+        self._check_skill("agent")
+
+    def test_index_repo(self):
+        self._check_skill("index-repo")
+
+    def test_index(self):
+        self._check_skill("index")
+
+    def test_recommend(self):
+        self._check_skill("recommend")
+
+    def test_select_tool(self):
+        self._check_skill("select-tool")
+
+    def test_spawn(self):
+        self._check_skill("spawn")
+
+    def test_load(self):
+        self._check_skill("load")
+
+    def test_save(self):
+        self._check_skill("save")
+
+    def test_sc(self):
+        self._check_skill("sc")

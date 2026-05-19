@@ -1,6 +1,5 @@
 """Tests for the superclaude-codex CLI entry point."""
 
-
 from click.testing import CliRunner
 
 from superclaude_codex.cli.main import main
@@ -34,10 +33,9 @@ def test_install_dry_run(tmp_codex_home):
 
 
 def test_doctor_subcommand(tmp_codex_home):
-    """Doctor on empty home should not crash (checks will fail gracefully)."""
+    """Doctor on empty home should not crash."""
     runner = CliRunner()
     result = runner.invoke(main, ["doctor"])
-    # May exit non-zero if not installed, but should not crash
     assert result.exception is None or isinstance(result.exception, SystemExit)
 
 
@@ -72,13 +70,16 @@ def test_mcp_list():
     assert result.exit_code == 0
 
 
-def test_mcp_install():
+def test_mcp_install(tmp_codex_home):
+    """MCP install must use isolated CODEX_HOME."""
     runner = CliRunner()
     result = runner.invoke(main, ["mcp", "install", "context7"])
     assert result.exit_code == 0
+    assert (tmp_codex_home / "config.toml").exists()
 
 
-def test_mcp_install_all():
+def test_mcp_install_all(tmp_codex_home):
+    """MCP install --all must use isolated CODEX_HOME."""
     runner = CliRunner()
     result = runner.invoke(main, ["mcp", "install", "--all"])
     assert result.exit_code == 0

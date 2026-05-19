@@ -30,6 +30,9 @@ jobs:
       - name: Lint
         run: uv run ruff check src/superclaude_codex/ tests/
 
+      - name: Format check
+        run: uv run ruff format --check src/superclaude_codex/ tests/ scripts/
+
       - name: Run tests
         run: uv run pytest tests/superclaude_codex/ tests/golden/ -v --tb=short
 

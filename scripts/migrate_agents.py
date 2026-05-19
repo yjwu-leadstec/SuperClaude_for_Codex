@@ -88,7 +88,13 @@ def main():
             agent = convert_agent(md_path)
             out_path = NEW_AGENTS_DIR / f"{agent['id']}.yaml"
             with open(out_path, "w") as f:
-                yaml.dump(agent, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
+                yaml.dump(
+                    agent,
+                    f,
+                    default_flow_style=False,
+                    allow_unicode=True,
+                    sort_keys=False,
+                )
             agents.append(agent)
             print(f"  ✅ {md_path.name} → {agent['id']}.yaml")
         except Exception as exc:
@@ -98,10 +104,14 @@ def main():
     agents_json = {
         "schema_version": 1,
         "package_version": "0.1.0",
-        "agents": [{"id": a["id"], "name": a["name"], "description": a["description"]} for a in agents],
+        "agents": [
+            {"id": a["id"], "name": a["name"], "description": a["description"]}
+            for a in agents
+        ],
     }
 
     import json
+
     agents_json_path = NEW_AGENTS_DIR.parent.parent / "core" / "agents_registry.json"
     # We'll put it alongside the assets for now
     agents_json_path = NEW_AGENTS_DIR / "agents.json"

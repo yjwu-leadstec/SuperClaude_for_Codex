@@ -29,7 +29,9 @@ def install(dry_run: bool, force: bool):
             click.echo(f"[dry-run] Would install to: {report.codex_home}")
             click.echo(f"[dry-run] Commands: {report.commands_installed}")
         else:
-            click.echo(f"✅ Installed {report.commands_installed} commands to {report.codex_home}")
+            click.echo(
+                f"✅ Installed {report.commands_installed} commands to {report.codex_home}"
+            )
             click.echo(f"   Files written: {len(report.files_written)}")
     except InstallError as exc:
         click.echo(f"❌ Installation failed: {exc}", err=True)
@@ -129,14 +131,18 @@ def mcp_list():
     from superclaude_codex.codex.mcp import list_servers
 
     for server in list_servers():
-        key_note = f" (requires {server.api_key_env})" if server.requires_api_key else ""
+        key_note = (
+            f" (requires {server.api_key_env})" if server.requires_api_key else ""
+        )
         click.echo(f"  {server.id:25s} {server.description}{key_note}")
 
 
 @mcp.command("install")
 @click.argument("servers", nargs=-1)
 @click.option("--dry-run", is_flag=True, help="Preview changes without writing files.")
-@click.option("--all", "install_all", is_flag=True, help="Install all available MCP servers.")
+@click.option(
+    "--all", "install_all", is_flag=True, help="Install all available MCP servers."
+)
 def mcp_install(servers: tuple, dry_run: bool, install_all: bool):
     """Install MCP servers to Codex config."""
     from superclaude_codex.codex.mcp import (

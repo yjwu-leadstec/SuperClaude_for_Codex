@@ -13,15 +13,31 @@
         "sc:agent",
         "agent"
       ],
-      "skill_name": "superclaude-agent",
+      "triggers": [],
+      "inputs": {},
       "workflow": [
         "analyze_request",
         "execute",
         "validate"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "agent_result",
+        "required_sections": [
+          "delegation_summary",
+          "output"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-agent",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -35,7 +51,43 @@
         "sc:analyze",
         "analyze"
       ],
-      "skill_name": "superclaude-analyze",
+      "triggers": [
+        "user asks to analyze code",
+        "user wants a code review",
+        "user asks about code quality",
+        "security or performance audit request"
+      ],
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "File, directory, or pattern to analyze (default \".\")"
+          }
+        ],
+        "flags": [
+          {
+            "name": "focus",
+            "values": [
+              "quality",
+              "security",
+              "performance",
+              "architecture",
+              "all"
+            ],
+            "default": "all"
+          },
+          {
+            "name": "depth",
+            "values": [
+              "quick",
+              "standard",
+              "deep"
+            ],
+            "default": "standard"
+          }
+        ]
+      },
       "workflow": [
         "identify_analysis_scope",
         "read_target_files",
@@ -45,9 +97,35 @@
         "analyze_architecture",
         "generate_report"
       ],
+      "personas": [
+        "quality-engineer",
+        "security-engineer",
+        "performance-engineer",
+        "system-architect"
+      ],
+      "mcp": {
+        "optional": [
+          "context7"
+        ]
+      },
       "safety": {
         "writes_code": false,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": false
+      },
+      "output_contract": {
+        "primary": "analysis_report",
+        "required_sections": [
+          "summary",
+          "findings",
+          "recommendations",
+          "severity_breakdown"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-analyze",
+        "default_reasoning": "high",
+        "web_search": "optional"
       }
     },
     {
@@ -61,7 +139,42 @@
         "sc:brainstorm",
         "brainstorm"
       ],
-      "skill_name": "superclaude-brainstorm",
+      "triggers": [
+        "user wants to explore an idea",
+        "user asks to brainstorm",
+        "user describes a product concept",
+        "ambiguous project ideas requiring structured exploration",
+        "requirements discovery and specification development"
+      ],
+      "inputs": {
+        "positional": [
+          {
+            "name": "topic",
+            "required": false,
+            "description": "The idea or topic to brainstorm about"
+          }
+        ],
+        "flags": [
+          {
+            "name": "strategy",
+            "values": [
+              "systematic",
+              "agile",
+              "enterprise"
+            ],
+            "default": "systematic"
+          },
+          {
+            "name": "depth",
+            "values": [
+              "shallow",
+              "normal",
+              "deep"
+            ],
+            "default": "normal"
+          }
+        ]
+      },
       "workflow": [
         "understand_request",
         "inspect_project_context",
@@ -70,9 +183,37 @@
         "challenge_assumptions",
         "produce_design_doc"
       ],
+      "personas": [
+        "analyst",
+        "product",
+        "architect"
+      ],
+      "mcp": {
+        "optional": [
+          "context7",
+          "tavily",
+          "sequential-thinking"
+        ]
+      },
       "safety": {
         "writes_code": false,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "design_doc",
+        "required_sections": [
+          "problem_statement",
+          "constraints",
+          "approaches_considered",
+          "recommended_approach",
+          "next_steps"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-brainstorm",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -86,7 +227,13 @@
         "sc:build",
         "build"
       ],
-      "skill_name": "superclaude-build",
+      "triggers": [
+        "Project compilation and packaging requests for different environments",
+        "Build optimization and artifact generation needs",
+        "Error debugging during build processes",
+        "Deployment preparation and artifact packaging requirements"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "validate",
@@ -94,9 +241,31 @@
         "optimize",
         "package"
       ],
+      "personas": [
+        "devops-engineer"
+      ],
+      "mcp": {
+        "optional": [
+          "playwright"
+        ]
+      },
       "safety": {
         "writes_code": true,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "build_report",
+        "required_sections": [
+          "build_output",
+          "errors_resolved",
+          "artifacts"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-build",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -110,15 +279,32 @@
         "sc:business-panel",
         "business-panel"
       ],
-      "skill_name": "superclaude-business-panel",
+      "triggers": [],
+      "inputs": {},
       "workflow": [
         "analyze_request",
         "execute",
         "validate"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "business_analysis",
+        "required_sections": [
+          "market_assessment",
+          "strategy",
+          "recommendations"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-business-panel",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -132,7 +318,13 @@
         "sc:cleanup",
         "cleanup"
       ],
-      "skill_name": "superclaude-cleanup",
+      "triggers": [
+        "Code maintenance and technical debt reduction requests",
+        "Dead code removal and import optimization needs",
+        "Project structure improvement and organization requirements",
+        "Codebase hygiene and quality improvement initiatives"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "plan",
@@ -140,9 +332,34 @@
         "validate",
         "report"
       ],
+      "personas": [
+        "system-architect",
+        "quality-engineer",
+        "security"
+      ],
+      "mcp": {
+        "optional": [
+          "sequential-thinking",
+          "context7"
+        ]
+      },
       "safety": {
         "writes_code": true,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "cleanup_report",
+        "required_sections": [
+          "removed_items",
+          "refactored_items",
+          "impact_summary"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-cleanup",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -156,7 +373,13 @@
         "sc:design",
         "design"
       ],
-      "skill_name": "superclaude-design",
+      "triggers": [
+        "Architecture planning and system design requests",
+        "API specification and interface design needs",
+        "Component design and technical specification requirements",
+        "Database schema and data model design requests"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "plan",
@@ -164,9 +387,27 @@
         "validate",
         "document"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "architecture_spec",
+        "required_sections": [
+          "system_overview",
+          "components",
+          "interfaces",
+          "data_flow",
+          "deployment"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-design",
+        "default_reasoning": "high",
+        "web_search": "optional"
       }
     },
     {
@@ -180,7 +421,13 @@
         "sc:document",
         "document"
       ],
-      "skill_name": "superclaude-document",
+      "triggers": [
+        "Documentation requests for specific components, functions, or features",
+        "API documentation and reference material generation needs",
+        "Code comment and inline documentation requirements",
+        "User guide and technical documentation creation requests"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "identify",
@@ -188,9 +435,25 @@
         "format",
         "integrate"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "documentation",
+        "required_sections": [
+          "content",
+          "structure",
+          "references"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-document",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -204,7 +467,13 @@
         "sc:estimate",
         "estimate"
       ],
-      "skill_name": "superclaude-estimate",
+      "triggers": [
+        "Development planning requiring time, effort, or complexity estimates",
+        "Project scoping and resource allocation decisions",
+        "Feature breakdown needing systematic estimation methodology",
+        "Risk assessment and confidence interval analysis requirements"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "calculate",
@@ -212,9 +481,35 @@
         "present",
         "track"
       ],
+      "personas": [
+        "system-architect",
+        "performance",
+        "project-manager"
+      ],
+      "mcp": {
+        "optional": [
+          "sequential-thinking",
+          "context7"
+        ]
+      },
       "safety": {
         "writes_code": false,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "estimate",
+        "required_sections": [
+          "scope",
+          "effort_breakdown",
+          "risks",
+          "timeline"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-estimate",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -228,7 +523,13 @@
         "sc:explain",
         "explain"
       ],
-      "skill_name": "superclaude-explain",
+      "triggers": [
+        "Code understanding and documentation requests for complex functionality",
+        "System behavior explanation needs for architectural components",
+        "Educational content generation for knowledge transfer",
+        "Framework-specific concept clarification requirements"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "assess",
@@ -236,9 +537,34 @@
         "generate",
         "validate"
       ],
+      "personas": [
+        "educator",
+        "system-architect",
+        "security"
+      ],
+      "mcp": {
+        "optional": [
+          "sequential-thinking",
+          "context7"
+        ]
+      },
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": false
+      },
+      "output_contract": {
+        "primary": "explanation",
+        "required_sections": [
+          "overview",
+          "details",
+          "examples"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-explain",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -252,7 +578,13 @@
         "sc:git",
         "git"
       ],
-      "skill_name": "superclaude-git",
+      "triggers": [
+        "Git repository operations: status, add, commit, push, pull, branch",
+        "Need for intelligent commit message generation",
+        "Repository workflow optimization requests",
+        "Branch management and merge operations"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "validate",
@@ -260,9 +592,24 @@
         "optimize",
         "report"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": true,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "git_operations",
+        "required_sections": [
+          "changes_summary",
+          "commit_info"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-git",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -276,14 +623,33 @@
         "sc:help",
         "help"
       ],
-      "skill_name": "superclaude-help",
+      "triggers": [
+        "Command discovery and reference lookup requests",
+        "Framework exploration and capability understanding needs",
+        "Documentation requests for available SuperClaude commands"
+      ],
+      "inputs": {},
       "workflow": [
         "display",
         "complete"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": false
+      },
+      "output_contract": {
+        "primary": "help_text",
+        "required_sections": [
+          "command_info"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-help",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -297,7 +663,48 @@
         "sc:implement",
         "implement"
       ],
-      "skill_name": "superclaude-implement",
+      "triggers": [
+        "user asks to implement a feature",
+        "user wants to write code for a component",
+        "feature development request",
+        "code implementation need"
+      ],
+      "inputs": {
+        "positional": [
+          {
+            "name": "feature_description",
+            "required": false,
+            "description": "What to implement"
+          }
+        ],
+        "flags": [
+          {
+            "name": "type",
+            "values": [
+              "component",
+              "api",
+              "service",
+              "feature"
+            ],
+            "default": "feature"
+          },
+          {
+            "name": "framework",
+            "values": [
+              "react",
+              "vue",
+              "express",
+              "fastapi",
+              "django"
+            ]
+          },
+          {
+            "name": "with-tests",
+            "type": "boolean",
+            "default": true
+          }
+        ]
+      },
       "workflow": [
         "analyze_requirements",
         "detect_technology_context",
@@ -308,9 +715,37 @@
         "validate_security",
         "validate_quality"
       ],
+      "personas": [
+        "architect",
+        "frontend-architect",
+        "backend-architect",
+        "security-engineer",
+        "quality-engineer"
+      ],
+      "mcp": {
+        "optional": [
+          "context7",
+          "sequential-thinking"
+        ]
+      },
       "safety": {
         "writes_code": true,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "implementation",
+        "required_sections": [
+          "implementation_plan",
+          "code_changes",
+          "tests",
+          "validation_summary"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-implement",
+        "default_reasoning": "high",
+        "web_search": "optional"
       }
     },
     {
@@ -324,7 +759,13 @@
         "sc:improve",
         "improve"
       ],
-      "skill_name": "superclaude-improve",
+      "triggers": [
+        "Code quality enhancement and refactoring requests",
+        "Performance optimization and bottleneck resolution needs",
+        "Maintainability improvements and technical debt reduction",
+        "Best practices application and coding standards enforcement"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "plan",
@@ -332,9 +773,35 @@
         "validate",
         "document"
       ],
+      "personas": [
+        "system-architect",
+        "performance",
+        "quality-engineer",
+        "security"
+      ],
+      "mcp": {
+        "optional": [
+          "sequential-thinking",
+          "context7"
+        ]
+      },
       "safety": {
         "writes_code": true,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "improvement_report",
+        "required_sections": [
+          "changes_made",
+          "before_after",
+          "metrics"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-improve",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -348,15 +815,32 @@
         "sc:index-repo",
         "index-repo"
       ],
-      "skill_name": "superclaude-index-repo",
+      "triggers": [],
+      "inputs": {},
       "workflow": [
         "analyze_request",
         "execute",
         "validate"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "repository_index",
+        "required_sections": [
+          "structure",
+          "key_files",
+          "summary"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-index-repo",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -370,7 +854,13 @@
         "sc:index",
         "index"
       ],
-      "skill_name": "superclaude-index",
+      "triggers": [
+        "Project documentation creation and maintenance requirements",
+        "Knowledge base generation and organization needs",
+        "API documentation and structure analysis requirements",
+        "Cross-referencing and navigation enhancement requests"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "organize",
@@ -378,9 +868,33 @@
         "validate",
         "maintain"
       ],
+      "personas": [
+        "system-architect",
+        "scribe",
+        "quality-engineer"
+      ],
+      "mcp": {
+        "optional": [
+          "sequential-thinking",
+          "context7"
+        ]
+      },
       "safety": {
         "writes_code": false,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "index",
+        "required_sections": [
+          "structure",
+          "summary"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-index",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -394,7 +908,13 @@
         "sc:load",
         "load"
       ],
-      "skill_name": "superclaude-load",
+      "triggers": [
+        "Session initialization and project context loading requests",
+        "Cross-session persistence and memory retrieval needs",
+        "Project activation and context management requirements",
+        "Session lifecycle management and checkpoint loading scenarios"
+      ],
+      "inputs": {},
       "workflow": [
         "initialize",
         "discover",
@@ -402,9 +922,23 @@
         "activate",
         "validate"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": false
+      },
+      "output_contract": {
+        "primary": "session_state",
+        "required_sections": [
+          "restored_context"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-load",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -418,15 +952,43 @@
         "sc:pm",
         "pm"
       ],
-      "skill_name": "superclaude-pm",
+      "triggers": [],
+      "inputs": {},
       "workflow": [
         "analyze_request",
         "execute",
         "validate"
       ],
+      "personas": [
+        "pm-agent"
+      ],
+      "mcp": {
+        "optional": [
+          "sequential-thinking",
+          "context7",
+          "magic",
+          "playwright",
+          "tavily",
+          "chrome-devtools"
+        ]
+      },
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "project_status",
+        "required_sections": [
+          "progress",
+          "blockers",
+          "next_steps"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-pm",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -440,15 +1002,31 @@
         "sc:recommend",
         "recommend"
       ],
-      "skill_name": "superclaude-recommend",
+      "triggers": [],
+      "inputs": {},
       "workflow": [
         "analyze_request",
         "execute",
         "validate"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": false
+      },
+      "output_contract": {
+        "primary": "recommendations",
+        "required_sections": [
+          "suggested_commands",
+          "rationale"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-recommend",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -462,7 +1040,13 @@
         "sc:reflect",
         "reflect"
       ],
-      "skill_name": "superclaude-reflect",
+      "triggers": [
+        "Task completion requiring validation and quality assessment",
+        "Session progress analysis and reflection on work accomplished",
+        "Cross-session learning and insight capture for project improvement",
+        "Quality gates requiring comprehensive task adherence verification"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "validate",
@@ -470,9 +1054,25 @@
         "document",
         "optimize"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "retrospective",
+        "required_sections": [
+          "what_worked",
+          "what_failed",
+          "action_items"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-reflect",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -486,15 +1086,47 @@
         "sc:research",
         "research"
       ],
-      "skill_name": "superclaude-research",
+      "triggers": [
+        "Research questions beyond knowledge cutoff",
+        "Complex research questions",
+        "Current events and real-time information",
+        "Academic or technical research requirements",
+        "Market analysis and competitive intelligence"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze_request",
         "execute",
         "validate"
       ],
+      "personas": [
+        "deep-research-agent"
+      ],
+      "mcp": {
+        "optional": [
+          "tavily",
+          "sequential-thinking",
+          "playwright"
+        ]
+      },
       "safety": {
         "writes_code": false,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "research_report",
+        "required_sections": [
+          "findings",
+          "sources",
+          "synthesis",
+          "recommendations"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-research",
+        "default_reasoning": "high",
+        "web_search": "required"
       }
     },
     {
@@ -508,7 +1140,13 @@
         "sc:save",
         "save"
       ],
-      "skill_name": "superclaude-save",
+      "triggers": [
+        "Session completion and project context persistence needs",
+        "Cross-session memory management and checkpoint creation requests",
+        "Project understanding preservation and discovery archival scenarios",
+        "Session lifecycle management and progress tracking requirements"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "persist",
@@ -516,9 +1154,23 @@
         "validate",
         "prepare"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "session_snapshot",
+        "required_sections": [
+          "saved_context"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-save",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -532,15 +1184,30 @@
         "/sc:sc",
         "sc"
       ],
-      "skill_name": "superclaude-sc",
+      "triggers": [],
+      "inputs": {},
       "workflow": [
         "analyze_request",
         "execute",
         "validate"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": false
+      },
+      "output_contract": {
+        "primary": "command_list",
+        "required_sections": [
+          "available_commands"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-sc",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -554,7 +1221,13 @@
         "sc:select-tool",
         "select-tool"
       ],
-      "skill_name": "superclaude-select-tool",
+      "triggers": [
+        "Operations requiring optimal MCP tool selection between Serena and Morphllm",
+        "Meta-system decisions needing complexity analysis and capability matching",
+        "Tool routing decisions requiring performance vs accuracy trade-offs",
+        "Operations benefiting from intelligent tool capability assessment"
+      ],
+      "inputs": {},
       "workflow": [
         "parse",
         "score",
@@ -562,9 +1235,24 @@
         "select",
         "validate"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": false
+      },
+      "output_contract": {
+        "primary": "tool_selection",
+        "required_sections": [
+          "recommended_tool",
+          "rationale"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-select-tool",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -578,7 +1266,13 @@
         "sc:spawn",
         "spawn"
       ],
-      "skill_name": "superclaude-spawn",
+      "triggers": [
+        "Complex multi-domain operations requiring intelligent task breakdown",
+        "Large-scale system operations spanning multiple technical areas",
+        "Operations requiring parallel coordination and dependency management",
+        "Meta-level orchestration beyond standard command capabilities"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "decompose",
@@ -586,9 +1280,24 @@
         "monitor",
         "integrate"
       ],
+      "personas": [],
+      "mcp": {},
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "spawn_result",
+        "required_sections": [
+          "subtasks",
+          "results"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-spawn",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -602,7 +1311,13 @@
         "sc:spec-panel",
         "spec-panel"
       ],
-      "skill_name": "superclaude-spec-panel",
+      "triggers": [
+        "Specification quality review and improvement requests",
+        "Technical documentation validation and enhancement needs",
+        "Requirements analysis and completeness verification",
+        "Professional specification writing guidance and mentoring"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "assemble",
@@ -611,9 +1326,34 @@
         "synthesize",
         "improve"
       ],
+      "personas": [
+        "technical-writer",
+        "system-system-architect",
+        "quality-engineer-engineer"
+      ],
+      "mcp": {
+        "optional": [
+          "sequential-thinking",
+          "context7"
+        ]
+      },
       "safety": {
         "writes_code": false,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "specification_review",
+        "required_sections": [
+          "feedback",
+          "improvements",
+          "approval_status"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-spec-panel",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -627,7 +1367,13 @@
         "sc:task",
         "task"
       ],
-      "skill_name": "superclaude-task",
+      "triggers": [
+        "Complex tasks requiring multi-agent coordination and delegation",
+        "Projects needing structured workflow management and cross-session persistence",
+        "Operations requiring intelligent MCP server routing and domain expertise",
+        "Tasks benefiting from systematic execution and progressive enhancement"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "delegate",
@@ -635,9 +1381,40 @@
         "validate",
         "optimize"
       ],
+      "personas": [
+        "system-architect",
+        "analyzer",
+        "frontend",
+        "backend",
+        "security",
+        "devops",
+        "project-manager"
+      ],
+      "mcp": {
+        "optional": [
+          "sequential-thinking",
+          "context7",
+          "magic",
+          "playwright"
+        ]
+      },
       "safety": {
         "writes_code": false,
-        "writes_files": false
+        "writes_files": false,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "task_list",
+        "required_sections": [
+          "tasks",
+          "priorities",
+          "assignments"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-task",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -651,7 +1428,42 @@
         "sc:test",
         "test"
       ],
-      "skill_name": "superclaude-test",
+      "triggers": [
+        "user asks to run tests",
+        "user asks to write tests",
+        "user wants test coverage",
+        "testing workflow request"
+      ],
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "Test file, directory, or pattern"
+          }
+        ],
+        "flags": [
+          {
+            "name": "mode",
+            "values": [
+              "run",
+              "generate",
+              "coverage",
+              "watch"
+            ],
+            "default": "run"
+          },
+          {
+            "name": "framework",
+            "values": [
+              "pytest",
+              "jest",
+              "vitest",
+              "mocha"
+            ]
+          }
+        ]
+      },
       "workflow": [
         "detect_test_framework",
         "identify_test_scope",
@@ -659,9 +1471,32 @@
         "analyze_coverage",
         "report_results"
       ],
+      "personas": [
+        "quality-engineer",
+        "python-expert"
+      ],
+      "mcp": {
+        "optional": [
+          "context7"
+        ]
+      },
       "safety": {
         "writes_code": true,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": false
+      },
+      "output_contract": {
+        "primary": "test_report",
+        "required_sections": [
+          "test_results",
+          "coverage_summary",
+          "failures_and_fixes"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-test",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     },
     {
@@ -675,7 +1510,34 @@
         "sc:troubleshoot",
         "troubleshoot"
       ],
-      "skill_name": "superclaude-troubleshoot",
+      "triggers": [
+        "user reports an error or bug",
+        "user asks to debug something",
+        "build or deployment failure",
+        "system behavior issue"
+      ],
+      "inputs": {
+        "positional": [
+          {
+            "name": "issue_description",
+            "required": false,
+            "description": "Description of the problem or error message"
+          }
+        ],
+        "flags": [
+          {
+            "name": "scope",
+            "values": [
+              "code",
+              "build",
+              "deploy",
+              "runtime",
+              "all"
+            ],
+            "default": "all"
+          }
+        ]
+      },
       "workflow": [
         "understand_symptom",
         "gather_context",
@@ -685,9 +1547,35 @@
         "propose_fix",
         "validate_fix"
       ],
+      "personas": [
+        "root-cause-analyst",
+        "python-expert",
+        "devops-architect"
+      ],
+      "mcp": {
+        "optional": [
+          "context7",
+          "tavily"
+        ]
+      },
       "safety": {
         "writes_code": true,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "diagnosis_report",
+        "required_sections": [
+          "symptom",
+          "root_cause",
+          "fix_applied",
+          "verification"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-troubleshoot",
+        "default_reasoning": "high",
+        "web_search": "optional"
       }
     },
     {
@@ -701,7 +1589,13 @@
         "sc:workflow",
         "workflow"
       ],
-      "skill_name": "superclaude-workflow",
+      "triggers": [
+        "PRD and feature specification analysis for implementation planning",
+        "Structured workflow generation for development projects",
+        "Multi-persona coordination for complex implementation strategies",
+        "Cross-session workflow management and dependency mapping"
+      ],
+      "inputs": {},
       "workflow": [
         "analyze",
         "plan",
@@ -709,9 +1603,40 @@
         "execute",
         "validate"
       ],
+      "personas": [
+        "system-architect",
+        "analyzer",
+        "frontend",
+        "backend",
+        "security",
+        "devops",
+        "project-manager"
+      ],
+      "mcp": {
+        "optional": [
+          "sequential-thinking",
+          "context7",
+          "magic",
+          "playwright"
+        ]
+      },
       "safety": {
         "writes_code": false,
-        "writes_files": true
+        "writes_files": true,
+        "requires_user_confirmation_for_scope_change": true
+      },
+      "output_contract": {
+        "primary": "workflow_spec",
+        "required_sections": [
+          "steps",
+          "dependencies",
+          "automation"
+        ]
+      },
+      "codex": {
+        "skill_name": "superclaude-workflow",
+        "default_reasoning": "medium",
+        "web_search": "optional"
       }
     }
   ]

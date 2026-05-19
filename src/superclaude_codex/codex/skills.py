@@ -59,7 +59,10 @@ def render_skill(command: CommandIR) -> str:
         lines.append("")
 
     # Codex behavior
-    if command.codex.default_reasoning != "medium" or command.codex.web_search != "optional":
+    if (
+        command.codex.default_reasoning != "medium"
+        or command.codex.web_search != "optional"
+    ):
         lines.append("## Codex Behavior")
         lines.append("")
         lines.append(f"- Reasoning effort: **{command.codex.default_reasoning}**")
@@ -96,7 +99,9 @@ def render_skill(command: CommandIR) -> str:
     lines.append("## Safety")
     lines.append("")
     if not command.safety.writes_code:
-        lines.append("Do not write or modify code unless the user explicitly requests it.")
+        lines.append(
+            "Do not write or modify code unless the user explicitly requests it."
+        )
     if command.safety.requires_user_confirmation_for_scope_change:
         lines.append(
             "Ask for user confirmation before changing scope beyond the original request."

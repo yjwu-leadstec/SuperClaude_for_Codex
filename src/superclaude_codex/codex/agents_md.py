@@ -32,21 +32,23 @@ def render_agents_block(registry: CommandRegistry) -> str:
     ]
     for cmd in sorted(commands, key=lambda c: c.display_name):
         lines.append(f"- `{cmd.display_name}` — {cmd.description}")
-    lines.extend([
-        "",
-        "### Routing",
-        "",
-    ])
+    lines.extend(
+        [
+            "",
+            "### Routing",
+            "",
+        ]
+    )
     for cmd in sorted(commands, key=lambda c: c.display_name):
-        lines.append(
-            f"- `{cmd.display_name}` uses the `{cmd.codex.skill_name}` skill."
-        )
-    lines.extend([
-        "",
-        "Do not look for or modify Claude Code configuration.",
-        "Do not read or write `~/.claude`.",
-        END_MARKER,
-    ])
+        lines.append(f"- `{cmd.display_name}` uses the `{cmd.codex.skill_name}` skill.")
+    lines.extend(
+        [
+            "",
+            "Do not look for or modify Claude Code configuration.",
+            "Do not read or write `~/.claude`.",
+            END_MARKER,
+        ]
+    )
     return "\n".join(lines)
 
 

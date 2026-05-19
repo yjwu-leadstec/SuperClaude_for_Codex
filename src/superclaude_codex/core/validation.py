@@ -58,7 +58,9 @@ def validate_command(cmd: CommandIR) -> ValidationResult:
         result.add(cid, "id", "missing")
 
     if not cmd.description:
-        result.add(cid, "description", "missing — every command must have a description")
+        result.add(
+            cid, "description", "missing — every command must have a description"
+        )
 
     if not cmd.display_name:
         result.add(cid, "display_name", "missing")

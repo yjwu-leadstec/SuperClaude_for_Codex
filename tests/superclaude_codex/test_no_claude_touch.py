@@ -67,8 +67,13 @@ class TestNoClaude:
         before = set(claude_dir.rglob("*"))
 
         runner = CliRunner()
-        for cmd in [["install"], ["doctor"], ["verify"],
-                    ["commands", "list"], ["mcp", "list"]]:
+        for cmd in [
+            ["install"],
+            ["doctor"],
+            ["verify"],
+            ["commands", "list"],
+            ["mcp", "list"],
+        ]:
             runner.invoke(main, cmd)
 
         after = set(claude_dir.rglob("*"))
@@ -79,7 +84,9 @@ class TestImportGuard:
     """Verify source code does not import from old superclaude package."""
 
     def test_no_superclaude_imports_in_source(self):
-        src = Path(__file__).resolve().parent.parent.parent / "src" / "superclaude_codex"
+        src = (
+            Path(__file__).resolve().parent.parent.parent / "src" / "superclaude_codex"
+        )
         violations = []
         for py in src.rglob("*.py"):
             content = py.read_text()
@@ -91,16 +98,23 @@ class TestImportGuard:
                     if "superclaude_codex" not in line:
                         violations.append(f"{py.relative_to(src)}:{i}: {stripped}")
         assert not violations, (
-            "Old superclaude package imported in new code:\n"
-            + "\n".join(violations)
+            "Old superclaude package imported in new code:\n" + "\n".join(violations)
         )
 
     def test_no_claude_path_references_in_source(self):
         """Check for ~/.claude references, allowing only guard/error code in paths.py."""
-        src = Path(__file__).resolve().parent.parent.parent / "src" / "superclaude_codex"
+        src = (
+            Path(__file__).resolve().parent.parent.parent / "src" / "superclaude_codex"
+        )
         # These files legitimately reference ~/.claude in guard logic,
         # generated instructions, or check labels — not actual file I/O.
-        allowed_files = {"codex/paths.py", "codex/agents_md.py", "codex/verify.py", "codex/mcp.py", "codex/uninstall.py"}
+        allowed_files = {
+            "codex/paths.py",
+            "codex/agents_md.py",
+            "codex/verify.py",
+            "codex/mcp.py",
+            "codex/uninstall.py",
+        }
         violations = []
         for py in src.rglob("*.py"):
             rel = str(py.relative_to(src))
@@ -113,7 +127,6 @@ class TestImportGuard:
                     continue
                 if "~/.claude" in line or "/.claude/" in line:
                     violations.append(f"{rel}:{i}: {stripped}")
-        assert not violations, (
-            "~/.claude references found in new code:\n"
-            + "\n".join(violations)
+        assert not violations, "~/.claude references found in new code:\n" + "\n".join(
+            violations
         )
