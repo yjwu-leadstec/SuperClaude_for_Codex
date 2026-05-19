@@ -88,9 +88,8 @@ backend-architect, business-panel-experts, deep-research-agent, deep-research, d
 |------|---------|
 | `README.md` | Project overview, quick start, 30 commands, credits |
 | `README-zh.md` / `README-ja.md` / `README-kr.md` | Translations |
-| `CLAUDE.md` | Developer guidance for Claude Code |
-| `AGENTS.md` | Codex routing configuration |
+| `AGENTS.md` | Primary Codex agent guidance |
+| `CLAUDE.md` | Compatibility guide for Claude Code users; Codex-only boundaries still apply |
 | `docs/codex/installation.md` | Install, verify, MCP, uninstall guide |
 | `docs/codex/commands.md` | Full 30-command reference |
 | `docs/codex/troubleshooting.md` | FAQ and common issues |
-| `docs/Development/` | Historical rebuild plan (archival) |
