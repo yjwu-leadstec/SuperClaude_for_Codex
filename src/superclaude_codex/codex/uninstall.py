@@ -55,8 +55,13 @@ def uninstall(codex_home: Path | None = None, dry_run: bool = False) -> list[str
         start = content.find(BEGIN_MARKER)
         end = content.find(END_MARKER)
         if start != -1 and end != -1:
+            # Remove marker block while preserving surrounding whitespace
             new_content = content[:start] + content[end + len(END_MARKER):]
-            new_content = new_content.strip() + "\n" if new_content.strip() else ""
+            # Collapse multiple blank lines left by removal, but keep file format
+            import re
+            new_content = re.sub(r"\n{3,}", "\n\n", new_content)
+            if not new_content.strip():
+                new_content = ""
             if dry_run:
                 actions.append("[dry-run] Would remove SuperClaude block from AGENTS.md")
             else:
@@ -71,7 +76,9 @@ def uninstall(codex_home: Path | None = None, dry_run: bool = False) -> list[str
         end = content.find(MCP_END)
         if start != -1 and end != -1:
             new_content = content[:start] + content[end + len(MCP_END):]
-            new_content = new_content.strip() + "\n" if new_content.strip() else ""
+            new_content = re.sub(r"\n{3,}", "\n\n", new_content)
+            if not new_content.strip():
+                new_content = ""
             if dry_run:
                 actions.append("[dry-run] Would remove MCP block from config.toml")
             else:

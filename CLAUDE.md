@@ -82,8 +82,45 @@ Fixtures provided by the plugin: `confidence_checker`, `self_check_protocol`, `r
 
 Conventional commits: `feat:`, `fix:`, `docs:`, etc. Create branches from `integration`.
 
+## SuperClaude for Codex (New Package)
+
+A separate Codex-native package lives alongside the original. **Completely isolated** — no shared imports, no `~/.claude` access.
+
+### Structure
+
+```
+pyproject-codex.toml                    # Independent package config
+src/superclaude_codex/
+├── cli/main.py                         # superclaude-codex CLI (Click)
+├── core/                               # Command IR, registry, validation
+├── codex/                              # paths, installer, agents_md, skills, mcp, verify, uninstall
+└── assets/commands/*.yaml              # 30 Command IR definitions
+         /agents/*.yaml                 # 20 Agent definitions
+tests/superclaude_codex/                # 87 tests
+tests/golden/superclaude_codex/         # 32 golden snapshot tests
+```
+
+### Commands
+
+```bash
+make dev-codex         # Install in editable mode
+make test-codex        # Run tests (119 total)
+make lint-codex        # Ruff linter
+superclaude-codex install              # Install to ~/.codex
+superclaude-codex doctor               # Health check
+superclaude-codex commands validate    # Validate all 30 command YAMLs
+superclaude-codex mcp list             # List MCP servers
+superclaude-codex uninstall            # Remove managed assets
+```
+
+### Key Constraint
+
+`src/superclaude_codex/` must NEVER import from `src/superclaude/`. Verified by `test_no_claude_touch.py`.
+
 ## Key Documentation
 
 - **PLANNING.md** — Architecture decisions, design principles, absolute rules
 - **TASK.md** — Current priorities and backlog
 - **KNOWLEDGE.md** — Accumulated insights and troubleshooting
+- **docs/Development/superclaude-for-codex-rebuild-plan.md** — Codex rebuild plan (13 phases)
+- **docs/codex/** — Codex package user documentation

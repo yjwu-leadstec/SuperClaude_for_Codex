@@ -88,13 +88,19 @@ def list_servers() -> list[MCPServer]:
 
 
 def render_mcp_block(server_ids: list[str]) -> str:
-    """Render config.toml entries for selected servers."""
+    """Render config.toml entries for selected servers.
+
+    Raises KeyError for unknown server IDs to prevent silent misconfiguration.
+    """
+    unknown = [sid for sid in server_ids if sid not in MCP_REGISTRY]
+    if unknown:
+        raise KeyError(f"Unknown MCP server(s): {', '.join(unknown)}")
+
     lines = [BEGIN_MARKER]
     for sid in server_ids:
-        server = MCP_REGISTRY.get(sid)
-        if server:
-            lines.append("")
-            lines.append(server.config_template)
+        server = MCP_REGISTRY[sid]
+        lines.append("")
+        lines.append(server.config_template)
     lines.append("")
     lines.append(END_MARKER)
     return "\n".join(lines)

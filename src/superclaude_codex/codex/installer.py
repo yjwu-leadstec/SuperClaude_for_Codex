@@ -139,37 +139,77 @@ class Installer:
         )
 
     def _commit(self) -> None:
-        """Write all files atomically."""
-        # Ensure directories exist
+        """Write all files via staging directory, then move to final location.
+
+        This ensures partial writes never leave the target in a broken state:
+        1. Write everything to a temporary staging dir
+        2. Validate staging output
+        3. Move staged files to final location
+        """
         self.codex_home.mkdir(parents=True, exist_ok=True)
-        sc_dir = get_superclaude_dir(self.codex_home)
-        sc_dir.mkdir(parents=True, exist_ok=True)
 
-        # 1. AGENTS.md
-        agents_path = get_agents_md_path(self.codex_home)
-        update_agents_md(agents_path, self._agents_block)
-        self.report.files_written.append(str(agents_path))
+        # Stage to temp directory first
+        staging = self.codex_home / ".superclaude-staging"
+        if staging.exists():
+            shutil.rmtree(staging)
+        staging.mkdir(parents=True)
 
-        # 2. Skills
-        paths = render_all_skills(self._registry, self.codex_home)
-        for p in paths:
-            self.report.files_written.append(str(p))
+        try:
+            # 1. Stage AGENTS.md (special: update in-place via marker)
+            staged_agents = staging / "AGENTS.md"
+            agents_path = get_agents_md_path(self.codex_home)
+            if agents_path.exists():
+                shutil.copy2(agents_path, staged_agents)
+            update_agents_md(staged_agents, self._agents_block)
 
-        # 3. commands.json
-        cmds_path = sc_dir / "commands.json"
-        cmds_path.write_text(self._commands_json)
-        self.report.files_written.append(str(cmds_path))
+            # 2. Stage skills
+            staged_skills = staging / "skills"
+            staged_skills.mkdir()
+            render_all_skills(self._registry, staging)
 
-        # 4. version.json
-        ver_path = sc_dir / "version.json"
-        ver_path.write_text(self._version_json)
-        self.report.files_written.append(str(ver_path))
+            # 3. Stage superclaude-for-codex data
+            staged_sc = staging / "superclaude-for-codex"
+            staged_sc.mkdir()
+            (staged_sc / "commands.json").write_text(self._commands_json)
+            (staged_sc / "version.json").write_text(self._version_json)
 
-        # 5. install-report.json (mark success before writing)
-        self.report.status = "success"
-        report_path = sc_dir / "install-report.json"
-        report_path.write_text(json.dumps(self.report.to_dict(), indent=2))
-        self.report.files_written.append(str(report_path))
+            # All staging writes succeeded — now commit to final location
+            # Move AGENTS.md
+            shutil.copy2(staged_agents, agents_path)
+            self.report.files_written.append(str(agents_path))
+
+            # Move skills
+            final_skills = get_skills_dir(self.codex_home)
+            if final_skills.exists():
+                for d in final_skills.iterdir():
+                    if d.is_dir() and d.name.startswith("superclaude-"):
+                        shutil.rmtree(d)
+            else:
+                final_skills.mkdir(parents=True)
+            for skill_dir in staged_skills.iterdir():
+                dest = final_skills / skill_dir.name
+                if dest.exists():
+                    shutil.rmtree(dest)
+                shutil.copytree(skill_dir, dest)
+                self.report.files_written.append(str(dest / "SKILL.md"))
+
+            # Move data dir
+            final_sc = get_superclaude_dir(self.codex_home)
+            final_sc.mkdir(parents=True, exist_ok=True)
+            for f in staged_sc.iterdir():
+                shutil.copy2(f, final_sc / f.name)
+                self.report.files_written.append(str(final_sc / f.name))
+
+            # Write install report (after all moves succeed)
+            self.report.status = "success"
+            report_path = final_sc / "install-report.json"
+            report_path.write_text(json.dumps(self.report.to_dict(), indent=2))
+            self.report.files_written.append(str(report_path))
+
+        finally:
+            # Always clean up staging
+            if staging.exists():
+                shutil.rmtree(staging)
 
         # Clean up backup on success
         if self._backup_dir and self._backup_dir.exists():
