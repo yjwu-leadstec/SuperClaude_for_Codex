@@ -5,7 +5,7 @@
 # This script installs the superclaude-for-codex package and sets up
 # Codex with all 30 /sc:* commands, skills, and routing.
 #
-# Requirements: Python >= 3.10, pip
+# Requirements: Python >= 3.10, pip or uv
 #
 # NOTE: This is Codex-only. It does NOT read or write ~/.claude.
 
@@ -16,6 +16,17 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 info()  { echo "  $*"; }
 ok()    { echo "  ✅ $*"; }
 fail()  { echo "  ❌ $*" >&2; }
+
+# Helper: run superclaude-codex via the correct method
+run_cli() {
+    if [ -n "${USE_UV:-}" ]; then
+        uv run superclaude-codex "$@"
+    elif [ -f "$SCRIPT_DIR/.venv/bin/superclaude-codex" ]; then
+        "$SCRIPT_DIR/.venv/bin/superclaude-codex" "$@"
+    else
+        superclaude-codex "$@"
+    fi
+}
 
 echo ""
 echo "🚀 SuperClaude for Codex Installer"
@@ -48,35 +59,28 @@ info "Installing superclaude-for-codex..."
 cd "$SCRIPT_DIR"
 
 if command -v uv &>/dev/null; then
-    # uv: create venv if needed, then install
+    USE_UV=1
     if [ ! -d ".venv" ]; then
         uv venv --python "$PYTHON" 2>&1 | tail -1
     fi
     uv pip install -e ".[dev]" 2>&1 | tail -3
-elif command -v pip &>/dev/null; then
-    "$PYTHON" -m pip install -e ".[dev]" 2>&1 | tail -3
 else
     "$PYTHON" -m pip install -e ".[dev]" 2>&1 | tail -3
 fi
 ok "Package installed"
 
 # 3. Verify CLI
-if ! command -v superclaude-codex &>/dev/null; then
-    fail "superclaude-codex command not found on PATH"
-    info "You may need to add pip's bin directory to your PATH"
-    exit 1
-fi
-ok "CLI available: $(superclaude-codex --version)"
+ok "CLI available: $(run_cli --version)"
 
 # 4. Install to Codex
 info "Installing commands and skills to Codex..."
-superclaude-codex install
+run_cli install
 ok "Installation complete"
 
 # 5. Doctor check
 echo ""
 info "Running health check..."
-superclaude-codex doctor
+run_cli doctor
 
 echo ""
 echo "==================================="

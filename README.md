@@ -186,15 +186,15 @@ superclaude-codex uninstall
 ## Development
 
 ```bash
-make dev-codex         # Install in editable mode
-make test-codex        # Run 119 tests
-make lint-codex        # Ruff linter
+make install           # Install in editable mode
+make test              # Run 119 tests
+make lint              # Ruff linter
 ```
 
 ### Project Structure
 
 ```
-pyproject-codex.toml                    # Package configuration
+pyproject.toml                          # Package configuration
 src/superclaude_codex/
 ├── cli/main.py                         # superclaude-codex CLI
 ├── core/                               # Command IR, registry, validation
