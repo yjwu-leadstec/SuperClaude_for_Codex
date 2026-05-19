@@ -202,8 +202,8 @@ src/superclaude_codex/
 └── assets/
     ├── commands/*.yaml                 # 30 Command IR definitions
     └── agents/*.yaml                   # 20 Agent definitions
-tests/superclaude_codex/                # 87 functional tests
-tests/golden/                           # 32 golden snapshot tests
+tests/superclaude_codex/                # Functional tests
+tests/golden/                           # Golden snapshot tests
 ```
 
 ---

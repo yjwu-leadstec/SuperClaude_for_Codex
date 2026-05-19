@@ -125,6 +125,15 @@ class Installer:
                 self._backups["skills"] = backup
                 self.report.files_backed_up.append(str(skills_dir))
 
+            sc_dir = get_superclaude_dir(self.codex_home)
+            if sc_dir.exists():
+                backup = self._backup_dir / "superclaude-for-codex"
+                if backup.exists():
+                    shutil.rmtree(backup)
+                shutil.copytree(sc_dir, backup)
+                self._backups["superclaude-for-codex"] = backup
+                self.report.files_backed_up.append(str(sc_dir))
+
     def _stage(self) -> None:
         """Validate all outputs can be rendered (in memory)."""
         # Render AGENTS.md block
@@ -238,9 +247,15 @@ class Installer:
                 if d.is_dir() and d.name.startswith("superclaude-"):
                     shutil.rmtree(d)
 
-        # 2. Remove data dir if it was created by this install
+        # 2. Restore or remove data dir
+        sc_backup = self._backups.get("superclaude-for-codex")
         sc_dir = get_superclaude_dir(self.codex_home)
-        if sc_dir.exists() and "superclaude-for-codex" not in self._backups:
+        if sc_backup and sc_backup.exists():
+            if sc_dir.exists():
+                shutil.rmtree(sc_dir)
+            shutil.copytree(sc_backup, sc_dir)
+        elif sc_dir.exists() and "superclaude-for-codex" not in self._backups:
+            # Only remove if it was newly created (no prior backup means it didn't exist)
             shutil.rmtree(sc_dir)
 
         # 3. Clean up backup dir

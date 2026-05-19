@@ -57,8 +57,8 @@ SuperClaude for Codex is a **Codex-native** Python package providing 30 structur
 ## Testing
 
 ```
-tests/superclaude_codex/    # 87 functional tests
-tests/golden/               # 32 golden snapshot tests
+tests/superclaude_codex/    # Functional tests
+tests/golden/               # Golden snapshot tests
 ```
 
 Key test files:
