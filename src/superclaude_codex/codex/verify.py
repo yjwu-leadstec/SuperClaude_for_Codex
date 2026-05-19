@@ -7,7 +7,12 @@ from pathlib import Path
 
 import click
 
-from superclaude_codex.codex.agents_md import BEGIN_MARKER
+from superclaude_codex.codex.agents_md import (
+    BEGIN_MARKER,
+    END_MARKER,
+    AgentsBlockError,
+    extract_existing_block,
+)
 from superclaude_codex.codex.paths import resolve_codex_home
 
 
@@ -43,10 +48,15 @@ def run_doctor() -> tuple[int, int]:
     agents = home / "AGENTS.md"
     if agents.exists():
         content = agents.read_text()
-        has_marker = BEGIN_MARKER in content
-        if _check("AGENTS.md", has_marker,
-                   "SuperClaude block present" if has_marker else "marker block missing"):
-            passed += 1
+        try:
+            block = extract_existing_block(content)
+            if block and BEGIN_MARKER in block and END_MARKER in block:
+                if _check("AGENTS.md", True, "SuperClaude block present"):
+                    passed += 1
+            else:
+                _check("AGENTS.md", False, "marker block missing")
+        except AgentsBlockError as exc:
+            _check("AGENTS.md", False, f"corrupt markers: {exc}")
     else:
         _check("AGENTS.md", False, "file not found")
 

@@ -16,7 +16,7 @@ uv pip install -e ".[dev]"                              # Install in dev mode
 
 ```bash
 make install       # Install in editable mode with dev deps
-make test          # Run full test suite (119 tests)
+make test          # Run full test suite
 make lint          # Ruff linter
 make format        # Ruff formatter
 make doctor        # Health check

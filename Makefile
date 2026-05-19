@@ -13,15 +13,15 @@ test:
 	@echo "Running tests..."
 	uv run pytest tests/superclaude_codex/ tests/golden/ -v
 
-# Linting
+# Linting (matches CI: src + tests)
 lint:
 	@echo "Running linter..."
-	uv run ruff check src/superclaude_codex/
+	uv run ruff check src/superclaude_codex/ tests/
 
 # Format code
 format:
 	@echo "Formatting code..."
-	uv run ruff format src/superclaude_codex/
+	uv run ruff format src/superclaude_codex/ tests/
 
 # Health check
 doctor:
@@ -45,8 +45,8 @@ help:
 	@echo "  ./install-codex.sh - Full install with Codex setup"
 	@echo ""
 	@echo "🔧 Development:"
-	@echo "  make test        - Run test suite (119 tests)"
-	@echo "  make lint        - Run linter (ruff check)"
+	@echo "  make test        - Run test suite"
+	@echo "  make lint        - Run linter (ruff check, src + tests)"
 	@echo "  make format      - Format code (ruff format)"
 	@echo "  make doctor      - Run health check"
 	@echo "  make clean       - Clean build artifacts"

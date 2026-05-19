@@ -187,7 +187,7 @@ superclaude-codex uninstall
 
 ```bash
 make install           # Install in editable mode
-make test              # Run 119 tests
+make test              # Run full test suite
 make lint              # Ruff linter
 ```
 

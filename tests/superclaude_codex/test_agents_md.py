@@ -107,3 +107,38 @@ class TestUpdateAgentsMd:
         update_agents_md(path, block)
         second = path.read_text()
         assert first == second
+
+
+class TestCorruptMarkers:
+    def test_single_begin_raises(self, tmp_path):
+        import pytest
+
+        from superclaude_codex.codex.agents_md import AgentsBlockError
+        path = tmp_path / "AGENTS.md"
+        path.write_text(f"Content\n{BEGIN_MARKER}\nstuff\n")
+        reg = _make_registry(tmp_path)
+        block = render_agents_block(reg)
+        with pytest.raises(AgentsBlockError):
+            update_agents_md(path, block)
+
+    def test_single_end_raises(self, tmp_path):
+        import pytest
+
+        from superclaude_codex.codex.agents_md import AgentsBlockError
+        path = tmp_path / "AGENTS.md"
+        path.write_text(f"Content\n{END_MARKER}\n")
+        reg = _make_registry(tmp_path)
+        block = render_agents_block(reg)
+        with pytest.raises(AgentsBlockError):
+            update_agents_md(path, block)
+
+    def test_duplicate_begin_raises(self, tmp_path):
+        import pytest
+
+        from superclaude_codex.codex.agents_md import AgentsBlockError
+        path = tmp_path / "AGENTS.md"
+        path.write_text(f"{BEGIN_MARKER}\nfoo\n{BEGIN_MARKER}\nbar\n{END_MARKER}\n")
+        reg = _make_registry(tmp_path)
+        block = render_agents_block(reg)
+        with pytest.raises(AgentsBlockError):
+            update_agents_md(path, block)

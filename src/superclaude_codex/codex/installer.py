@@ -216,21 +216,33 @@ class Installer:
             shutil.rmtree(self._backup_dir)
 
     def _rollback(self) -> None:
-        """Restore backed-up files on failure."""
-        if not self._backups:
-            return
-
+        """Restore backed-up files on failure, and clean up any new files written."""
+        # 1. Restore backed-up files to their original state
         agents_backup = self._backups.get("AGENTS.md")
+        agents_path = get_agents_md_path(self.codex_home)
         if agents_backup and agents_backup.exists():
-            target = get_agents_md_path(self.codex_home)
-            shutil.copy2(agents_backup, target)
+            shutil.copy2(agents_backup, agents_path)
+        elif agents_path.exists() and "AGENTS.md" not in self._backups:
+            # File was newly created by this install — remove it
+            agents_path.unlink()
 
         skills_backup = self._backups.get("skills")
+        skills_dir = get_skills_dir(self.codex_home)
         if skills_backup and skills_backup.exists():
-            target = get_skills_dir(self.codex_home)
-            if target.exists():
-                shutil.rmtree(target)
-            shutil.copytree(skills_backup, target)
+            if skills_dir.exists():
+                shutil.rmtree(skills_dir)
+            shutil.copytree(skills_backup, skills_dir)
+        elif skills_dir.exists():
+            # Remove only superclaude-managed skills created in this run
+            for d in skills_dir.iterdir():
+                if d.is_dir() and d.name.startswith("superclaude-"):
+                    shutil.rmtree(d)
 
+        # 2. Remove data dir if it was created by this install
+        sc_dir = get_superclaude_dir(self.codex_home)
+        if sc_dir.exists() and "superclaude-for-codex" not in self._backups:
+            shutil.rmtree(sc_dir)
+
+        # 3. Clean up backup dir
         if self._backup_dir and self._backup_dir.exists():
             shutil.rmtree(self._backup_dir)
