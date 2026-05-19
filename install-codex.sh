@@ -91,8 +91,13 @@ echo "  /sc:brainstorm \"your idea here\""
 echo "  /sc:implement \"feature description\""
 echo "  /sc                                  # list all 30 commands"
 echo ""
+if [ -n "${USE_UV:-}" ]; then
+    CLI_PREFIX="uv run "
+else
+    CLI_PREFIX=""
+fi
 echo "Manage:"
-echo "  superclaude-codex doctor             # health check"
-echo "  superclaude-codex mcp list           # MCP servers"
-echo "  superclaude-codex uninstall          # remove"
+echo "  ${CLI_PREFIX}superclaude-codex doctor             # health check"
+echo "  ${CLI_PREFIX}superclaude-codex mcp list           # MCP servers"
+echo "  ${CLI_PREFIX}superclaude-codex uninstall          # remove"
 echo "==================================="

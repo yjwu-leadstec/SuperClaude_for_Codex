@@ -72,3 +72,25 @@ jobs:
           CODEX_HOME="$tmpdir/.codex" uv run superclaude-codex doctor
           CODEX_HOME="$tmpdir/.codex" uv run superclaude-codex commands validate
           rm -rf "$tmpdir"
+
+  script-smoke:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Run install-codex.sh from clean state
+        run: |
+          rm -rf .venv
+          tmpdir=$(mktemp -d)
+          CODEX_HOME="$tmpdir/.codex" ./install-codex.sh
+          test -f "$tmpdir/.codex/AGENTS.md"
+          test -f "$tmpdir/.codex/superclaude-for-codex/commands.json"
+          rm -rf "$tmpdir"
