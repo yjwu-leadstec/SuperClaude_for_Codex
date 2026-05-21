@@ -1,0 +1,175 @@
+schema_version: 1
+flags:
+- name: brainstorm
+  category: mode_activation
+  type: boolean
+  trigger: Vague project requests, exploration keywords
+  description: Activate collaborative discovery and requirement elicitation.
+- name: introspect
+  category: mode_activation
+  type: boolean
+  trigger: Self-analysis, error recovery, complex problem solving
+  description: Use a transparent meta-cognition mode when reasoning about the task.
+- name: task-manage
+  category: mode_activation
+  type: boolean
+  trigger: Multi-step operations or broad scope
+  description: Organize work through task management and progressive execution.
+- name: orchestrate
+  category: mode_activation
+  type: boolean
+  trigger: Multi-tool operations or parallel execution opportunities
+  description: Optimize tool selection and coordinate parallel work.
+- name: token-efficient
+  category: mode_activation
+  type: boolean
+  trigger: Context pressure or large-scale operations
+  description: Use compressed communication while preserving essential detail.
+- name: c7
+  aliases:
+  - context7
+  category: mcp_server
+  type: boolean
+  trigger: Library imports, framework questions, official documentation needs
+  description: Prefer Context7 for curated documentation lookup.
+- name: seq
+  aliases:
+  - sequential
+  category: mcp_server
+  type: boolean
+  trigger: Complex debugging, system design, multi-component analysis
+  description: Prefer Sequential for structured multi-step reasoning.
+- name: magic
+  category: mcp_server
+  type: boolean
+  trigger: UI component requests, design systems, frontend development
+  description: Prefer Magic for modern UI generation patterns.
+- name: morph
+  aliases:
+  - morphllm
+  category: mcp_server
+  type: boolean
+  trigger: Bulk code transformations, pattern edits, style enforcement
+  description: Prefer Morphllm for efficient multi-file transformations.
+- name: serena
+  category: mcp_server
+  type: boolean
+  trigger: Symbol operations, project memory, large codebase navigation
+  description: Prefer Serena for semantic code understanding and project memory.
+- name: play
+  aliases:
+  - playwright
+  category: mcp_server
+  type: boolean
+  trigger: Browser testing, E2E scenarios, visual validation
+  description: Prefer Playwright for browser automation and testing.
+- name: chrome
+  aliases:
+  - devtools
+  category: mcp_server
+  type: boolean
+  trigger: Performance auditing, layout debugging, console or network analysis
+  description: Prefer Chrome DevTools for live browser inspection.
+- name: tavily
+  category: mcp_server
+  type: boolean
+  trigger: Web search requests and current information needs
+  description: Prefer Tavily for web research and real-time information.
+- name: frontend-verify
+  category: mcp_server
+  type: boolean
+  trigger: UI testing, frontend debugging, component verification
+  description: Combine browser, devtools, and semantic checks for frontend validation.
+- name: all-mcp
+  category: mcp_server
+  type: boolean
+  trigger: Maximum complexity or multi-domain problems
+  description: Enable all relevant MCP capabilities.
+- name: no-mcp
+  category: mcp_server
+  type: boolean
+  trigger: Native-only execution or performance priority
+  description: Avoid MCP usage and rely on native Codex tools.
+- name: think
+  category: analysis_depth
+  type: boolean
+  trigger: Moderate multi-component analysis
+  description: Use standard structured analysis.
+- name: think-hard
+  category: analysis_depth
+  type: boolean
+  trigger: Architecture or system-wide dependency analysis
+  description: Use deeper structured analysis.
+- name: ultrathink
+  category: analysis_depth
+  type: boolean
+  trigger: Critical redesign, legacy modernization, complex debugging
+  description: Use maximum-depth structured analysis.
+- name: delegate
+  category: execution_control
+  values:
+  - auto
+  - files
+  - folders
+  trigger: Large file or directory scope
+  description: Use sub-agent delegation with the selected routing strategy.
+- name: concurrency
+  category: execution_control
+  type: integer
+  value_name: n
+  trigger: Parallel operation control
+  description: Limit concurrent work, normally in the range 1-15.
+- name: loop
+  category: execution_control
+  type: boolean
+  trigger: Polish, refine, enhance, or improve requests
+  description: Use iterative improvement cycles with validation gates.
+- name: iterations
+  category: execution_control
+  type: integer
+  value_name: n
+  trigger: Explicit cycle-count requirements
+  description: Set the number of improvement cycles.
+- name: validate
+  category: execution_control
+  type: boolean
+  trigger: Risky, production, or high-resource operations
+  description: Add pre-execution assessment and validation gates.
+- name: safe-mode
+  category: execution_control
+  type: boolean
+  trigger: Critical operations or production environments
+  description: Use conservative execution with maximum validation.
+- name: uc
+  aliases:
+  - ultracompressed
+  category: output_optimization
+  type: boolean
+  trigger: Context pressure or efficiency requirements
+  description: Use ultra-compressed output.
+- name: scope
+  category: output_optimization
+  values:
+  - file
+  - module
+  - project
+  - system
+  trigger: Explicit analysis boundary needs
+  description: Define the operational or analysis scope.
+- name: focus
+  category: output_optimization
+  values:
+  - performance
+  - security
+  - quality
+  - architecture
+  - accessibility
+  - testing
+  trigger: Domain-specific analysis or optimization
+  description: Focus output and reasoning on the selected domain.
+priority_rules:
+- "Safety first: --safe-mode > --validate > optimization flags."
+- "Explicit override: user-provided flags take precedence over auto-detection."
+- "Depth hierarchy: --ultrathink > --think-hard > --think."
+- "MCP control: --no-mcp overrides individual MCP flags."
+- "Scope precedence: system > project > module > file."

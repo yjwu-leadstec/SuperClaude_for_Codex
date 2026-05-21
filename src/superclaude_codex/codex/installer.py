@@ -7,6 +7,7 @@ Ensures user environment is never left in a broken state.
 from __future__ import annotations
 
 import json
+import re
 import shutil
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -18,11 +19,25 @@ from superclaude_codex.codex.agents_md import render_agents_block, update_agents
 from superclaude_codex.codex.paths import (
     assert_not_claude_path,
     get_agents_md_path,
+    get_config_toml_path,
     get_skills_dir,
     get_superclaude_dir,
     resolve_codex_home,
 )
-from superclaude_codex.codex.skills import render_all_skills
+from superclaude_codex.codex.plugin import (
+    BEGIN_MARKER as PLUGIN_BEGIN,
+)
+from superclaude_codex.codex.plugin import (
+    END_MARKER as PLUGIN_END,
+)
+from superclaude_codex.codex.plugin import (
+    get_installed_plugin_dir,
+    install_plugin_cache,
+    render_plugin_config_block,
+    update_config_toml,
+    write_plugin,
+)
+from superclaude_codex.codex.skills import normalize_ui_locale, render_all_skills
 from superclaude_codex.core.registry import CommandRegistry
 
 
@@ -33,6 +48,8 @@ class InstallReport:
     files_written: list[str] = field(default_factory=list)
     files_backed_up: list[str] = field(default_factory=list)
     commands_installed: int = 0
+    native_plugin_enabled: bool = False
+    ui_locale: str = "en"
     status: str = "pending"
     error: str = ""
     timestamp: str = ""
@@ -44,6 +61,8 @@ class InstallReport:
             "files_written": self.files_written,
             "files_backed_up": self.files_backed_up,
             "commands_installed": self.commands_installed,
+            "native_plugin_enabled": self.native_plugin_enabled,
+            "ui_locale": self.ui_locale,
             "status": self.status,
             "error": self.error,
             "timestamp": self.timestamp,
@@ -62,11 +81,17 @@ class Installer:
         codex_home: Path | None = None,
         force: bool = False,
         dry_run: bool = False,
+        native_plugin: bool = False,
+        ui_locale: str = "auto",
     ):
         self.codex_home = codex_home or resolve_codex_home()
         self.force = force
         self.dry_run = dry_run
+        self.native_plugin = native_plugin
+        self.ui_locale = normalize_ui_locale(ui_locale)
         self.report = InstallReport(codex_home=str(self.codex_home))
+        self.report.native_plugin_enabled = native_plugin
+        self.report.ui_locale = self.ui_locale
         self._backups: dict[str, Path] = {}
         self._backup_dir: Path | None = None
         self._registry: CommandRegistry | None = None
@@ -132,6 +157,13 @@ class Installer:
                 shutil.copy2(agents_md, backup)
                 self._backups["AGENTS.md"] = backup
                 self.report.files_backed_up.append(str(agents_md))
+
+            config_toml = get_config_toml_path(self.codex_home)
+            if config_toml.exists():
+                backup = self._backup_dir / "config.toml"
+                shutil.copy2(config_toml, backup)
+                self._backups["config.toml"] = backup
+                self.report.files_backed_up.append(str(config_toml))
 
             skills_dir = get_skills_dir(self.codex_home)
             if skills_dir.exists():
@@ -221,7 +253,7 @@ class Installer:
             # 2. Stage skills
             staged_skills = staging / "skills"
             staged_skills.mkdir()
-            render_all_skills(self._registry, staging)
+            render_all_skills(self._registry, staging, self.ui_locale)
 
             # 3. Stage superclaude-for-codex data
             staged_sc = staging / "superclaude-for-codex"
@@ -229,6 +261,8 @@ class Installer:
             (staged_sc / "commands.json").write_text(self._commands_json)
             (staged_sc / "agents.json").write_text(self._agents_json)
             (staged_sc / "version.json").write_text(self._version_json)
+            if self.native_plugin:
+                write_plugin(self._registry, staged_sc / "marketplace")
 
             # All staging writes succeeded — now commit to final location
             # Move AGENTS.md
@@ -254,8 +288,46 @@ class Installer:
             final_sc = get_superclaude_dir(self.codex_home)
             final_sc.mkdir(parents=True, exist_ok=True)
             for f in staged_sc.iterdir():
-                shutil.copy2(f, final_sc / f.name)
+                dest = final_sc / f.name
+                if f.is_dir():
+                    if dest.exists():
+                        shutil.rmtree(dest)
+                    shutil.copytree(f, dest)
+                else:
+                    shutil.copy2(f, dest)
                 self.report.files_written.append(str(final_sc / f.name))
+
+            config_path = get_config_toml_path(self.codex_home)
+            if self.native_plugin:
+                # Register and enable native Codex plugin commands.
+                installed_plugin = install_plugin_cache(self.codex_home)
+                self.report.files_written.append(str(installed_plugin))
+
+                plugin_block = render_plugin_config_block(self.codex_home)
+                update_config_toml(config_path, plugin_block)
+                self.report.files_written.append(str(config_path))
+            else:
+                # Keep the default install identical to cc-switch-style standalone skills.
+                stale_marketplace = final_sc / "marketplace"
+                if stale_marketplace.exists():
+                    shutil.rmtree(stale_marketplace)
+
+                installed_plugin = get_installed_plugin_dir(self.codex_home)
+                if installed_plugin.exists():
+                    shutil.rmtree(installed_plugin)
+                for parent in (installed_plugin.parent, installed_plugin.parent.parent):
+                    if parent.exists() and not any(parent.iterdir()):
+                        parent.rmdir()
+
+                if config_path.exists():
+                    content = config_path.read_text()
+                    start = content.find(PLUGIN_BEGIN)
+                    end = content.find(PLUGIN_END)
+                    if start != -1 and end != -1:
+                        new_content = content[:start] + content[end + len(PLUGIN_END) :]
+                        new_content = re.sub(r"\n{3,}", "\n\n", new_content)
+                        config_path.write_text(new_content)
+                        self.report.files_written.append(str(config_path))
 
             # Write install report (after all moves succeed)
             self.report.status = "success"
@@ -297,6 +369,13 @@ class Installer:
             for d in skills_dir.iterdir():
                 if d.is_dir() and d.name.startswith("superclaude-"):
                     shutil.rmtree(d)
+
+        config_backup = self._backups.get("config.toml")
+        config_path = get_config_toml_path(self.codex_home)
+        if config_backup and config_backup.exists():
+            shutil.copy2(config_backup, config_path)
+        elif config_path.exists() and "config.toml" not in self._backups:
+            config_path.unlink()
 
         # 2. Restore or remove data dir
         sc_backup = self._backups.get("superclaude-for-codex")

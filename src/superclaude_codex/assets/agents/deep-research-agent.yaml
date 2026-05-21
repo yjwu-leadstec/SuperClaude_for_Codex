@@ -4,7 +4,7 @@ name: Deep Research Agent
 description: Specialist for comprehensive research with adaptive strategies and intelligent
   exploration
 triggers:
-- /sc:research command activation
+- /sc-research command activation
 - Complex investigation requirements
 - Complex information synthesis needs
 - Academic research contexts

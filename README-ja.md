@@ -23,9 +23,13 @@
 
 ## 概要
 
-SuperClaude for Codex は OpenAI Codex に **30 個の `/sc:*` コマンド** と **20 個のスペシャリストエージェント** を提供します。Codex で `/sc:brainstorm`、`/sc:implement`、`/sc:test` と入力するだけで、構造化されたワークフローが起動します。
+SuperClaude for Codex は OpenAI Codex に **30 個の `/sc-*` コマンド** と **20 個のスペシャリストエージェント** を提供します。Codex で `/sc-brainstorm`、`/sc-implement`、`/sc-test` と入力するだけで、構造化されたワークフローが起動します。
 
 **重要**: これは **Codex 専用** プロジェクトです。`~/.claude` を読み書きしません。すべて `~/.codex/` にインストールされます。
+
+**コマンド構文**: 初期リリースでは移行しやすいように元の SuperClaude 形式 `/sc:*` を使っていました。現在の推奨構文は Codex 向けの `/sc-*` ですが、`/sc:implement` などの旧エイリアスも引き続き使えます。
+
+**ネイティブ Codex プラグイン**: インストール時に SuperClaude for Codex はローカル Codex プラグインとして登録され、ネイティブコマンドファイルも生成されます。Codex を再起動すると、`/sc-*` コマンドが slash command 補完に表示されるようになります。
 
 ---
 
@@ -40,9 +44,9 @@ cd SuperClaude_for_Codex
 インストール後、Codex で入力:
 
 ```
-/sc:brainstorm "ユーザー管理 API を設計"
-/sc:implement "認証ミドルウェアを追加"
-/sc:test
+/sc-brainstorm "ユーザー管理 API を設計"
+/sc-implement "認証ミドルウェアを追加"
+/sc-test
 /sc                    # 全30コマンドを表示
 ```
 

@@ -49,6 +49,56 @@ class TestInstallerCommit:
         assert data["schema_version"] == 1
         assert len(data["commands"]) == 30
 
+    def test_default_install_does_not_enable_native_plugin(self, tmp_codex_home):
+        installer = Installer(codex_home=tmp_codex_home)
+        installer.run()
+        assert not (tmp_codex_home / "superclaude-for-codex" / "marketplace").exists()
+        assert not (tmp_codex_home / "plugins" / "cache" / "superclaude-for-codex").exists()
+
+        config = tmp_codex_home / "config.toml"
+        if config.exists():
+            content = config.read_text()
+            assert "[marketplaces.superclaude-for-codex]" not in content
+            assert (
+                '[plugins."superclaude-for-codex@superclaude-for-codex"]'
+                not in content
+            )
+
+    def test_creates_native_plugin_commands_when_enabled(self, tmp_codex_home):
+        installer = Installer(codex_home=tmp_codex_home, native_plugin=True)
+        installer.run()
+        plugin = (
+            tmp_codex_home
+            / "superclaude-for-codex"
+            / "marketplace"
+            / "plugins"
+            / "superclaude-for-codex"
+        )
+        assert (plugin / ".codex-plugin" / "plugin.json").exists()
+        assert (plugin / "commands" / "sc-implement.md").exists()
+        assert (plugin / "commands" / "sc-test.md").exists()
+        assert not (plugin / "skills").exists()
+        installed_plugin = (
+            tmp_codex_home
+            / "plugins"
+            / "cache"
+            / "superclaude-for-codex"
+            / "superclaude-for-codex"
+            / "local"
+        )
+        assert (installed_plugin / ".codex-plugin" / "plugin.json").exists()
+        assert (installed_plugin / "commands" / "sc-implement.md").exists()
+        assert not (installed_plugin / "skills").exists()
+
+    def test_enables_native_plugin_in_config_when_enabled(self, tmp_codex_home):
+        installer = Installer(codex_home=tmp_codex_home, native_plugin=True)
+        installer.run()
+        config = tmp_codex_home / "config.toml"
+        assert config.exists()
+        content = config.read_text()
+        assert "[marketplaces.superclaude-for-codex]" in content
+        assert '[plugins."superclaude-for-codex@superclaude-for-codex"]' in content
+
     def test_creates_version_json(self, tmp_codex_home):
         installer = Installer(codex_home=tmp_codex_home)
         installer.run()
@@ -58,13 +108,48 @@ class TestInstallerCommit:
         assert data["version"] == "0.1.0"
 
     def test_creates_install_report(self, tmp_codex_home):
-        installer = Installer(codex_home=tmp_codex_home)
+        installer = Installer(codex_home=tmp_codex_home, ui_locale="en")
         installer.run()
         report = tmp_codex_home / "superclaude-for-codex" / "install-report.json"
         assert report.exists()
         data = json.loads(report.read_text())
         assert data["status"] == "success"
         assert data["commands_installed"] == 30
+        assert data["native_plugin_enabled"] is False
+        assert data["ui_locale"] == "en"
+
+    def test_locale_zh_cn_writes_ui_description(self, tmp_codex_home):
+        installer = Installer(codex_home=tmp_codex_home, ui_locale="zh-CN")
+        installer.run()
+        metadata = (
+            tmp_codex_home
+            / "skills"
+            / "superclaude-save"
+            / "agents"
+            / "openai.yaml"
+        )
+        content = metadata.read_text()
+        assert 'display_name: "sc-save"' in content
+        assert 'short_description: "保存会话上下文、学习记录和检查点"' in content
+
+    def test_locale_auto_writes_traditional_chinese_description(
+        self, tmp_codex_home, monkeypatch
+    ):
+        monkeypatch.delenv("LC_ALL", raising=False)
+        monkeypatch.delenv("LC_MESSAGES", raising=False)
+        monkeypatch.setenv("LANG", "zh_TW.UTF-8")
+        installer = Installer(codex_home=tmp_codex_home, ui_locale="auto")
+        installer.run()
+        metadata = (
+            tmp_codex_home
+            / "skills"
+            / "superclaude-save"
+            / "agents"
+            / "openai.yaml"
+        )
+        content = metadata.read_text()
+        assert 'display_name: "sc-save"' in content
+        assert 'short_description: "儲存會話上下文、學習記錄和檢查點"' in content
 
     def test_report_success(self, tmp_codex_home):
         installer = Installer(codex_home=tmp_codex_home)

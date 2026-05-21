@@ -3,11 +3,11 @@ name: superclaude-analyze
 description: Comprehensive code analysis across quality, security, performance, and architecture.
 ---
 
-# /sc:analyze
+# /sc-analyze
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:analyze`.
+Use this skill when the user invokes `/sc-analyze`.
 Also activate when:
 - user asks to analyze code
 - user wants a code review
@@ -16,15 +16,28 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-analyze`
 - `/sc:analyze`
+- `sc-analyze`
 - `sc:analyze`
 - `analyze`
 
 ## Inputs
 
-- **target** (optional): File, directory, or pattern to analyze (default ".")
-- `--focus` [quality, security, performance, architecture, all] (default: all)
-- `--depth` [quick, standard, deep] (default: standard)
+- `[target]` (optional): File, directory, module, or project area to analyze.
+- `--focus` `quality|security|performance|architecture`: Analysis focus domain.
+- `--depth` `quick|deep`: Analysis depth.
+- `--format` `text|json|report`: Output format.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Codex Behavior
 
@@ -67,4 +80,4 @@ Return a structured **analysis report** containing:
 
 ## Completion
 
-After completing `/sc:analyze`, suggest relevant follow-up commands.
+After completing `/sc-analyze`, suggest relevant follow-up commands.

@@ -1,11 +1,12 @@
 schema_version: 1
 id: build
-display_name: /sc:build
+display_name: /sc-build
 category: development
-description: Build, compile, and package projects with intelligent error handling
-  and optimization
+description: Build, compile, and package projects with intelligent error handling and optimization
 aliases:
+- /sc-build
 - /sc:build
+- sc-build
 - sc:build
 - build
 triggers:
@@ -38,3 +39,27 @@ codex:
   skill_name: superclaude-build
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: target
+    required: false
+    description: Project, package, app, or component to build.
+  flags:
+  - name: type
+    values:
+    - dev
+    - prod
+    - test
+    description: Build type.
+  - name: clean
+    type: boolean
+    description: Clean build artifacts before building.
+  - name: optimize
+    type: boolean
+    description: Enable production optimization when building.
+  - name: verbose
+    type: boolean
+    description: Show detailed build output and diagnostics.
+  examples:
+  - /sc-build --type prod --clean --optimize
+  - /sc-build frontend --verbose

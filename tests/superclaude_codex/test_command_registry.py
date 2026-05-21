@@ -12,10 +12,16 @@ from superclaude_codex.core.validation import validate_command, validate_no_dupl
 VALID_COMMAND = {
     "schema_version": 1,
     "id": "brainstorm",
-    "display_name": "/sc:brainstorm",
+    "display_name": "/sc-brainstorm",
     "category": "discovery",
     "description": "Interactive requirements discovery.",
-    "aliases": ["/sc:brainstorm", "sc:brainstorm", "brainstorm"],
+    "aliases": [
+        "/sc-brainstorm",
+        "/sc:brainstorm",
+        "sc-brainstorm",
+        "sc:brainstorm",
+        "brainstorm",
+    ],
     "triggers": ["user wants to explore an idea"],
     "workflow": ["understand_request", "generate_alternatives"],
     "personas": ["analyst", "product"],
@@ -42,7 +48,8 @@ class TestCommandIR:
         cmd = CommandIR.from_dict(VALID_COMMAND)
         assert cmd.id == "brainstorm"
         assert cmd.schema_version == 1
-        assert cmd.display_name == "/sc:brainstorm"
+        assert cmd.display_name == "/sc-brainstorm"
+        assert "/sc-brainstorm" in cmd.aliases
         assert "/sc:brainstorm" in cmd.aliases
         assert cmd.safety.writes_code is False
         assert cmd.output_contract.primary == "design_doc"
@@ -60,7 +67,13 @@ class TestCommandIR:
         assert d["id"] == "brainstorm"
         assert d["schema_version"] == 1
         assert d["codex"]["skill_name"] == "superclaude-brainstorm"
-        assert d["aliases"] == ["/sc:brainstorm", "sc:brainstorm", "brainstorm"]
+        assert d["aliases"] == [
+            "/sc-brainstorm",
+            "/sc:brainstorm",
+            "sc-brainstorm",
+            "sc:brainstorm",
+            "brainstorm",
+        ]
         assert d["workflow"] == ["understand_request", "generate_alternatives"]
         assert "writes_code" in d["safety"]
         assert d["personas"] == ["analyst", "product"]
@@ -104,7 +117,7 @@ class TestValidation:
         cmd = CommandIR.from_dict(data)
         result = validate_command(cmd)
         assert not result.is_valid
-        assert any("/sc:" in e.message for e in result.errors)
+        assert any("/sc-*" in e.message for e in result.errors)
 
     def test_empty_workflow(self):
         data = {**VALID_COMMAND, "workflow": []}
@@ -129,7 +142,7 @@ class TestValidation:
         cmd2_data = {
             **VALID_COMMAND,
             "id": "design",
-            "aliases": ["/sc:brainstorm", "/sc:design"],
+            "aliases": ["/sc-brainstorm", "/sc-design"],
         }
         cmd2 = CommandIR.from_dict(cmd2_data)
         result = validate_no_duplicates([cmd1, cmd2])
@@ -149,6 +162,17 @@ class TestRegistry:
         reg.load_all()
         assert len(reg.list_commands()) == 1
 
+    def test_packaged_commands_have_inputs(self):
+        reg = CommandRegistry()
+        reg.load_all()
+        missing = [
+            cmd.id
+            for cmd in reg.list_commands()
+            if not (cmd.inputs.get("positional") or cmd.inputs.get("flags"))
+        ]
+        assert len(reg.list_commands()) == 30
+        assert missing == []
+
     def test_get_command(self, tmp_path):
         self._write_yaml(tmp_path, "brainstorm", VALID_COMMAND)
         reg = CommandRegistry(assets_dir=tmp_path)
@@ -161,24 +185,25 @@ class TestRegistry:
         self._write_yaml(tmp_path, "brainstorm", VALID_COMMAND)
         reg = CommandRegistry(assets_dir=tmp_path)
         reg.load_all()
-        cmd = reg.get_command_by_alias("/sc:brainstorm")
+        cmd = reg.get_command_by_alias("/sc-brainstorm")
         assert cmd is not None
         assert cmd.id == "brainstorm"
+        assert reg.get_command_by_alias("/sc:brainstorm") is cmd
 
     def test_get_unknown_returns_none(self, tmp_path):
         reg = CommandRegistry(assets_dir=tmp_path)
         reg.load_all()
         assert reg.get_command("nonexistent") is None
-        assert reg.get_command_by_alias("/sc:nonexistent") is None
+        assert reg.get_command_by_alias("/sc-nonexistent") is None
 
     def test_list_by_category(self, tmp_path):
         self._write_yaml(tmp_path, "brainstorm", VALID_COMMAND)
         impl = {
             **VALID_COMMAND,
             "id": "implement",
-            "display_name": "/sc:implement",
+            "display_name": "/sc-implement",
             "category": "development",
-            "aliases": ["/sc:implement"],
+            "aliases": ["/sc-implement", "/sc:implement"],
             "codex": {"skill_name": "superclaude-implement"},
         }
         self._write_yaml(tmp_path, "implement", impl)

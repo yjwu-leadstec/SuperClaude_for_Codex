@@ -3,11 +3,11 @@ name: superclaude-workflow
 description: Generate structured implementation workflows from PRDs and feature requirements
 ---
 
-# /sc:workflow
+# /sc-workflow
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:workflow`.
+Use this skill when the user invokes `/sc-workflow`.
 Also activate when:
 - PRD and feature specification analysis for implementation planning
 - Structured workflow generation for development projects
@@ -16,9 +16,28 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-workflow`
 - `/sc:workflow`
+- `sc-workflow`
 - `sc:workflow`
 - `workflow`
+
+## Inputs
+
+- `[prd-or-feature]` (optional): PRD file, feature description, project brief, or implementation request.
+- `--strategy` `systematic|agile|enterprise`: Workflow planning strategy.
+- `--depth` `shallow|normal|deep`: Workflow detail level.
+- `--parallel`: Identify parallelizable implementation work.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Workflow
 
@@ -60,4 +79,4 @@ Return a structured **workflow spec** containing:
 
 ## Completion
 
-After completing `/sc:workflow`, suggest relevant follow-up commands.
+After completing `/sc-workflow`, suggest relevant follow-up commands.

@@ -1,10 +1,12 @@
 schema_version: 1
 id: reflect
-display_name: /sc:reflect
+display_name: /sc-reflect
 category: quality
 description: Task reflection and validation using Serena MCP analysis capabilities
 aliases:
+- /sc-reflect
 - /sc:reflect
+- sc-reflect
 - sc:reflect
 - reflect
 triggers:
@@ -34,3 +36,20 @@ codex:
   skill_name: superclaude-reflect
   default_reasoning: medium
   web_search: optional
+inputs:
+  flags:
+  - name: type
+    values:
+    - task
+    - session
+    - completion
+    description: Reflection type.
+  - name: analyze
+    type: boolean
+    description: Analyze the work before reflecting.
+  - name: validate
+    type: boolean
+    description: Validate outcomes and assumptions.
+  examples:
+  - /sc-reflect --type task --analyze
+  - /sc-reflect --type session --validate

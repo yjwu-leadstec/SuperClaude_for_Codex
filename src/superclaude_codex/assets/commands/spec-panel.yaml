@@ -1,11 +1,13 @@
 schema_version: 1
 id: spec-panel
-display_name: /sc:spec-panel
+display_name: /sc-spec-panel
 category: discovery
 description: Multi-expert specification review and improvement using renowned specification
   and software engineering experts
 aliases:
+- /sc-spec-panel
 - /sc:spec-panel
+- sc-spec-panel
 - sc:spec-panel
 - spec-panel
 triggers:
@@ -42,3 +44,37 @@ codex:
   skill_name: superclaude-spec-panel
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: specification
+    required: false
+    description: Specification content or @file path to review.
+  flags:
+  - name: mode
+    values:
+    - discussion
+    - critique
+    - socratic
+    description: Panel review mode.
+  - name: experts
+    value_name: names
+    description: Comma-separated expert names.
+  - name: focus
+    values:
+    - requirements
+    - architecture
+    - testing
+    - compliance
+    description: Review focus areas.
+  - name: iterations
+    type: integer
+    value_name: n
+    description: Number of review iterations.
+  - name: format
+    values:
+    - standard
+    - structured
+    - detailed
+    description: Output format.
+  examples:
+  - /sc-spec-panel @auth_api.spec.yml --mode critique --focus requirements,architecture

@@ -9,6 +9,7 @@ from pathlib import Path
 import pytest
 
 from superclaude_codex.codex.agents_md import render_agents_block
+from superclaude_codex.codex.plugin import render_plugin_command
 from superclaude_codex.codex.skills import render_skill
 from superclaude_codex.core.registry import CommandRegistry
 
@@ -58,6 +59,20 @@ class TestCommandsJsonGolden:
         golden = _read_or_create_golden("commands.json", rendered, update_golden)
         assert rendered == golden, (
             "commands.json changed. Run --update-golden to accept."
+        )
+
+
+class TestPluginCommandGolden:
+    def test_plugin_command_implement_stable(self, update_golden):
+        reg = _get_registry()
+        cmd = reg.get_command("implement")
+        assert cmd is not None
+        rendered = render_plugin_command(cmd)
+        golden = _read_or_create_golden(
+            "plugin_command_implement.md", rendered, update_golden
+        )
+        assert rendered == golden, (
+            "Native plugin command changed. Run --update-golden to accept."
         )
 
 

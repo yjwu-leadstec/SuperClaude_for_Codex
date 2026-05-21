@@ -18,11 +18,29 @@ def main():
 @main.command()
 @click.option("--dry-run", is_flag=True, help="Preview changes without writing files.")
 @click.option("--force", is_flag=True, help="Force reinstall if assets already exist.")
-def install(dry_run: bool, force: bool):
+@click.option(
+    "--native-plugin",
+    is_flag=True,
+    help="Also install the Codex native plugin for /sc-* argument hints.",
+)
+@click.option(
+    "--locale",
+    "ui_locale",
+    type=click.Choice(["auto", "en", "zh-CN", "zh-TW"], case_sensitive=False),
+    default="auto",
+    show_default=True,
+    help="Language for UI-only skill descriptions.",
+)
+def install(dry_run: bool, force: bool, native_plugin: bool, ui_locale: str):
     """Install SuperClaude commands and skills to Codex."""
     from superclaude_codex.codex.installer import Installer, InstallError
 
-    installer = Installer(force=force, dry_run=dry_run)
+    installer = Installer(
+        force=force,
+        dry_run=dry_run,
+        native_plugin=native_plugin,
+        ui_locale=ui_locale,
+    )
     try:
         report = installer.run()
         if dry_run:
@@ -106,7 +124,19 @@ def commands_show(command_id: str):
 
     reg = CommandRegistry()
     reg.load_all()
-    cmd = reg.get_command(command_id) or reg.get_command_by_alias(f"/sc:{command_id}")
+    alias_candidates = [
+        command_id,
+        f"/sc-{command_id}",
+        f"/sc:{command_id}",
+        f"sc-{command_id}",
+        f"sc:{command_id}",
+    ]
+    cmd = reg.get_command(command_id)
+    if not cmd:
+        for alias in alias_candidates:
+            cmd = reg.get_command_by_alias(alias)
+            if cmd:
+                break
     if not cmd:
         click.echo(f"❌ Command not found: {command_id}")
         raise SystemExit(1)

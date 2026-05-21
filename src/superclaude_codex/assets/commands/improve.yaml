@@ -1,10 +1,12 @@
 schema_version: 1
 id: improve
-display_name: /sc:improve
+display_name: /sc-improve
 category: development
 description: Apply systematic improvements to code quality, performance, and maintainability
 aliases:
+- /sc-improve
 - /sc:improve
+- sc-improve
 - sc:improve
 - improve
 triggers:
@@ -41,3 +43,29 @@ codex:
   skill_name: superclaude-improve
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: target
+    required: false
+    description: Code, module, API, or project area to improve.
+  flags:
+  - name: type
+    values:
+    - quality
+    - performance
+    - maintainability
+    - style
+    - security
+    description: Improvement category.
+  - name: safe
+    type: boolean
+    description: Use conservative improvement with validation gates.
+  - name: interactive
+    type: boolean
+    description: Ask before applying higher-impact improvements.
+  - name: preview
+    type: boolean
+    description: Show proposed improvements without applying changes.
+  examples:
+  - /sc-improve src/ --type quality --safe
+  - /sc-improve api-endpoints --type performance --interactive

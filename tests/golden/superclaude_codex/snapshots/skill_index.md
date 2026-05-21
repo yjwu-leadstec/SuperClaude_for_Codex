@@ -3,11 +3,11 @@ name: superclaude-index
 description: Generate comprehensive project documentation and knowledge base with intelligent organization
 ---
 
-# /sc:index
+# /sc-index
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:index`.
+Use this skill when the user invokes `/sc-index`.
 Also activate when:
 - Project documentation creation and maintenance requirements
 - Knowledge base generation and organization needs
@@ -16,9 +16,27 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-index`
 - `/sc:index`
+- `sc-index`
 - `sc:index`
 - `index`
+
+## Inputs
+
+- `[target]` (optional): Project path, source directory, API, or documentation area to index.
+- `--type` `docs|api|structure|readme`: Index type.
+- `--format` `md|json|yaml`: Index output format.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Workflow
 
@@ -53,4 +71,4 @@ Return a structured **index** containing:
 
 ## Completion
 
-After completing `/sc:index`, suggest relevant follow-up commands.
+After completing `/sc-index`, suggest relevant follow-up commands.

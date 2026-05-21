@@ -1,11 +1,13 @@
 schema_version: 1
 id: estimate
-display_name: /sc:estimate
+display_name: /sc-estimate
 category: discovery
 description: Provide development estimates for tasks, features, or projects with intelligent
   analysis
 aliases:
+- /sc-estimate
 - /sc:estimate
+- sc-estimate
 - sc:estimate
 - estimate
 triggers:
@@ -42,3 +44,26 @@ codex:
   skill_name: superclaude-estimate
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: target
+    required: false
+    description: Feature, task, project, or migration to estimate.
+  flags:
+  - name: type
+    values:
+    - time
+    - effort
+    - complexity
+    description: Estimate dimension.
+  - name: unit
+    values:
+    - hours
+    - days
+    - weeks
+    description: Time unit for estimates.
+  - name: breakdown
+    type: boolean
+    description: Break the estimate into phases or work items.
+  examples:
+  - /sc-estimate "user authentication system" --type time --unit days --breakdown

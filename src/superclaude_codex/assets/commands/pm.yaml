@@ -1,11 +1,13 @@
 schema_version: 1
 id: pm
-display_name: /sc:pm
+display_name: /sc-pm
 category: project_management
-description: Project Manager Agent - Default orchestration agent that coordinates
-  all sub-agents and manages workflows seamlessly
+description: Project Manager Agent - Default orchestration agent that coordinates all sub-agents
+  and manages workflows seamlessly
 aliases:
+- /sc-pm
 - /sc:pm
+- sc-pm
 - sc:pm
 - pm
 triggers: []
@@ -37,3 +39,20 @@ codex:
   skill_name: superclaude-pm
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: request
+    required: false
+    description: Project management, orchestration, or planning request.
+  flags:
+  - name: strategy
+    values:
+    - brainstorm
+    - direct
+    - wave
+    description: Orchestration strategy.
+  - name: verbose
+    type: boolean
+    description: Return detailed orchestration notes and rationale.
+  examples:
+  - /sc-pm "Improve application security" --strategy wave

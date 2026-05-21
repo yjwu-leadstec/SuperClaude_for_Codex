@@ -34,9 +34,15 @@
 
 ## What is This?
 
-SuperClaude for Codex brings **30 structured `/sc:*` commands** and **20 specialist agents** to OpenAI Codex. Type `/sc:brainstorm`, `/sc:implement`, or `/sc:test` in Codex to activate structured development workflows.
+SuperClaude for Codex brings **30 structured `/sc-*` commands** and **20 specialist agents** to OpenAI Codex. Type `/sc-brainstorm`, `/sc-implement`, or `/sc-test` in Codex to activate structured development workflows.
 
 **Important**: This is a **Codex-only** project. It does **not** read, write, or depend on `~/.claude` in any way. All installation targets `~/.codex/`.
+
+**Command syntax**: Earlier releases used the original SuperClaude-style `/sc:*` commands to make migration easier. The recommended Codex-native syntax is now `/sc-*`, while legacy aliases such as `/sc:implement` remain supported.
+
+**Codex skills first**: The default install uses standalone Codex skills in `~/.codex/skills/superclaude-*`, matching the clean gstack/cc-switch style without a plugin namespace prefix. If you specifically want native plugin command files and `argument-hint` placeholders, run `superclaude-codex install --native-plugin`.
+
+**UI language**: Skill UI descriptions use `--locale auto` by default. `auto` checks `LC_ALL`, `LC_MESSAGES`, then `LANG`: `zh-CN`/`zh-Hans` use Simplified Chinese, `zh-TW`/`zh-HK`/`zh-MO`/`zh-Hant` use Traditional Chinese, and all other locales use English.
 
 ---
 
@@ -48,13 +54,29 @@ cd SuperClaude_for_Codex
 ./install-codex.sh
 ```
 
+To force a specific UI description language:
+
+```bash
+superclaude-codex install --force --locale zh-CN
+superclaude-codex install --force --locale zh-TW
+superclaude-codex install --force --locale en
+```
+
 After installation, open Codex and type:
 
 ```
-/sc:brainstorm "design an API for user management"
-/sc:implement "add authentication middleware"
-/sc:test
+/sc-brainstorm "design an API for user management"
+/sc-implement "add authentication middleware"
+/sc-test
 /sc                    # list all 30 commands
+```
+
+Codex App and Codex CLI currently expose command-level completion and placeholder hints, not verified per-flag interactive autocomplete. Use flags directly in the command text, for example:
+
+```
+/sc-implement "user authentication API" --type api --safe --with-tests
+/sc-analyze src/auth --focus security --depth deep --think-hard
+/sc-test src/components --type unit --coverage
 ```
 
 ### Verify Installation
@@ -86,54 +108,54 @@ superclaude-codex uninstall
 ### Planning & Design
 | Command | Description |
 |---------|-------------|
-| `/sc:brainstorm` | Interactive requirements discovery through Socratic dialogue |
-| `/sc:design` | System architecture and component design |
-| `/sc:estimate` | Development time and effort estimation |
-| `/sc:business-panel` | Multi-expert business strategy analysis |
-| `/sc:spec-panel` | Multi-expert specification review |
+| `/sc-brainstorm` | Interactive requirements discovery through Socratic dialogue |
+| `/sc-design` | System architecture and component design |
+| `/sc-estimate` | Development time and effort estimation |
+| `/sc-business-panel` | Multi-expert business strategy analysis |
+| `/sc-spec-panel` | Multi-expert specification review |
 
 ### Development
 | Command | Description |
 |---------|-------------|
-| `/sc:implement` | Code implementation with persona activation |
-| `/sc:build` | Build, compile, and package projects |
-| `/sc:improve` | Systematic code improvements |
-| `/sc:cleanup` | Code cleanup and dead code removal |
-| `/sc:explain` | Code and concept explanation |
+| `/sc-implement` | Code implementation with persona activation |
+| `/sc-build` | Build, compile, and package projects |
+| `/sc-improve` | Systematic code improvements |
+| `/sc-cleanup` | Code cleanup and dead code removal |
+| `/sc-explain` | Code and concept explanation |
 
 ### Quality
 | Command | Description |
 |---------|-------------|
-| `/sc:test` | Test execution, generation, and coverage |
-| `/sc:analyze` | Code analysis (quality, security, performance) |
-| `/sc:troubleshoot` | Diagnose and resolve issues |
-| `/sc:reflect` | Task reflection and retrospectives |
+| `/sc-test` | Test execution, generation, and coverage |
+| `/sc-analyze` | Code analysis (quality, security, performance) |
+| `/sc-troubleshoot` | Diagnose and resolve issues |
+| `/sc-reflect` | Task reflection and retrospectives |
 
 ### Documentation & Git
 | Command | Description |
 |---------|-------------|
-| `/sc:document` | Generate documentation |
-| `/sc:git` | Git operations with smart commit messages |
-| `/sc:help` | List all commands |
+| `/sc-document` | Generate documentation |
+| `/sc-git` | Git operations with smart commit messages |
+| `/sc-help` | List all commands |
 
 ### Project Management
 | Command | Description |
 |---------|-------------|
-| `/sc:pm` | Project manager orchestration |
-| `/sc:task` | Task tracking |
-| `/sc:workflow` | Structured implementation workflows |
-| `/sc:research` | Deep web research |
+| `/sc-pm` | Project manager orchestration |
+| `/sc-task` | Task tracking |
+| `/sc-workflow` | Structured implementation workflows |
+| `/sc-research` | Deep web research |
 
 ### Utilities
 | Command | Description |
 |---------|-------------|
-| `/sc:agent` | AI agent delegation |
-| `/sc:spawn` | Parallel task orchestration |
-| `/sc:index-repo` | Repository indexing (94% token reduction) |
-| `/sc:index` | Project knowledge base |
-| `/sc:recommend` | Command recommendation |
-| `/sc:select-tool` | MCP tool selection |
-| `/sc:load` / `/sc:save` | Session management |
+| `/sc-agent` | AI agent delegation |
+| `/sc-spawn` | Parallel task orchestration |
+| `/sc-index-repo` | Repository indexing (94% token reduction) |
+| `/sc-index` | Project knowledge base |
+| `/sc-recommend` | Command recommendation |
+| `/sc-select-tool` | MCP tool selection |
+| `/sc-load` / `/sc-save` | Session management |
 | `/sc` | Show all commands |
 
 ---

@@ -16,10 +16,10 @@ def _make_registry(tmp_path):
     data = {
         "schema_version": 1,
         "id": "brainstorm",
-        "display_name": "/sc:brainstorm",
+        "display_name": "/sc-brainstorm",
         "category": "discovery",
         "description": "Brainstorm ideas.",
-        "aliases": ["/sc:brainstorm"],
+        "aliases": ["/sc-brainstorm", "/sc:brainstorm"],
         "workflow": ["explore"],
         "output_contract": {"primary": "design_doc", "required_sections": ["summary"]},
         "codex": {"skill_name": "superclaude-brainstorm"},
@@ -41,7 +41,7 @@ class TestRenderAgentsBlock:
     def test_contains_command_route(self, tmp_path):
         reg = _make_registry(tmp_path)
         block = render_agents_block(reg)
-        assert "`/sc:brainstorm`" in block
+        assert "`/sc-brainstorm`" in block
         assert "superclaude-brainstorm" in block
 
     def test_no_claude_reference(self, tmp_path):

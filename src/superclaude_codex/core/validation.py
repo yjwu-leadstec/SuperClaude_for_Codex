@@ -68,9 +68,16 @@ def validate_command(cmd: CommandIR) -> ValidationResult:
     if not cmd.aliases:
         result.add(cid, "aliases", "empty — must contain at least one alias")
     else:
-        has_sc = any(a.startswith("/sc:") for a in cmd.aliases)
+        has_sc = any(
+            a == "/sc" or a.startswith("/sc-") or a.startswith("/sc:")
+            for a in cmd.aliases
+        )
         if not has_sc:
-            result.add(cid, "aliases", "must contain at least one /sc:* alias")
+            result.add(
+                cid,
+                "aliases",
+                "must contain at least one /sc-* alias or legacy /sc:* alias",
+            )
 
     if not cmd.workflow:
         result.add(cid, "workflow", "empty — must contain at least one step")

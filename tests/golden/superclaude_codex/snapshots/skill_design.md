@@ -3,11 +3,11 @@ name: superclaude-design
 description: Design system architecture, APIs, and component interfaces with comprehensive specifications
 ---
 
-# /sc:design
+# /sc-design
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:design`.
+Use this skill when the user invokes `/sc-design`.
 Also activate when:
 - Architecture planning and system design requests
 - API specification and interface design needs
@@ -16,9 +16,27 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-design`
 - `/sc:design`
+- `sc-design`
 - `sc:design`
 - `design`
+
+## Inputs
+
+- `[target]` (optional): System, API, component, database, or feature to design.
+- `--type` `architecture|api|component|database`: Design target type.
+- `--format` `diagram|spec|code`: Design output format.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Codex Behavior
 
@@ -49,4 +67,4 @@ Return a structured **architecture spec** containing:
 
 ## Completion
 
-After completing `/sc:design`, suggest relevant follow-up commands.
+After completing `/sc-design`, suggest relevant follow-up commands.

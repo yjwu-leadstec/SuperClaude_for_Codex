@@ -1,10 +1,12 @@
 schema_version: 1
 id: help
-display_name: /sc:help
+display_name: /sc-help
 category: documentation
 description: List all available /sc commands and their functionality
 aliases:
+- /sc-help
 - /sc:help
+- sc-help
 - sc:help
 - help
 triggers:
@@ -28,3 +30,11 @@ codex:
   skill_name: superclaude-help
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: command
+    required: false
+    description: Optional command name to show detailed help for.
+  examples:
+  - /sc-help
+  - /sc-help implement

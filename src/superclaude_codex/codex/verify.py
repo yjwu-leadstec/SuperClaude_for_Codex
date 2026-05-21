@@ -14,6 +14,16 @@ from superclaude_codex.codex.agents_md import (
     extract_existing_block,
 )
 from superclaude_codex.codex.paths import resolve_codex_home
+from superclaude_codex.codex.plugin import (
+    BEGIN_MARKER as PLUGIN_BEGIN,
+)
+from superclaude_codex.codex.plugin import (
+    END_MARKER as PLUGIN_END,
+)
+from superclaude_codex.codex.plugin import (
+    get_installed_plugin_dir,
+    get_plugin_dir,
+)
 
 
 def _check(label: str, ok: bool, detail: str = "") -> bool:
@@ -99,17 +109,81 @@ def run_doctor() -> tuple[int, int]:
             if d.is_dir() and d.name.startswith("superclaude-")
         ]
         skill_count = sum(1 for d in skill_dirs if (d / "SKILL.md").exists())
+        metadata_count = sum(
+            1 for d in skill_dirs if (d / "agents" / "openai.yaml").exists()
+        )
         total_skills = len(skill_dirs)
         if _check(
             "Skills",
-            skill_count == total_skills and skill_count > 0,
-            f"{skill_count}/{total_skills} installed",
+            skill_count == total_skills
+            and metadata_count == total_skills
+            and skill_count > 0,
+            f"{skill_count}/{total_skills} installed, {metadata_count}/{total_skills} UI metadata",
         ):
             passed += 1
     else:
         _check("Skills", False, "directory not found")
 
-    # 5. version.json
+    # 6. Native plugin
+    total += 1
+    plugin_dir = get_plugin_dir(home)
+    installed_plugin_dir = get_installed_plugin_dir(home)
+    commands_dir = plugin_dir / "commands"
+    installed_commands_dir = installed_plugin_dir / "commands"
+    source_skill_exports = plugin_dir / "skills"
+    installed_skill_exports = installed_plugin_dir / "skills"
+    plugin_json = plugin_dir / ".codex-plugin" / "plugin.json"
+    installed_plugin_json = installed_plugin_dir / ".codex-plugin" / "plugin.json"
+    config_toml = home / "config.toml"
+    command_count = (
+        len([p for p in commands_dir.glob("*.md") if p.is_file()])
+        if commands_dir.exists()
+        else 0
+    )
+    installed_command_count = (
+        len([p for p in installed_commands_dir.glob("*.md") if p.is_file()])
+        if installed_commands_dir.exists()
+        else 0
+    )
+    config_ok = (
+        config_toml.exists()
+        and PLUGIN_BEGIN in config_toml.read_text()
+        and PLUGIN_END in config_toml.read_text()
+    )
+    plugin_present = (
+        plugin_json.exists()
+        or installed_plugin_json.exists()
+        or command_count > 0
+        or installed_command_count > 0
+        or config_ok
+    )
+    plugin_skills_hidden = (
+        not source_skill_exports.exists() and not installed_skill_exports.exists()
+    )
+    if not plugin_present:
+        plugin_ok = True
+        plugin_detail = "disabled (standalone skills mode)"
+    else:
+        plugin_ok = (
+            plugin_json.exists()
+            and command_count == 30
+            and installed_plugin_json.exists()
+            and installed_command_count == 30
+            and config_ok
+            and plugin_skills_hidden
+        )
+        plugin_detail = (
+            f"{command_count}/30 source, {installed_command_count}/30 installed, "
+            "plugin skills hidden"
+        )
+        if not config_ok:
+            plugin_detail = "config block missing"
+        elif not plugin_skills_hidden:
+            plugin_detail = "plugin skill exports present"
+    if _check("Native plugin", plugin_ok, plugin_detail):
+        passed += 1
+
+    # 7. version.json
     total += 1
     ver_json = sc_dir / "version.json"
     if ver_json.exists():
@@ -123,7 +197,7 @@ def run_doctor() -> tuple[int, int]:
     else:
         _check("version.json", False, "file not found")
 
-    # 6. No ~/.claude references — scan install artifacts
+    # 8. No ~/.claude references — scan install artifacts
     total += 1
     claude_refs = []
     for f in sc_dir.rglob("*.json"):

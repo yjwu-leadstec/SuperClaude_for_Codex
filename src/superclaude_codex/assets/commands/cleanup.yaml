@@ -1,11 +1,12 @@
 schema_version: 1
 id: cleanup
-display_name: /sc:cleanup
+display_name: /sc-cleanup
 category: development
-description: Systematically clean up code, remove dead code, and optimize project
-  structure
+description: Systematically clean up code, remove dead code, and optimize project structure
 aliases:
+- /sc-cleanup
 - /sc:cleanup
+- sc-cleanup
 - sc:cleanup
 - cleanup
 triggers:
@@ -41,3 +42,31 @@ codex:
   skill_name: superclaude-cleanup
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: target
+    required: false
+    description: File, directory, or project area to clean up.
+  flags:
+  - name: type
+    values:
+    - code
+    - imports
+    - files
+    - all
+    description: Cleanup category.
+  - name: safe
+    type: boolean
+    description: Use conservative cleanup with validation before removal.
+  - name: aggressive
+    type: boolean
+    description: Apply broader cleanup when safe to do so.
+  - name: interactive
+    type: boolean
+    description: Ask before applying risky cleanup decisions.
+  - name: preview
+    type: boolean
+    description: Show cleanup candidates without applying changes.
+  examples:
+  - /sc-cleanup src/ --type code --safe
+  - /sc-cleanup --type imports --preview

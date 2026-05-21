@@ -1,10 +1,12 @@
 schema_version: 1
 id: research
-display_name: /sc:research
+display_name: /sc-research
 category: research
 description: Deep web research with adaptive planning and intelligent search
 aliases:
+- /sc-research
 - /sc:research
+- sc-research
 - sc:research
 - research
 triggers:
@@ -39,3 +41,24 @@ codex:
   skill_name: superclaude-research
   default_reasoning: high
   web_search: required
+inputs:
+  positional:
+  - name: query
+    required: false
+    description: Research question, topic, market, technology, or decision to investigate.
+  flags:
+  - name: depth
+    values:
+    - quick
+    - standard
+    - deep
+    - exhaustive
+    description: Research depth.
+  - name: strategy
+    values:
+    - planning
+    - intent
+    - unified
+    description: Research strategy.
+  examples:
+  - /sc-research "competitive analysis of AI coding assistants" --depth deep

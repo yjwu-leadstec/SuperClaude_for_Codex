@@ -1,10 +1,12 @@
 schema_version: 1
 id: agent
-display_name: /sc:agent
+display_name: /sc-agent
 category: utility
 description: AI agent delegation for specialized task execution
 aliases:
+- /sc-agent
 - /sc:agent
+- sc-agent
 - sc:agent
 - agent
 triggers: []
@@ -27,3 +29,14 @@ codex:
   skill_name: superclaude-agent
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: agent_type
+    required: false
+    description: Specialist agent or delegation type to use.
+  - name: task
+    required: false
+    description: Task for the selected agent to execute.
+  examples:
+  - /sc-agent deep-research "compare coding agents"
+  - /sc-agent self-review "review the current diff"

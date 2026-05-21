@@ -1,11 +1,13 @@
 schema_version: 1
 id: design
-display_name: /sc:design
+display_name: /sc-design
 category: discovery
 description: Design system architecture, APIs, and component interfaces with comprehensive
   specifications
 aliases:
+- /sc-design
 - /sc:design
+- sc-design
 - sc:design
 - design
 triggers:
@@ -37,3 +39,25 @@ codex:
   skill_name: superclaude-design
   default_reasoning: high
   web_search: optional
+inputs:
+  positional:
+  - name: target
+    required: false
+    description: System, API, component, database, or feature to design.
+  flags:
+  - name: type
+    values:
+    - architecture
+    - api
+    - component
+    - database
+    description: Design target type.
+  - name: format
+    values:
+    - diagram
+    - spec
+    - code
+    description: Design output format.
+  examples:
+  - /sc-design payment-api --type api --format spec
+  - /sc-design user-management-system --type architecture --format diagram

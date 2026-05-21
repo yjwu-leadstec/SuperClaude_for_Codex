@@ -1,10 +1,12 @@
 schema_version: 1
 id: task
-display_name: /sc:task
+display_name: /sc-task
 category: project_management
 description: Execute complex tasks with intelligent workflow management and delegation
 aliases:
+- /sc-task
 - /sc:task
+- sc-task
 - sc:task
 - task
 triggers:
@@ -46,3 +48,26 @@ codex:
   skill_name: superclaude-task
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: action
+    required: false
+    description: Task action such as create, execute, update, or review.
+  - name: target
+    required: false
+    description: Task, backlog, project, or feature target.
+  flags:
+  - name: strategy
+    values:
+    - systematic
+    - agile
+    - enterprise
+    description: Task execution strategy.
+  - name: parallel
+    type: boolean
+    description: Execute independent task work in parallel.
+  - name: delegate
+    type: boolean
+    description: Delegate suitable subtasks to agents.
+  examples:
+  - /sc-task create "enterprise authentication system" --strategy systematic --parallel

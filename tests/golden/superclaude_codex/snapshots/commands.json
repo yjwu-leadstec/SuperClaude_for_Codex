@@ -5,16 +5,35 @@
     {
       "schema_version": 1,
       "id": "agent",
-      "display_name": "/sc:agent",
+      "display_name": "/sc-agent",
       "category": "utility",
       "description": "AI agent delegation for specialized task execution",
       "aliases": [
+        "/sc-agent",
         "/sc:agent",
+        "sc-agent",
         "sc:agent",
         "agent"
       ],
       "triggers": [],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "agent_type",
+            "required": false,
+            "description": "Specialist agent or delegation type to use."
+          },
+          {
+            "name": "task",
+            "required": false,
+            "description": "Task for the selected agent to execute."
+          }
+        ],
+        "examples": [
+          "/sc-agent deep-research \"compare coding agents\"",
+          "/sc-agent self-review \"review the current diff\""
+        ]
+      },
       "workflow": [
         "analyze_request",
         "execute",
@@ -43,11 +62,13 @@
     {
       "schema_version": 1,
       "id": "analyze",
-      "display_name": "/sc:analyze",
+      "display_name": "/sc-analyze",
       "category": "quality",
       "description": "Comprehensive code analysis across quality, security, performance, and architecture.",
       "aliases": [
+        "/sc-analyze",
         "/sc:analyze",
+        "sc-analyze",
         "sc:analyze",
         "analyze"
       ],
@@ -62,7 +83,7 @@
           {
             "name": "target",
             "required": false,
-            "description": "File, directory, or pattern to analyze (default \".\")"
+            "description": "File, directory, module, or project area to analyze."
           }
         ],
         "flags": [
@@ -72,20 +93,31 @@
               "quality",
               "security",
               "performance",
-              "architecture",
-              "all"
+              "architecture"
             ],
-            "default": "all"
+            "description": "Analysis focus domain."
           },
           {
             "name": "depth",
             "values": [
               "quick",
-              "standard",
               "deep"
             ],
-            "default": "standard"
+            "description": "Analysis depth."
+          },
+          {
+            "name": "format",
+            "values": [
+              "text",
+              "json",
+              "report"
+            ],
+            "description": "Output format."
           }
+        ],
+        "examples": [
+          "/sc-analyze src/auth --focus security --depth deep",
+          "/sc-analyze --focus performance --format report"
         ]
       },
       "workflow": [
@@ -131,11 +163,13 @@
     {
       "schema_version": 1,
       "id": "brainstorm",
-      "display_name": "/sc:brainstorm",
+      "display_name": "/sc-brainstorm",
       "category": "discovery",
       "description": "Interactive requirements discovery through Socratic dialogue and systematic exploration.",
       "aliases": [
+        "/sc-brainstorm",
         "/sc:brainstorm",
+        "sc-brainstorm",
         "sc:brainstorm",
         "brainstorm"
       ],
@@ -151,7 +185,7 @@
           {
             "name": "topic",
             "required": false,
-            "description": "The idea or topic to brainstorm about"
+            "description": "Idea, product, feature, or problem to explore."
           }
         ],
         "flags": [
@@ -162,7 +196,7 @@
               "agile",
               "enterprise"
             ],
-            "default": "systematic"
+            "description": "Discovery strategy."
           },
           {
             "name": "depth",
@@ -171,8 +205,17 @@
               "normal",
               "deep"
             ],
-            "default": "normal"
+            "description": "Exploration depth."
+          },
+          {
+            "name": "parallel",
+            "type": "boolean",
+            "description": "Explore multiple lines of thinking in parallel."
           }
+        ],
+        "examples": [
+          "/sc-brainstorm \"AI-powered project management tool\" --strategy systematic --depth deep",
+          "/sc-brainstorm \"real-time collaboration features\" --strategy agile --parallel"
         ]
       },
       "workflow": [
@@ -219,11 +262,13 @@
     {
       "schema_version": 1,
       "id": "build",
-      "display_name": "/sc:build",
+      "display_name": "/sc-build",
       "category": "development",
       "description": "Build, compile, and package projects with intelligent error handling and optimization",
       "aliases": [
+        "/sc-build",
         "/sc:build",
+        "sc-build",
         "sc:build",
         "build"
       ],
@@ -233,7 +278,45 @@
         "Error debugging during build processes",
         "Deployment preparation and artifact packaging requirements"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "Project, package, app, or component to build."
+          }
+        ],
+        "flags": [
+          {
+            "name": "type",
+            "values": [
+              "dev",
+              "prod",
+              "test"
+            ],
+            "description": "Build type."
+          },
+          {
+            "name": "clean",
+            "type": "boolean",
+            "description": "Clean build artifacts before building."
+          },
+          {
+            "name": "optimize",
+            "type": "boolean",
+            "description": "Enable production optimization when building."
+          },
+          {
+            "name": "verbose",
+            "type": "boolean",
+            "description": "Show detailed build output and diagnostics."
+          }
+        ],
+        "examples": [
+          "/sc-build --type prod --clean --optimize",
+          "/sc-build frontend --verbose"
+        ]
+      },
       "workflow": [
         "analyze",
         "validate",
@@ -271,16 +354,77 @@
     {
       "schema_version": 1,
       "id": "business-panel",
-      "display_name": "/sc:business-panel",
+      "display_name": "/sc-business-panel",
       "category": "discovery",
       "description": "Multi-expert business strategy panel with sequential, debate, and Socratic modes",
       "aliases": [
+        "/sc-business-panel",
         "/sc:business-panel",
+        "sc-business-panel",
         "sc:business-panel",
         "business-panel"
       ],
       "triggers": [],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "content",
+            "required": false,
+            "description": "Document path, pasted content, business idea, or strategic question."
+          }
+        ],
+        "flags": [
+          {
+            "name": "mode",
+            "values": [
+              "discussion",
+              "debate",
+              "socratic",
+              "adaptive"
+            ],
+            "description": "Panel interaction mode."
+          },
+          {
+            "name": "experts",
+            "value_name": "names",
+            "description": "Comma-separated expert names to include."
+          },
+          {
+            "name": "focus",
+            "value_name": "domain",
+            "description": "Business domain or strategic focus."
+          },
+          {
+            "name": "all-experts",
+            "type": "boolean",
+            "description": "Include the full expert panel."
+          },
+          {
+            "name": "synthesis-only",
+            "type": "boolean",
+            "description": "Return only the synthesis rather than full expert analysis."
+          },
+          {
+            "name": "structured",
+            "type": "boolean",
+            "description": "Use a structured output format."
+          },
+          {
+            "name": "verbose",
+            "type": "boolean",
+            "description": "Return detailed expert reasoning and recommendations."
+          },
+          {
+            "name": "questions",
+            "type": "boolean",
+            "description": "Focus the panel on strategic questions."
+          }
+        ],
+        "examples": [
+          "/sc-business-panel business-plan.md --mode debate",
+          "/sc-business-panel \"new SaaS pricing\" --experts \"porter,christensen\" --synthesis-only"
+        ]
+      },
       "workflow": [
         "analyze_request",
         "execute",
@@ -310,11 +454,13 @@
     {
       "schema_version": 1,
       "id": "cleanup",
-      "display_name": "/sc:cleanup",
+      "display_name": "/sc-cleanup",
       "category": "development",
       "description": "Systematically clean up code, remove dead code, and optimize project structure",
       "aliases": [
+        "/sc-cleanup",
         "/sc:cleanup",
+        "sc-cleanup",
         "sc:cleanup",
         "cleanup"
       ],
@@ -324,7 +470,51 @@
         "Project structure improvement and organization requirements",
         "Codebase hygiene and quality improvement initiatives"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "File, directory, or project area to clean up."
+          }
+        ],
+        "flags": [
+          {
+            "name": "type",
+            "values": [
+              "code",
+              "imports",
+              "files",
+              "all"
+            ],
+            "description": "Cleanup category."
+          },
+          {
+            "name": "safe",
+            "type": "boolean",
+            "description": "Use conservative cleanup with validation before removal."
+          },
+          {
+            "name": "aggressive",
+            "type": "boolean",
+            "description": "Apply broader cleanup when safe to do so."
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "description": "Ask before applying risky cleanup decisions."
+          },
+          {
+            "name": "preview",
+            "type": "boolean",
+            "description": "Show cleanup candidates without applying changes."
+          }
+        ],
+        "examples": [
+          "/sc-cleanup src/ --type code --safe",
+          "/sc-cleanup --type imports --preview"
+        ]
+      },
       "workflow": [
         "analyze",
         "plan",
@@ -365,11 +555,13 @@
     {
       "schema_version": 1,
       "id": "design",
-      "display_name": "/sc:design",
+      "display_name": "/sc-design",
       "category": "discovery",
       "description": "Design system architecture, APIs, and component interfaces with comprehensive specifications",
       "aliases": [
+        "/sc-design",
         "/sc:design",
+        "sc-design",
         "sc:design",
         "design"
       ],
@@ -379,7 +571,40 @@
         "Component design and technical specification requirements",
         "Database schema and data model design requests"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "System, API, component, database, or feature to design."
+          }
+        ],
+        "flags": [
+          {
+            "name": "type",
+            "values": [
+              "architecture",
+              "api",
+              "component",
+              "database"
+            ],
+            "description": "Design target type."
+          },
+          {
+            "name": "format",
+            "values": [
+              "diagram",
+              "spec",
+              "code"
+            ],
+            "description": "Design output format."
+          }
+        ],
+        "examples": [
+          "/sc-design payment-api --type api --format spec",
+          "/sc-design user-management-system --type architecture --format diagram"
+        ]
+      },
       "workflow": [
         "analyze",
         "plan",
@@ -413,11 +638,13 @@
     {
       "schema_version": 1,
       "id": "document",
-      "display_name": "/sc:document",
+      "display_name": "/sc-document",
       "category": "documentation",
       "description": "Generate focused documentation for components, functions, APIs, and features",
       "aliases": [
+        "/sc-document",
         "/sc:document",
+        "sc-document",
         "sc:document",
         "document"
       ],
@@ -427,7 +654,39 @@
         "Code comment and inline documentation requirements",
         "User guide and technical documentation creation requests"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "Code, component, API, module, or feature to document."
+          }
+        ],
+        "flags": [
+          {
+            "name": "type",
+            "values": [
+              "inline",
+              "external",
+              "api",
+              "guide"
+            ],
+            "description": "Documentation type."
+          },
+          {
+            "name": "style",
+            "values": [
+              "brief",
+              "detailed"
+            ],
+            "description": "Documentation detail level."
+          }
+        ],
+        "examples": [
+          "/sc-document src/api --type api --style detailed",
+          "/sc-document components/ --type external"
+        ]
+      },
       "workflow": [
         "analyze",
         "identify",
@@ -459,11 +718,13 @@
     {
       "schema_version": 1,
       "id": "estimate",
-      "display_name": "/sc:estimate",
+      "display_name": "/sc-estimate",
       "category": "discovery",
       "description": "Provide development estimates for tasks, features, or projects with intelligent analysis",
       "aliases": [
+        "/sc-estimate",
         "/sc:estimate",
+        "sc-estimate",
         "sc:estimate",
         "estimate"
       ],
@@ -473,7 +734,43 @@
         "Feature breakdown needing systematic estimation methodology",
         "Risk assessment and confidence interval analysis requirements"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "Feature, task, project, or migration to estimate."
+          }
+        ],
+        "flags": [
+          {
+            "name": "type",
+            "values": [
+              "time",
+              "effort",
+              "complexity"
+            ],
+            "description": "Estimate dimension."
+          },
+          {
+            "name": "unit",
+            "values": [
+              "hours",
+              "days",
+              "weeks"
+            ],
+            "description": "Time unit for estimates."
+          },
+          {
+            "name": "breakdown",
+            "type": "boolean",
+            "description": "Break the estimate into phases or work items."
+          }
+        ],
+        "examples": [
+          "/sc-estimate \"user authentication system\" --type time --unit days --breakdown"
+        ]
+      },
       "workflow": [
         "analyze",
         "calculate",
@@ -515,11 +812,13 @@
     {
       "schema_version": 1,
       "id": "explain",
-      "display_name": "/sc:explain",
+      "display_name": "/sc-explain",
       "category": "development",
       "description": "Provide clear explanations of code, concepts, and system behavior with educational clarity",
       "aliases": [
+        "/sc-explain",
         "/sc:explain",
+        "sc-explain",
         "sc:explain",
         "explain"
       ],
@@ -529,7 +828,44 @@
         "Educational content generation for knowledge transfer",
         "Framework-specific concept clarification requirements"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "Code, concept, architecture, error, or system behavior to explain."
+          }
+        ],
+        "flags": [
+          {
+            "name": "level",
+            "values": [
+              "basic",
+              "intermediate",
+              "advanced"
+            ],
+            "description": "Explanation level."
+          },
+          {
+            "name": "format",
+            "values": [
+              "text",
+              "examples",
+              "interactive"
+            ],
+            "description": "Explanation format."
+          },
+          {
+            "name": "context",
+            "value_name": "domain",
+            "description": "Domain or framework context for the explanation."
+          }
+        ],
+        "examples": [
+          "/sc-explain authentication.js --level basic",
+          "/sc-explain react-hooks --level intermediate --context react"
+        ]
+      },
       "workflow": [
         "analyze",
         "assess",
@@ -570,11 +906,13 @@
     {
       "schema_version": 1,
       "id": "git",
-      "display_name": "/sc:git",
+      "display_name": "/sc-git",
       "category": "version_control",
       "description": "Git operations with intelligent commit messages and workflow optimization",
       "aliases": [
+        "/sc-git",
         "/sc:git",
+        "sc-git",
         "sc:git",
         "git"
       ],
@@ -584,7 +922,36 @@
         "Repository workflow optimization requests",
         "Branch management and merge operations"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "operation",
+            "required": false,
+            "description": "Git operation such as status, diff, commit, branch, merge, or log."
+          },
+          {
+            "name": "args",
+            "required": false,
+            "description": "Additional operation-specific arguments."
+          }
+        ],
+        "flags": [
+          {
+            "name": "smart-commit",
+            "type": "boolean",
+            "description": "Generate an intelligent commit message from the current diff."
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "description": "Use an interactive workflow for risky git operations."
+          }
+        ],
+        "examples": [
+          "/sc-git status",
+          "/sc-git commit --smart-commit"
+        ]
+      },
       "workflow": [
         "analyze",
         "validate",
@@ -615,11 +982,13 @@
     {
       "schema_version": 1,
       "id": "help",
-      "display_name": "/sc:help",
+      "display_name": "/sc-help",
       "category": "documentation",
       "description": "List all available /sc commands and their functionality",
       "aliases": [
+        "/sc-help",
         "/sc:help",
+        "sc-help",
         "sc:help",
         "help"
       ],
@@ -628,7 +997,19 @@
         "Framework exploration and capability understanding needs",
         "Documentation requests for available SuperClaude commands"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "command",
+            "required": false,
+            "description": "Optional command name to show detailed help for."
+          }
+        ],
+        "examples": [
+          "/sc-help",
+          "/sc-help implement"
+        ]
+      },
       "workflow": [
         "display",
         "complete"
@@ -655,11 +1036,13 @@
     {
       "schema_version": 1,
       "id": "implement",
-      "display_name": "/sc:implement",
+      "display_name": "/sc-implement",
       "category": "development",
       "description": "Feature and code implementation with intelligent persona activation.",
       "aliases": [
+        "/sc-implement",
         "/sc:implement",
+        "sc-implement",
         "sc:implement",
         "implement"
       ],
@@ -674,7 +1057,7 @@
           {
             "name": "feature_description",
             "required": false,
-            "description": "What to implement"
+            "description": "Feature, behavior, bug fix, or implementation request."
           }
         ],
         "flags": [
@@ -686,23 +1069,31 @@
               "service",
               "feature"
             ],
-            "default": "feature"
+            "description": "Implementation target type."
           },
           {
             "name": "framework",
             "values": [
               "react",
               "vue",
-              "express",
-              "fastapi",
-              "django"
-            ]
+              "express"
+            ],
+            "description": "Primary framework or stack to use."
+          },
+          {
+            "name": "safe",
+            "type": "boolean",
+            "description": "Use conservative implementation with extra validation."
           },
           {
             "name": "with-tests",
             "type": "boolean",
-            "default": true
+            "description": "Include or update tests as part of the implementation."
           }
+        ],
+        "examples": [
+          "/sc-implement \"user profile component\" --type component --framework react",
+          "/sc-implement \"user authentication API\" --type api --safe --with-tests"
         ]
       },
       "workflow": [
@@ -751,11 +1142,13 @@
     {
       "schema_version": 1,
       "id": "improve",
-      "display_name": "/sc:improve",
+      "display_name": "/sc-improve",
       "category": "development",
       "description": "Apply systematic improvements to code quality, performance, and maintainability",
       "aliases": [
+        "/sc-improve",
         "/sc:improve",
+        "sc-improve",
         "sc:improve",
         "improve"
       ],
@@ -765,7 +1158,47 @@
         "Maintainability improvements and technical debt reduction",
         "Best practices application and coding standards enforcement"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "Code, module, API, or project area to improve."
+          }
+        ],
+        "flags": [
+          {
+            "name": "type",
+            "values": [
+              "quality",
+              "performance",
+              "maintainability",
+              "style",
+              "security"
+            ],
+            "description": "Improvement category."
+          },
+          {
+            "name": "safe",
+            "type": "boolean",
+            "description": "Use conservative improvement with validation gates."
+          },
+          {
+            "name": "interactive",
+            "type": "boolean",
+            "description": "Ask before applying higher-impact improvements."
+          },
+          {
+            "name": "preview",
+            "type": "boolean",
+            "description": "Show proposed improvements without applying changes."
+          }
+        ],
+        "examples": [
+          "/sc-improve src/ --type quality --safe",
+          "/sc-improve api-endpoints --type performance --interactive"
+        ]
+      },
       "workflow": [
         "analyze",
         "plan",
@@ -807,16 +1240,43 @@
     {
       "schema_version": 1,
       "id": "index-repo",
-      "display_name": "/sc:index-repo",
+      "display_name": "/sc-index-repo",
       "category": "utility",
       "description": "Repository Indexing - 94% token reduction (58K → 3K)",
       "aliases": [
+        "/sc-index-repo",
         "/sc:index-repo",
+        "sc-index-repo",
         "sc:index-repo",
         "index-repo"
       ],
       "triggers": [],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "Repository path or project root to index."
+          }
+        ],
+        "flags": [
+          {
+            "name": "mode",
+            "values": [
+              "create",
+              "update",
+              "quick"
+            ],
+            "default": "create",
+            "description": "Indexing mode."
+          }
+        ],
+        "examples": [
+          "/sc-index-repo",
+          "/sc-index-repo . --mode update",
+          "/sc-index-repo . --mode quick"
+        ]
+      },
       "workflow": [
         "analyze_request",
         "execute",
@@ -846,11 +1306,13 @@
     {
       "schema_version": 1,
       "id": "index",
-      "display_name": "/sc:index",
+      "display_name": "/sc-index",
       "category": "utility",
       "description": "Generate comprehensive project documentation and knowledge base with intelligent organization",
       "aliases": [
+        "/sc-index",
         "/sc:index",
+        "sc-index",
         "sc:index",
         "index"
       ],
@@ -860,7 +1322,40 @@
         "API documentation and structure analysis requirements",
         "Cross-referencing and navigation enhancement requests"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "Project path, source directory, API, or documentation area to index."
+          }
+        ],
+        "flags": [
+          {
+            "name": "type",
+            "values": [
+              "docs",
+              "api",
+              "structure",
+              "readme"
+            ],
+            "description": "Index type."
+          },
+          {
+            "name": "format",
+            "values": [
+              "md",
+              "json",
+              "yaml"
+            ],
+            "description": "Index output format."
+          }
+        ],
+        "examples": [
+          "/sc-index project-root --type structure --format md",
+          "/sc-index src/api --type api --format json"
+        ]
+      },
       "workflow": [
         "analyze",
         "organize",
@@ -900,11 +1395,13 @@
     {
       "schema_version": 1,
       "id": "load",
-      "display_name": "/sc:load",
+      "display_name": "/sc-load",
       "category": "utility",
       "description": "Session lifecycle management with Serena MCP integration for project context loading",
       "aliases": [
+        "/sc-load",
         "/sc:load",
+        "sc-load",
         "sc:load",
         "load"
       ],
@@ -914,7 +1411,46 @@
         "Project activation and context management requirements",
         "Session lifecycle management and checkpoint loading scenarios"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "target",
+            "required": false,
+            "description": "Project, config, dependency set, or checkpoint to load."
+          }
+        ],
+        "flags": [
+          {
+            "name": "type",
+            "values": [
+              "project",
+              "config",
+              "deps",
+              "checkpoint"
+            ],
+            "description": "Load target type."
+          },
+          {
+            "name": "refresh",
+            "type": "boolean",
+            "description": "Refresh cached or saved context while loading."
+          },
+          {
+            "name": "analyze",
+            "type": "boolean",
+            "description": "Analyze the loaded context before proceeding."
+          },
+          {
+            "name": "checkpoint",
+            "value_name": "id",
+            "description": "Checkpoint identifier to load."
+          }
+        ],
+        "examples": [
+          "/sc-load /path/to/project --type project --analyze",
+          "/sc-load --type deps --refresh"
+        ]
+      },
       "workflow": [
         "initialize",
         "discover",
@@ -944,16 +1480,45 @@
     {
       "schema_version": 1,
       "id": "pm",
-      "display_name": "/sc:pm",
+      "display_name": "/sc-pm",
       "category": "project_management",
       "description": "Project Manager Agent - Default orchestration agent that coordinates all sub-agents and manages workflows seamlessly",
       "aliases": [
+        "/sc-pm",
         "/sc:pm",
+        "sc-pm",
         "sc:pm",
         "pm"
       ],
       "triggers": [],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "request",
+            "required": false,
+            "description": "Project management, orchestration, or planning request."
+          }
+        ],
+        "flags": [
+          {
+            "name": "strategy",
+            "values": [
+              "brainstorm",
+              "direct",
+              "wave"
+            ],
+            "description": "Orchestration strategy."
+          },
+          {
+            "name": "verbose",
+            "type": "boolean",
+            "description": "Return detailed orchestration notes and rationale."
+          }
+        ],
+        "examples": [
+          "/sc-pm \"Improve application security\" --strategy wave"
+        ]
+      },
       "workflow": [
         "analyze_request",
         "execute",
@@ -994,16 +1559,75 @@
     {
       "schema_version": 1,
       "id": "recommend",
-      "display_name": "/sc:recommend",
+      "display_name": "/sc-recommend",
       "category": "utility",
       "description": "Ultra-intelligent command recommendation engine - recommends the most suitable SuperClaude commands for any user input",
       "aliases": [
+        "/sc-recommend",
         "/sc:recommend",
+        "sc-recommend",
         "sc:recommend",
         "recommend"
       ],
       "triggers": [],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "user_request",
+            "required": false,
+            "description": "Natural-language request to map to commands and flags."
+          }
+        ],
+        "flags": [
+          {
+            "name": "options",
+            "value_name": "flags",
+            "description": "Free-form recommendation options or constraints."
+          },
+          {
+            "name": "estimate",
+            "type": "boolean",
+            "description": "Include time or budget estimation."
+          },
+          {
+            "name": "alternatives",
+            "type": "boolean",
+            "description": "Return multiple command alternatives."
+          },
+          {
+            "name": "stream",
+            "type": "boolean",
+            "description": "Use continuous recommendation mode."
+          },
+          {
+            "name": "community",
+            "type": "boolean",
+            "description": "Include community pattern guidance."
+          },
+          {
+            "name": "language",
+            "values": [
+              "tr",
+              "en",
+              "auto"
+            ],
+            "description": "Recommendation language."
+          },
+          {
+            "name": "expertise",
+            "values": [
+              "beginner",
+              "intermediate",
+              "expert"
+            ],
+            "description": "User expertise level."
+          }
+        ],
+        "examples": [
+          "/sc-recommend \"I need to add a new feature\"",
+          "/sc-recommend \"new React project\" --estimate --alternatives"
+        ]
+      },
       "workflow": [
         "analyze_request",
         "execute",
@@ -1032,11 +1656,13 @@
     {
       "schema_version": 1,
       "id": "reflect",
-      "display_name": "/sc:reflect",
+      "display_name": "/sc-reflect",
       "category": "quality",
       "description": "Task reflection and validation using Serena MCP analysis capabilities",
       "aliases": [
+        "/sc-reflect",
         "/sc:reflect",
+        "sc-reflect",
         "sc:reflect",
         "reflect"
       ],
@@ -1046,7 +1672,33 @@
         "Cross-session learning and insight capture for project improvement",
         "Quality gates requiring comprehensive task adherence verification"
       ],
-      "inputs": {},
+      "inputs": {
+        "flags": [
+          {
+            "name": "type",
+            "values": [
+              "task",
+              "session",
+              "completion"
+            ],
+            "description": "Reflection type."
+          },
+          {
+            "name": "analyze",
+            "type": "boolean",
+            "description": "Analyze the work before reflecting."
+          },
+          {
+            "name": "validate",
+            "type": "boolean",
+            "description": "Validate outcomes and assumptions."
+          }
+        ],
+        "examples": [
+          "/sc-reflect --type task --analyze",
+          "/sc-reflect --type session --validate"
+        ]
+      },
       "workflow": [
         "analyze",
         "validate",
@@ -1078,11 +1730,13 @@
     {
       "schema_version": 1,
       "id": "research",
-      "display_name": "/sc:research",
+      "display_name": "/sc-research",
       "category": "research",
       "description": "Deep web research with adaptive planning and intelligent search",
       "aliases": [
+        "/sc-research",
         "/sc:research",
+        "sc-research",
         "sc:research",
         "research"
       ],
@@ -1093,7 +1747,39 @@
         "Academic or technical research requirements",
         "Market analysis and competitive intelligence"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "query",
+            "required": false,
+            "description": "Research question, topic, market, technology, or decision to investigate."
+          }
+        ],
+        "flags": [
+          {
+            "name": "depth",
+            "values": [
+              "quick",
+              "standard",
+              "deep",
+              "exhaustive"
+            ],
+            "description": "Research depth."
+          },
+          {
+            "name": "strategy",
+            "values": [
+              "planning",
+              "intent",
+              "unified"
+            ],
+            "description": "Research strategy."
+          }
+        ],
+        "examples": [
+          "/sc-research \"competitive analysis of AI coding assistants\" --depth deep"
+        ]
+      },
       "workflow": [
         "analyze_request",
         "execute",
@@ -1132,11 +1818,13 @@
     {
       "schema_version": 1,
       "id": "save",
-      "display_name": "/sc:save",
+      "display_name": "/sc-save",
       "category": "utility",
       "description": "Session lifecycle management with Serena MCP integration for session context persistence",
       "aliases": [
+        "/sc-save",
         "/sc:save",
+        "sc-save",
         "sc:save",
         "save"
       ],
@@ -1146,7 +1834,34 @@
         "Project understanding preservation and discovery archival scenarios",
         "Session lifecycle management and progress tracking requirements"
       ],
-      "inputs": {},
+      "inputs": {
+        "flags": [
+          {
+            "name": "type",
+            "values": [
+              "session",
+              "learnings",
+              "context",
+              "all"
+            ],
+            "description": "Context to save."
+          },
+          {
+            "name": "summarize",
+            "type": "boolean",
+            "description": "Summarize saved context for later restoration."
+          },
+          {
+            "name": "checkpoint",
+            "type": "boolean",
+            "description": "Create a named checkpoint for later loading."
+          }
+        ],
+        "examples": [
+          "/sc-save --type all --checkpoint",
+          "/sc-save --summarize"
+        ]
+      },
       "workflow": [
         "analyze",
         "persist",
@@ -1181,11 +1896,29 @@
       "description": "SuperClaude command dispatcher - Use /sc [command] to access all SuperClaude features",
       "aliases": [
         "/sc",
+        "/sc-sc",
         "/sc:sc",
         "sc"
       ],
       "triggers": [],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "command",
+            "required": false,
+            "description": "SuperClaude command to dispatch."
+          },
+          {
+            "name": "arguments",
+            "required": false,
+            "description": "Arguments to forward to the dispatched command."
+          }
+        ],
+        "examples": [
+          "/sc implement \"add authentication middleware\"",
+          "/sc help"
+        ]
+      },
       "workflow": [
         "analyze_request",
         "execute",
@@ -1213,11 +1946,13 @@
     {
       "schema_version": 1,
       "id": "select-tool",
-      "display_name": "/sc:select-tool",
+      "display_name": "/sc-select-tool",
       "category": "utility",
       "description": "Intelligent MCP tool selection based on complexity scoring and operation analysis",
       "aliases": [
+        "/sc-select-tool",
         "/sc:select-tool",
+        "sc-select-tool",
         "sc:select-tool",
         "select-tool"
       ],
@@ -1227,7 +1962,30 @@
         "Tool routing decisions requiring performance vs accuracy trade-offs",
         "Operations benefiting from intelligent tool capability assessment"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "operation",
+            "required": false,
+            "description": "Operation or edit scenario to choose tools for."
+          }
+        ],
+        "flags": [
+          {
+            "name": "analyze",
+            "type": "boolean",
+            "description": "Analyze the operation before recommending tools."
+          },
+          {
+            "name": "explain",
+            "type": "boolean",
+            "description": "Explain why the selected tools fit the task."
+          }
+        ],
+        "examples": [
+          "/sc-select-tool \"rename function across 10 files\" --analyze"
+        ]
+      },
       "workflow": [
         "parse",
         "score",
@@ -1258,11 +2016,13 @@
     {
       "schema_version": 1,
       "id": "spawn",
-      "display_name": "/sc:spawn",
+      "display_name": "/sc-spawn",
       "category": "utility",
       "description": "Meta-system task orchestration with intelligent breakdown and delegation",
       "aliases": [
+        "/sc-spawn",
         "/sc:spawn",
+        "sc-spawn",
         "sc:spawn",
         "spawn"
       ],
@@ -1272,7 +2032,38 @@
         "Operations requiring parallel coordination and dependency management",
         "Meta-level orchestration beyond standard command capabilities"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "complex_task",
+            "required": false,
+            "description": "Complex task to break down and orchestrate."
+          }
+        ],
+        "flags": [
+          {
+            "name": "strategy",
+            "values": [
+              "sequential",
+              "parallel",
+              "adaptive"
+            ],
+            "description": "Task breakdown strategy."
+          },
+          {
+            "name": "depth",
+            "values": [
+              "normal",
+              "deep"
+            ],
+            "description": "Planning and execution depth."
+          }
+        ],
+        "examples": [
+          "/sc-spawn \"implement user authentication system\"",
+          "/sc-spawn \"migrate monolith\" --strategy adaptive --depth deep"
+        ]
+      },
       "workflow": [
         "analyze",
         "decompose",
@@ -1303,11 +2094,13 @@
     {
       "schema_version": 1,
       "id": "spec-panel",
-      "display_name": "/sc:spec-panel",
+      "display_name": "/sc-spec-panel",
       "category": "discovery",
       "description": "Multi-expert specification review and improvement using renowned specification and software engineering experts",
       "aliases": [
+        "/sc-spec-panel",
         "/sc:spec-panel",
+        "sc-spec-panel",
         "sc:spec-panel",
         "spec-panel"
       ],
@@ -1317,7 +2110,59 @@
         "Requirements analysis and completeness verification",
         "Professional specification writing guidance and mentoring"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "specification",
+            "required": false,
+            "description": "Specification content or @file path to review."
+          }
+        ],
+        "flags": [
+          {
+            "name": "mode",
+            "values": [
+              "discussion",
+              "critique",
+              "socratic"
+            ],
+            "description": "Panel review mode."
+          },
+          {
+            "name": "experts",
+            "value_name": "names",
+            "description": "Comma-separated expert names."
+          },
+          {
+            "name": "focus",
+            "values": [
+              "requirements",
+              "architecture",
+              "testing",
+              "compliance"
+            ],
+            "description": "Review focus areas."
+          },
+          {
+            "name": "iterations",
+            "type": "integer",
+            "value_name": "n",
+            "description": "Number of review iterations."
+          },
+          {
+            "name": "format",
+            "values": [
+              "standard",
+              "structured",
+              "detailed"
+            ],
+            "description": "Output format."
+          }
+        ],
+        "examples": [
+          "/sc-spec-panel @auth_api.spec.yml --mode critique --focus requirements,architecture"
+        ]
+      },
       "workflow": [
         "analyze",
         "assemble",
@@ -1359,11 +2204,13 @@
     {
       "schema_version": 1,
       "id": "task",
-      "display_name": "/sc:task",
+      "display_name": "/sc-task",
       "category": "project_management",
       "description": "Execute complex tasks with intelligent workflow management and delegation",
       "aliases": [
+        "/sc-task",
         "/sc:task",
+        "sc-task",
         "sc:task",
         "task"
       ],
@@ -1373,7 +2220,44 @@
         "Operations requiring intelligent MCP server routing and domain expertise",
         "Tasks benefiting from systematic execution and progressive enhancement"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "action",
+            "required": false,
+            "description": "Task action such as create, execute, update, or review."
+          },
+          {
+            "name": "target",
+            "required": false,
+            "description": "Task, backlog, project, or feature target."
+          }
+        ],
+        "flags": [
+          {
+            "name": "strategy",
+            "values": [
+              "systematic",
+              "agile",
+              "enterprise"
+            ],
+            "description": "Task execution strategy."
+          },
+          {
+            "name": "parallel",
+            "type": "boolean",
+            "description": "Execute independent task work in parallel."
+          },
+          {
+            "name": "delegate",
+            "type": "boolean",
+            "description": "Delegate suitable subtasks to agents."
+          }
+        ],
+        "examples": [
+          "/sc-task create \"enterprise authentication system\" --strategy systematic --parallel"
+        ]
+      },
       "workflow": [
         "analyze",
         "delegate",
@@ -1420,11 +2304,13 @@
     {
       "schema_version": 1,
       "id": "test",
-      "display_name": "/sc:test",
+      "display_name": "/sc-test",
       "category": "quality",
       "description": "Execute tests with coverage analysis and automated quality reporting.",
       "aliases": [
+        "/sc-test",
         "/sc:test",
+        "sc-test",
         "sc:test",
         "test"
       ],
@@ -1439,19 +2325,37 @@
           {
             "name": "target",
             "required": false,
-            "description": "Test file, directory, or pattern"
+            "description": "Test file, directory, component, or project area."
           }
         ],
         "flags": [
           {
-            "name": "mode",
-            "values": [
-              "run",
-              "generate",
-              "coverage",
-              "watch"
+            "name": "type",
+            "aliases": [
+              "mode"
             ],
-            "default": "run"
+            "values": [
+              "unit",
+              "integration",
+              "e2e",
+              "all"
+            ],
+            "description": "Test type."
+          },
+          {
+            "name": "coverage",
+            "type": "boolean",
+            "description": "Include coverage reporting or analysis."
+          },
+          {
+            "name": "watch",
+            "type": "boolean",
+            "description": "Run tests in watch mode when supported."
+          },
+          {
+            "name": "fix",
+            "type": "boolean",
+            "description": "Attempt to fix failing tests when appropriate."
           },
           {
             "name": "framework",
@@ -1460,8 +2364,14 @@
               "jest",
               "vitest",
               "mocha"
-            ]
+            ],
+            "description": "Test framework to use when auto-detection is ambiguous."
           }
+        ],
+        "examples": [
+          "/sc-test src/components --type unit --coverage",
+          "/sc-test --type e2e",
+          "/sc-test --watch --fix"
         ]
       },
       "workflow": [
@@ -1502,11 +2412,13 @@
     {
       "schema_version": 1,
       "id": "troubleshoot",
-      "display_name": "/sc:troubleshoot",
+      "display_name": "/sc-troubleshoot",
       "category": "quality",
       "description": "Diagnose and resolve issues in code, builds, deployments, and system behavior.",
       "aliases": [
+        "/sc-troubleshoot",
         "/sc:troubleshoot",
+        "sc-troubleshoot",
         "sc:troubleshoot",
         "troubleshoot"
       ],
@@ -1519,23 +2431,35 @@
       "inputs": {
         "positional": [
           {
-            "name": "issue_description",
+            "name": "issue",
             "required": false,
-            "description": "Description of the problem or error message"
+            "description": "Problem description, failing command, error message, or incident symptoms."
           }
         ],
         "flags": [
           {
-            "name": "scope",
+            "name": "type",
             "values": [
-              "code",
+              "bug",
               "build",
-              "deploy",
-              "runtime",
-              "all"
+              "performance",
+              "deployment"
             ],
-            "default": "all"
+            "description": "Troubleshooting category."
+          },
+          {
+            "name": "trace",
+            "type": "boolean",
+            "description": "Trace the failure path in detail."
+          },
+          {
+            "name": "fix",
+            "type": "boolean",
+            "description": "Apply a fix after root cause is identified."
           }
+        ],
+        "examples": [
+          "/sc-troubleshoot \"TypeScript compilation errors\" --type build --fix"
         ]
       },
       "workflow": [
@@ -1581,11 +2505,13 @@
     {
       "schema_version": 1,
       "id": "workflow",
-      "display_name": "/sc:workflow",
+      "display_name": "/sc-workflow",
       "category": "project_management",
       "description": "Generate structured implementation workflows from PRDs and feature requirements",
       "aliases": [
+        "/sc-workflow",
         "/sc:workflow",
+        "sc-workflow",
         "sc:workflow",
         "workflow"
       ],
@@ -1595,7 +2521,43 @@
         "Multi-persona coordination for complex implementation strategies",
         "Cross-session workflow management and dependency mapping"
       ],
-      "inputs": {},
+      "inputs": {
+        "positional": [
+          {
+            "name": "prd_or_feature",
+            "required": false,
+            "description": "PRD file, feature description, project brief, or implementation request."
+          }
+        ],
+        "flags": [
+          {
+            "name": "strategy",
+            "values": [
+              "systematic",
+              "agile",
+              "enterprise"
+            ],
+            "description": "Workflow planning strategy."
+          },
+          {
+            "name": "depth",
+            "values": [
+              "shallow",
+              "normal",
+              "deep"
+            ],
+            "description": "Workflow detail level."
+          },
+          {
+            "name": "parallel",
+            "type": "boolean",
+            "description": "Identify parallelizable implementation work."
+          }
+        ],
+        "examples": [
+          "/sc-workflow Claudedocs/PRD/feature-spec.md --strategy systematic --depth deep"
+        ]
+      },
       "workflow": [
         "analyze",
         "plan",

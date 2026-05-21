@@ -1,10 +1,12 @@
 schema_version: 1
 id: spawn
-display_name: /sc:spawn
+display_name: /sc-spawn
 category: utility
 description: Meta-system task orchestration with intelligent breakdown and delegation
 aliases:
+- /sc-spawn
 - /sc:spawn
+- sc-spawn
 - sc:spawn
 - spawn
 triggers:
@@ -33,3 +35,23 @@ codex:
   skill_name: superclaude-spawn
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: complex_task
+    required: false
+    description: Complex task to break down and orchestrate.
+  flags:
+  - name: strategy
+    values:
+    - sequential
+    - parallel
+    - adaptive
+    description: Task breakdown strategy.
+  - name: depth
+    values:
+    - normal
+    - deep
+    description: Planning and execution depth.
+  examples:
+  - /sc-spawn "implement user authentication system"
+  - /sc-spawn "migrate monolith" --strategy adaptive --depth deep

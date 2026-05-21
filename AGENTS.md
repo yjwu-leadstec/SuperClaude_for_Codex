@@ -29,8 +29,10 @@ uv run superclaude-codex commands validate
 ## Architecture
 
 SuperClaude for Codex is a Codex-native Python package providing 30 structured
-`/sc:*` commands and 20 specialist agents for OpenAI Codex. It does not read or
-write `~/.claude`.
+`/sc-*` commands and 20 specialist agents for OpenAI Codex. Legacy `/sc:*`
+aliases remain supported for migration. It does not read or write `~/.claude`.
+Installation also registers a local Codex plugin so `/sc-*` commands can appear
+in native slash-command completion after Codex restarts.
 
 ### CLI Entry Point
 

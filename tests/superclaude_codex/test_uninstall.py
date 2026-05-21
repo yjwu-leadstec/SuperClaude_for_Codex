@@ -3,6 +3,8 @@
 from superclaude_codex.codex.agents_md import BEGIN_MARKER, END_MARKER
 from superclaude_codex.codex.mcp import BEGIN_MARKER as MCP_BEGIN
 from superclaude_codex.codex.mcp import END_MARKER as MCP_END
+from superclaude_codex.codex.plugin import BEGIN_MARKER as PLUGIN_BEGIN
+from superclaude_codex.codex.plugin import END_MARKER as PLUGIN_END
 from superclaude_codex.codex.uninstall import uninstall
 
 
@@ -30,6 +32,20 @@ class TestUninstallMCPOnly:
         assert config.read_text() == original
         assert any("dry-run" in a for a in actions)
 
+    def test_plugin_block_uninstall(self, tmp_codex_home):
+        config = tmp_codex_home / "config.toml"
+        config.write_text(
+            f"[other]\nkey = 'value'\n\n{PLUGIN_BEGIN}\n\n"
+            "[marketplaces.superclaude-for-codex]\n"
+            f'source_type = "local"\n\n{PLUGIN_END}\n'
+        )
+        actions = uninstall(codex_home=tmp_codex_home)
+        content = config.read_text()
+        assert PLUGIN_BEGIN not in content
+        assert PLUGIN_END not in content
+        assert "[other]" in content
+        assert any("plugin block" in a for a in actions)
+
 
 class TestUninstallFull:
     def test_removes_skills(self, tmp_codex_home):
@@ -46,6 +62,20 @@ class TestUninstallFull:
         (sc / "commands.json").write_text("{}")
         uninstall(codex_home=tmp_codex_home)
         assert not sc.exists()
+
+    def test_removes_installed_plugin_cache(self, tmp_codex_home):
+        plugin = (
+            tmp_codex_home
+            / "plugins"
+            / "cache"
+            / "superclaude-for-codex"
+            / "superclaude-for-codex"
+            / "local"
+        )
+        plugin.mkdir(parents=True)
+        (plugin / "marker").write_text("installed")
+        uninstall(codex_home=tmp_codex_home)
+        assert not plugin.exists()
 
     def test_removes_agents_block(self, tmp_codex_home):
         agents = tmp_codex_home / "AGENTS.md"

@@ -1,10 +1,12 @@
 schema_version: 1
 id: git
-display_name: /sc:git
+display_name: /sc-git
 category: version_control
 description: Git operations with intelligent commit messages and workflow optimization
 aliases:
+- /sc-git
 - /sc:git
+- sc-git
 - sc:git
 - git
 triggers:
@@ -33,3 +35,21 @@ codex:
   skill_name: superclaude-git
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: operation
+    required: false
+    description: Git operation such as status, diff, commit, branch, merge, or log.
+  - name: args
+    required: false
+    description: Additional operation-specific arguments.
+  flags:
+  - name: smart-commit
+    type: boolean
+    description: Generate an intelligent commit message from the current diff.
+  - name: interactive
+    type: boolean
+    description: Use an interactive workflow for risky git operations.
+  examples:
+  - /sc-git status
+  - /sc-git commit --smart-commit

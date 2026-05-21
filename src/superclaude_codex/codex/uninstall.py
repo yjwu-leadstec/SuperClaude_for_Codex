@@ -20,6 +20,9 @@ from superclaude_codex.codex.paths import (
     get_superclaude_dir,
     resolve_codex_home,
 )
+from superclaude_codex.codex.plugin import BEGIN_MARKER as PLUGIN_BEGIN
+from superclaude_codex.codex.plugin import END_MARKER as PLUGIN_END
+from superclaude_codex.codex.plugin import get_installed_plugin_dir
 
 
 def uninstall(codex_home: Path | None = None, dry_run: bool = False) -> list[str]:
@@ -48,6 +51,14 @@ def uninstall(codex_home: Path | None = None, dry_run: bool = False) -> list[str
             shutil.rmtree(sc_dir)
             actions.append(f"Removed: {sc_dir}")
 
+    installed_plugin_dir = get_installed_plugin_dir(home)
+    if installed_plugin_dir.exists():
+        if dry_run:
+            actions.append(f"[dry-run] Would remove: {installed_plugin_dir}")
+        else:
+            shutil.rmtree(installed_plugin_dir)
+            actions.append(f"Removed: {installed_plugin_dir}")
+
     # 3. Remove AGENTS.md marker block
     agents_path = get_agents_md_path(home)
     if agents_path.exists():
@@ -73,6 +84,20 @@ def uninstall(codex_home: Path | None = None, dry_run: bool = False) -> list[str
     config_path = get_config_toml_path(home)
     if config_path.exists():
         content = config_path.read_text()
+        start = content.find(PLUGIN_BEGIN)
+        end = content.find(PLUGIN_END)
+        if start != -1 and end != -1:
+            new_content = content[:start] + content[end + len(PLUGIN_END) :]
+            new_content = re.sub(r"\n{3,}", "\n\n", new_content)
+            if not new_content.strip():
+                new_content = ""
+            if dry_run:
+                actions.append("[dry-run] Would remove plugin block from config.toml")
+            else:
+                config_path.write_text(new_content)
+                actions.append("Removed plugin block from config.toml")
+            content = new_content
+
         start = content.find(MCP_BEGIN)
         end = content.find(MCP_END)
         if start != -1 and end != -1:

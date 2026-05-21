@@ -1,10 +1,12 @@
 schema_version: 1
 id: business-panel
-display_name: /sc:business-panel
+display_name: /sc-business-panel
 category: discovery
 description: Multi-expert business strategy panel with sequential, debate, and Socratic modes
 aliases:
+- /sc-business-panel
 - /sc:business-panel
+- sc-business-panel
 - sc:business-panel
 - business-panel
 triggers: []
@@ -28,3 +30,40 @@ codex:
   skill_name: superclaude-business-panel
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: content
+    required: false
+    description: Document path, pasted content, business idea, or strategic question.
+  flags:
+  - name: mode
+    values:
+    - discussion
+    - debate
+    - socratic
+    - adaptive
+    description: Panel interaction mode.
+  - name: experts
+    value_name: names
+    description: Comma-separated expert names to include.
+  - name: focus
+    value_name: domain
+    description: Business domain or strategic focus.
+  - name: all-experts
+    type: boolean
+    description: Include the full expert panel.
+  - name: synthesis-only
+    type: boolean
+    description: Return only the synthesis rather than full expert analysis.
+  - name: structured
+    type: boolean
+    description: Use a structured output format.
+  - name: verbose
+    type: boolean
+    description: Return detailed expert reasoning and recommendations.
+  - name: questions
+    type: boolean
+    description: Focus the panel on strategic questions.
+  examples:
+  - /sc-business-panel business-plan.md --mode debate
+  - /sc-business-panel "new SaaS pricing" --experts "porter,christensen" --synthesis-only

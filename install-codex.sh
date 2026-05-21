@@ -3,7 +3,7 @@
 # Usage: ./install-codex.sh
 #
 # This script installs the superclaude-for-codex package and sets up
-# Codex with all 30 /sc:* commands, skills, and routing.
+# Codex with all 30 /sc-* commands, standalone skills, and routing.
 #
 # Requirements: Python >= 3.10, pip or uv
 #
@@ -87,9 +87,11 @@ echo "==================================="
 echo "✅ SuperClaude for Codex is ready!"
 echo ""
 echo "Open Codex and try:"
-echo "  /sc:brainstorm \"your idea here\""
-echo "  /sc:implement \"feature description\""
+echo "  /sc-brainstorm \"your idea here\""
+echo "  /sc-implement \"feature description\""
 echo "  /sc                                  # list all 30 commands"
+echo ""
+echo "Restart Codex if the /sc-* commands do not appear in slash completion yet."
 echo ""
 if [ -n "${USE_UV:-}" ]; then
     CLI_PREFIX="uv run "

@@ -1,11 +1,12 @@
 schema_version: 1
 id: select-tool
-display_name: /sc:select-tool
+display_name: /sc-select-tool
 category: utility
-description: Intelligent MCP tool selection based on complexity scoring and operation
-  analysis
+description: Intelligent MCP tool selection based on complexity scoring and operation analysis
 aliases:
+- /sc-select-tool
 - /sc:select-tool
+- sc-select-tool
 - sc:select-tool
 - select-tool
 triggers:
@@ -34,3 +35,17 @@ codex:
   skill_name: superclaude-select-tool
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: operation
+    required: false
+    description: Operation or edit scenario to choose tools for.
+  flags:
+  - name: analyze
+    type: boolean
+    description: Analyze the operation before recommending tools.
+  - name: explain
+    type: boolean
+    description: Explain why the selected tools fit the task.
+  examples:
+  - /sc-select-tool "rename function across 10 files" --analyze

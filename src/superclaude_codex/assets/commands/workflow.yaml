@@ -1,10 +1,12 @@
 schema_version: 1
 id: workflow
-display_name: /sc:workflow
+display_name: /sc-workflow
 category: project_management
 description: Generate structured implementation workflows from PRDs and feature requirements
 aliases:
+- /sc-workflow
 - /sc:workflow
+- sc-workflow
 - sc:workflow
 - workflow
 triggers:
@@ -46,3 +48,26 @@ codex:
   skill_name: superclaude-workflow
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: prd_or_feature
+    required: false
+    description: PRD file, feature description, project brief, or implementation request.
+  flags:
+  - name: strategy
+    values:
+    - systematic
+    - agile
+    - enterprise
+    description: Workflow planning strategy.
+  - name: depth
+    values:
+    - shallow
+    - normal
+    - deep
+    description: Workflow detail level.
+  - name: parallel
+    type: boolean
+    description: Identify parallelizable implementation work.
+  examples:
+  - /sc-workflow Claudedocs/PRD/feature-spec.md --strategy systematic --depth deep

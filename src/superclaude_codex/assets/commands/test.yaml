@@ -1,59 +1,76 @@
 schema_version: 1
 id: test
-display_name: /sc:test
+display_name: /sc-test
 category: quality
 description: Execute tests with coverage analysis and automated quality reporting.
-
 aliases:
-  - /sc:test
-  - sc:test
-  - test
-
+- /sc-test
+- /sc:test
+- sc-test
+- sc:test
+- test
 triggers:
-  - user asks to run tests
-  - user asks to write tests
-  - user wants test coverage
-  - testing workflow request
-
+- user asks to run tests
+- user asks to write tests
+- user wants test coverage
+- testing workflow request
 inputs:
   positional:
-    - name: target
-      required: false
-      description: Test file, directory, or pattern
+  - name: target
+    required: false
+    description: Test file, directory, component, or project area.
   flags:
-    - name: mode
-      values: [run, generate, coverage, watch]
-      default: run
-    - name: framework
-      values: [pytest, jest, vitest, mocha]
-
+  - name: type
+    aliases:
+    - mode
+    values:
+    - unit
+    - integration
+    - e2e
+    - all
+    description: Test type.
+  - name: coverage
+    type: boolean
+    description: Include coverage reporting or analysis.
+  - name: watch
+    type: boolean
+    description: Run tests in watch mode when supported.
+  - name: fix
+    type: boolean
+    description: Attempt to fix failing tests when appropriate.
+  - name: framework
+    values:
+    - pytest
+    - jest
+    - vitest
+    - mocha
+    description: Test framework to use when auto-detection is ambiguous.
+  examples:
+  - /sc-test src/components --type unit --coverage
+  - /sc-test --type e2e
+  - /sc-test --watch --fix
 workflow:
-  - detect_test_framework
-  - identify_test_scope
-  - run_or_generate_tests
-  - analyze_coverage
-  - report_results
-
+- detect_test_framework
+- identify_test_scope
+- run_or_generate_tests
+- analyze_coverage
+- report_results
 personas:
-  - quality-engineer
-  - python-expert
-
+- quality-engineer
+- python-expert
 mcp:
   optional:
-    - context7
-
+  - context7
 safety:
   writes_code: true
   writes_files: true
   requires_user_confirmation_for_scope_change: false
-
 output_contract:
   primary: test_report
   required_sections:
-    - test_results
-    - coverage_summary
-    - failures_and_fixes
-
+  - test_results
+  - coverage_summary
+  - failures_and_fixes
 codex:
   skill_name: superclaude-test
   default_reasoning: medium

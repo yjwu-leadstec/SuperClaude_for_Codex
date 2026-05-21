@@ -1,11 +1,13 @@
 schema_version: 1
 id: recommend
-display_name: /sc:recommend
+display_name: /sc-recommend
 category: utility
-description: Ultra-intelligent command recommendation engine - recommends the most
-  suitable SuperClaude commands for any user input
+description: Ultra-intelligent command recommendation engine - recommends the most suitable
+  SuperClaude commands for any user input
 aliases:
+- /sc-recommend
 - /sc:recommend
+- sc-recommend
 - sc:recommend
 - recommend
 triggers: []
@@ -28,3 +30,39 @@ codex:
   skill_name: superclaude-recommend
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: user_request
+    required: false
+    description: Natural-language request to map to commands and flags.
+  flags:
+  - name: options
+    value_name: flags
+    description: Free-form recommendation options or constraints.
+  - name: estimate
+    type: boolean
+    description: Include time or budget estimation.
+  - name: alternatives
+    type: boolean
+    description: Return multiple command alternatives.
+  - name: stream
+    type: boolean
+    description: Use continuous recommendation mode.
+  - name: community
+    type: boolean
+    description: Include community pattern guidance.
+  - name: language
+    values:
+    - tr
+    - en
+    - auto
+    description: Recommendation language.
+  - name: expertise
+    values:
+    - beginner
+    - intermediate
+    - expert
+    description: User expertise level.
+  examples:
+  - /sc-recommend "I need to add a new feature"
+  - /sc-recommend "new React project" --estimate --alternatives

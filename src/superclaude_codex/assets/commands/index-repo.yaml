@@ -1,10 +1,12 @@
 schema_version: 1
 id: index-repo
-display_name: /sc:index-repo
+display_name: /sc-index-repo
 category: utility
 description: Repository Indexing - 94% token reduction (58K → 3K)
 aliases:
+- /sc-index-repo
 - /sc:index-repo
+- sc-index-repo
 - sc:index-repo
 - index-repo
 triggers: []
@@ -28,3 +30,20 @@ codex:
   skill_name: superclaude-index-repo
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: target
+    required: false
+    description: Repository path or project root to index.
+  flags:
+  - name: mode
+    values:
+    - create
+    - update
+    - quick
+    default: create
+    description: Indexing mode.
+  examples:
+  - /sc-index-repo
+  - /sc-index-repo . --mode update
+  - /sc-index-repo . --mode quick

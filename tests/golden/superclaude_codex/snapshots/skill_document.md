@@ -3,11 +3,11 @@ name: superclaude-document
 description: Generate focused documentation for components, functions, APIs, and features
 ---
 
-# /sc:document
+# /sc-document
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:document`.
+Use this skill when the user invokes `/sc-document`.
 Also activate when:
 - Documentation requests for specific components, functions, or features
 - API documentation and reference material generation needs
@@ -16,9 +16,27 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-document`
 - `/sc:document`
+- `sc-document`
 - `sc:document`
 - `document`
+
+## Inputs
+
+- `[target]` (optional): Code, component, API, module, or feature to document.
+- `--type` `inline|external|api|guide`: Documentation type.
+- `--style` `brief|detailed`: Documentation detail level.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Workflow
 
@@ -42,4 +60,4 @@ Return a structured **documentation** containing:
 
 ## Completion
 
-After completing `/sc:document`, suggest relevant follow-up commands.
+After completing `/sc-document`, suggest relevant follow-up commands.

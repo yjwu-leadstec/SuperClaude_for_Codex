@@ -23,9 +23,15 @@
 
 ## 这是什么？
 
-SuperClaude for Codex 为 OpenAI Codex 提供 **30 个结构化 `/sc:*` 命令** 和 **20 个专家 Agent**。在 Codex 中输入 `/sc:brainstorm`、`/sc:implement` 或 `/sc:test` 即可激活对应工作流。
+SuperClaude for Codex 为 OpenAI Codex 提供 **30 个结构化 `/sc-*` 命令** 和 **20 个专家 Agent**。在 Codex 中输入 `/sc-brainstorm`、`/sc-implement` 或 `/sc-test` 即可激活对应工作流。
 
 **重要**：这是一个 **Codex 专属** 项目。**不读取、不修改、不依赖** `~/.claude`。所有安装内容写入 `~/.codex/`。
+
+**命令写法**：早期版本为了方便从原生 SuperClaude 迁移，沿用了 `/sc:*` 写法。现在推荐更符合 Codex 的 `/sc-*` 写法，同时继续兼容 `/sc:implement` 这类旧别名。
+
+**Codex Skills 优先**：默认安装会把 SuperClaude 写入 `~/.codex/skills/superclaude-*`，保持和 gstack/cc-switch 一样的独立 skill 显示方式，不带插件命名空间前缀。如果你明确需要原生插件命令文件和 `argument-hint` 占位提示，可运行 `superclaude-codex install --native-plugin`。
+
+**界面语言**：skill 的 UI 描述默认使用 `--locale auto`。`auto` 会依次读取 `LC_ALL`、`LC_MESSAGES`、`LANG`：`zh-CN`/`zh-Hans` 使用简体中文，`zh-TW`/`zh-HK`/`zh-MO`/`zh-Hant` 使用繁体中文，其他语言默认英文。
 
 ---
 
@@ -37,12 +43,20 @@ cd SuperClaude_for_Codex
 ./install-codex.sh
 ```
 
+也可以强制指定 UI 描述语言：
+
+```bash
+superclaude-codex install --force --locale zh-CN
+superclaude-codex install --force --locale zh-TW
+superclaude-codex install --force --locale en
+```
+
 安装后，在 Codex 中输入：
 
 ```
-/sc:brainstorm "设计一个用户管理 API"
-/sc:implement "添加认证中间件"
-/sc:test
+/sc-brainstorm "设计一个用户管理 API"
+/sc-implement "添加认证中间件"
+/sc-test
 /sc                    # 查看全部 30 个命令
 ```
 
@@ -74,12 +88,12 @@ superclaude-codex uninstall
 
 | 类别 | 命令 |
 |------|------|
-| 规划与设计 | `/sc:brainstorm`, `/sc:design`, `/sc:estimate`, `/sc:business-panel`, `/sc:spec-panel` |
-| 开发 | `/sc:implement`, `/sc:build`, `/sc:improve`, `/sc:cleanup`, `/sc:explain` |
-| 质量 | `/sc:test`, `/sc:analyze`, `/sc:troubleshoot`, `/sc:reflect` |
-| 文档与 Git | `/sc:document`, `/sc:git`, `/sc:help` |
-| 项目管理 | `/sc:pm`, `/sc:task`, `/sc:workflow`, `/sc:research` |
-| 工具 | `/sc:agent`, `/sc:spawn`, `/sc:index-repo`, `/sc:index`, `/sc:recommend`, `/sc:select-tool`, `/sc:load`, `/sc:save`, `/sc` |
+| 规划与设计 | `/sc-brainstorm`, `/sc-design`, `/sc-estimate`, `/sc-business-panel`, `/sc-spec-panel` |
+| 开发 | `/sc-implement`, `/sc-build`, `/sc-improve`, `/sc-cleanup`, `/sc-explain` |
+| 质量 | `/sc-test`, `/sc-analyze`, `/sc-troubleshoot`, `/sc-reflect` |
+| 文档与 Git | `/sc-document`, `/sc-git`, `/sc-help` |
+| 项目管理 | `/sc-pm`, `/sc-task`, `/sc-workflow`, `/sc-research` |
+| 工具 | `/sc-agent`, `/sc-spawn`, `/sc-index-repo`, `/sc-index`, `/sc-recommend`, `/sc-select-tool`, `/sc-load`, `/sc-save`, `/sc` |
 
 ---
 

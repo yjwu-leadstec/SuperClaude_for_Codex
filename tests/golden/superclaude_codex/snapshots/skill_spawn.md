@@ -3,11 +3,11 @@ name: superclaude-spawn
 description: Meta-system task orchestration with intelligent breakdown and delegation
 ---
 
-# /sc:spawn
+# /sc-spawn
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:spawn`.
+Use this skill when the user invokes `/sc-spawn`.
 Also activate when:
 - Complex multi-domain operations requiring intelligent task breakdown
 - Large-scale system operations spanning multiple technical areas
@@ -16,9 +16,27 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-spawn`
 - `/sc:spawn`
+- `sc-spawn`
 - `sc:spawn`
 - `spawn`
+
+## Inputs
+
+- `[complex-task]` (optional): Complex task to break down and orchestrate.
+- `--strategy` `sequential|parallel|adaptive`: Task breakdown strategy.
+- `--depth` `normal|deep`: Planning and execution depth.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Workflow
 
@@ -41,4 +59,4 @@ Return a structured **spawn result** containing:
 
 ## Completion
 
-After completing `/sc:spawn`, suggest relevant follow-up commands.
+After completing `/sc-spawn`, suggest relevant follow-up commands.

@@ -12,6 +12,19 @@ pipx install superclaude-for-codex
 superclaude-codex install
 ```
 
+Skill UI descriptions use `--locale auto` by default. `auto` checks `LC_ALL`,
+`LC_MESSAGES`, then `LANG`: `zh-CN`/`zh-Hans` install Simplified Chinese,
+`zh-TW`/`zh-HK`/`zh-MO`/`zh-Hant` install Traditional Chinese, and all other
+locales install English.
+
+You can force the UI description language:
+
+```bash
+superclaude-codex install --locale zh-CN
+superclaude-codex install --locale zh-TW
+superclaude-codex install --locale en
+```
+
 ## Verify
 
 ```bash
@@ -25,11 +38,25 @@ Expected output:
 ✅ commands.json: valid, 30 commands
 ✅ agents.json: valid, 20 agents
 ✅ Skills: 30/30 installed
+✅ Native plugin: disabled (standalone skills mode)
 ✅ version.json: v0.1.0
 ✅ No ~/.claude references: clean
 
-✅ All 7 checks passed.
+✅ All 8 checks passed.
 ```
+
+The default installer uses standalone Codex skills in
+`~/.codex/skills/superclaude-*`, which keeps completion labels short and avoids
+plugin namespace prefixes.
+
+To also install native plugin command files with `argument-hint` placeholders:
+
+```bash
+superclaude-codex install --native-plugin
+```
+
+Restart Codex after switching install modes so the skill and plugin indexes are
+reloaded.
 
 ## MCP Servers (Optional)
 

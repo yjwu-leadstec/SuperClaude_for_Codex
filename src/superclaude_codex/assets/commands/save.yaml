@@ -1,11 +1,13 @@
 schema_version: 1
 id: save
-display_name: /sc:save
+display_name: /sc-save
 category: utility
-description: Session lifecycle management with Serena MCP integration for session
-  context persistence
+description: Session lifecycle management with Serena MCP integration for session context
+  persistence
 aliases:
+- /sc-save
 - /sc:save
+- sc-save
 - sc:save
 - save
 triggers:
@@ -33,3 +35,21 @@ codex:
   skill_name: superclaude-save
   default_reasoning: medium
   web_search: optional
+inputs:
+  flags:
+  - name: type
+    values:
+    - session
+    - learnings
+    - context
+    - all
+    description: Context to save.
+  - name: summarize
+    type: boolean
+    description: Summarize saved context for later restoration.
+  - name: checkpoint
+    type: boolean
+    description: Create a named checkpoint for later loading.
+  examples:
+  - /sc-save --type all --checkpoint
+  - /sc-save --summarize

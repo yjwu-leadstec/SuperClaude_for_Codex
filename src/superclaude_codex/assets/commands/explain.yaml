@@ -1,11 +1,13 @@
 schema_version: 1
 id: explain
-display_name: /sc:explain
+display_name: /sc-explain
 category: development
-description: Provide clear explanations of code, concepts, and system behavior with
-  educational clarity
+description: Provide clear explanations of code, concepts, and system behavior with educational
+  clarity
 aliases:
+- /sc-explain
 - /sc:explain
+- sc-explain
 - sc:explain
 - explain
 triggers:
@@ -41,3 +43,27 @@ codex:
   skill_name: superclaude-explain
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: target
+    required: false
+    description: Code, concept, architecture, error, or system behavior to explain.
+  flags:
+  - name: level
+    values:
+    - basic
+    - intermediate
+    - advanced
+    description: Explanation level.
+  - name: format
+    values:
+    - text
+    - examples
+    - interactive
+    description: Explanation format.
+  - name: context
+    value_name: domain
+    description: Domain or framework context for the explanation.
+  examples:
+  - /sc-explain authentication.js --level basic
+  - /sc-explain react-hooks --level intermediate --context react

@@ -3,11 +3,11 @@ name: superclaude-troubleshoot
 description: Diagnose and resolve issues in code, builds, deployments, and system behavior.
 ---
 
-# /sc:troubleshoot
+# /sc-troubleshoot
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:troubleshoot`.
+Use this skill when the user invokes `/sc-troubleshoot`.
 Also activate when:
 - user reports an error or bug
 - user asks to debug something
@@ -16,14 +16,28 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-troubleshoot`
 - `/sc:troubleshoot`
+- `sc-troubleshoot`
 - `sc:troubleshoot`
 - `troubleshoot`
 
 ## Inputs
 
-- **issue_description** (optional): Description of the problem or error message
-- `--scope` [code, build, deploy, runtime, all] (default: all)
+- `[issue]` (optional): Problem description, failing command, error message, or incident symptoms.
+- `--type` `bug|build|performance|deployment`: Troubleshooting category.
+- `--trace`: Trace the failure path in detail.
+- `--fix`: Apply a fix after root cause is identified.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Codex Behavior
 
@@ -66,4 +80,4 @@ Return a structured **diagnosis report** containing:
 
 ## Completion
 
-After completing `/sc:troubleshoot`, suggest relevant follow-up commands.
+After completing `/sc-troubleshoot`, suggest relevant follow-up commands.

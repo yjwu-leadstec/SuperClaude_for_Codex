@@ -1,67 +1,72 @@
 schema_version: 1
 id: brainstorm
-display_name: /sc:brainstorm
+display_name: /sc-brainstorm
 category: discovery
 description: Interactive requirements discovery through Socratic dialogue and systematic exploration.
-
 aliases:
-  - /sc:brainstorm
-  - sc:brainstorm
-  - brainstorm
-
+- /sc-brainstorm
+- /sc:brainstorm
+- sc-brainstorm
+- sc:brainstorm
+- brainstorm
 triggers:
-  - user wants to explore an idea
-  - user asks to brainstorm
-  - user describes a product concept
-  - ambiguous project ideas requiring structured exploration
-  - requirements discovery and specification development
-
+- user wants to explore an idea
+- user asks to brainstorm
+- user describes a product concept
+- ambiguous project ideas requiring structured exploration
+- requirements discovery and specification development
 inputs:
   positional:
-    - name: topic
-      required: false
-      description: The idea or topic to brainstorm about
+  - name: topic
+    required: false
+    description: Idea, product, feature, or problem to explore.
   flags:
-    - name: strategy
-      values: [systematic, agile, enterprise]
-      default: systematic
-    - name: depth
-      values: [shallow, normal, deep]
-      default: normal
-
+  - name: strategy
+    values:
+    - systematic
+    - agile
+    - enterprise
+    description: Discovery strategy.
+  - name: depth
+    values:
+    - shallow
+    - normal
+    - deep
+    description: Exploration depth.
+  - name: parallel
+    type: boolean
+    description: Explore multiple lines of thinking in parallel.
+  examples:
+  - /sc-brainstorm "AI-powered project management tool" --strategy systematic --depth deep
+  - /sc-brainstorm "real-time collaboration features" --strategy agile --parallel
 workflow:
-  - understand_request
-  - inspect_project_context
-  - ask_targeted_questions
-  - generate_alternatives
-  - challenge_assumptions
-  - produce_design_doc
-
+- understand_request
+- inspect_project_context
+- ask_targeted_questions
+- generate_alternatives
+- challenge_assumptions
+- produce_design_doc
 personas:
-  - analyst
-  - product
-  - architect
-
+- analyst
+- product
+- architect
 mcp:
   optional:
-    - context7
-    - tavily
-    - sequential-thinking
-
+  - context7
+  - tavily
+  - sequential-thinking
 safety:
   writes_code: false
   writes_files: true
   requires_user_confirmation_for_scope_change: true
-
 output_contract:
   primary: design_doc
   required_sections:
-    - problem_statement
-    - constraints
-    - approaches_considered
-    - recommended_approach
-    - next_steps
-
+  - problem_statement
+  - constraints
+  - approaches_considered
+  - recommended_approach
+  - next_steps
 codex:
   skill_name: superclaude-brainstorm
   default_reasoning: medium

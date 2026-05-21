@@ -1,11 +1,13 @@
 schema_version: 1
 id: load
-display_name: /sc:load
+display_name: /sc-load
 category: utility
-description: Session lifecycle management with Serena MCP integration for project
-  context loading
+description: Session lifecycle management with Serena MCP integration for project context
+  loading
 aliases:
+- /sc-load
 - /sc:load
+- sc-load
 - sc:load
 - load
 triggers:
@@ -33,3 +35,28 @@ codex:
   skill_name: superclaude-load
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: target
+    required: false
+    description: Project, config, dependency set, or checkpoint to load.
+  flags:
+  - name: type
+    values:
+    - project
+    - config
+    - deps
+    - checkpoint
+    description: Load target type.
+  - name: refresh
+    type: boolean
+    description: Refresh cached or saved context while loading.
+  - name: analyze
+    type: boolean
+    description: Analyze the loaded context before proceeding.
+  - name: checkpoint
+    value_name: id
+    description: Checkpoint identifier to load.
+  examples:
+  - /sc-load /path/to/project --type project --analyze
+  - /sc-load --type deps --refresh

@@ -3,11 +3,11 @@ name: superclaude-spec-panel
 description: Multi-expert specification review and improvement using renowned specification and software engineering experts
 ---
 
-# /sc:spec-panel
+# /sc-spec-panel
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:spec-panel`.
+Use this skill when the user invokes `/sc-spec-panel`.
 Also activate when:
 - Specification quality review and improvement requests
 - Technical documentation validation and enhancement needs
@@ -16,9 +16,30 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-spec-panel`
 - `/sc:spec-panel`
+- `sc-spec-panel`
 - `sc:spec-panel`
 - `spec-panel`
+
+## Inputs
+
+- `[specification]` (optional): Specification content or @file path to review.
+- `--mode` `discussion|critique|socratic`: Panel review mode.
+- `--experts` `<names>`: Comma-separated expert names.
+- `--focus` `requirements|architecture|testing|compliance`: Review focus areas.
+- `--iterations` `<n>`: Number of review iterations.
+- `--format` `standard|structured|detailed`: Output format.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Workflow
 
@@ -55,4 +76,4 @@ Return a structured **specification review** containing:
 
 ## Completion
 
-After completing `/sc:spec-panel`, suggest relevant follow-up commands.
+After completing `/sc-spec-panel`, suggest relevant follow-up commands.

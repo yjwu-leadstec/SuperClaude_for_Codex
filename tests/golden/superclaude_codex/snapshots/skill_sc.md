@@ -8,8 +8,24 @@ description: SuperClaude command dispatcher - Use /sc [command] to access all Su
 ## Aliases
 
 - `/sc`
+- `/sc-sc`
 - `/sc:sc`
 - `sc`
+
+## Inputs
+
+- `[command]` (optional): SuperClaude command to dispatch.
+- `[arguments]` (optional): Arguments to forward to the dispatched command.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Workflow
 

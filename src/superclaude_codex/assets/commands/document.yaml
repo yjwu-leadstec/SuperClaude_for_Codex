@@ -1,10 +1,12 @@
 schema_version: 1
 id: document
-display_name: /sc:document
+display_name: /sc-document
 category: documentation
 description: Generate focused documentation for components, functions, APIs, and features
 aliases:
+- /sc-document
 - /sc:document
+- sc-document
 - sc:document
 - document
 triggers:
@@ -34,3 +36,24 @@ codex:
   skill_name: superclaude-document
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: target
+    required: false
+    description: Code, component, API, module, or feature to document.
+  flags:
+  - name: type
+    values:
+    - inline
+    - external
+    - api
+    - guide
+    description: Documentation type.
+  - name: style
+    values:
+    - brief
+    - detailed
+    description: Documentation detail level.
+  examples:
+  - /sc-document src/api --type api --style detailed
+  - /sc-document components/ --type external

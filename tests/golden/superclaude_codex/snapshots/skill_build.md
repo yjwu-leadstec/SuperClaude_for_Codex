@@ -3,11 +3,11 @@ name: superclaude-build
 description: Build, compile, and package projects with intelligent error handling and optimization
 ---
 
-# /sc:build
+# /sc-build
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:build`.
+Use this skill when the user invokes `/sc-build`.
 Also activate when:
 - Project compilation and packaging requests for different environments
 - Build optimization and artifact generation needs
@@ -16,9 +16,29 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-build`
 - `/sc:build`
+- `sc-build`
 - `sc:build`
 - `build`
+
+## Inputs
+
+- `[target]` (optional): Project, package, app, or component to build.
+- `--type` `dev|prod|test`: Build type.
+- `--clean`: Clean build artifacts before building.
+- `--optimize`: Enable production optimization when building.
+- `--verbose`: Show detailed build output and diagnostics.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Workflow
 
@@ -50,4 +70,4 @@ Return a structured **build report** containing:
 
 ## Completion
 
-After completing `/sc:build`, suggest relevant follow-up commands.
+After completing `/sc-build`, suggest relevant follow-up commands.

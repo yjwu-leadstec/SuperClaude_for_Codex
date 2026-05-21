@@ -25,11 +25,31 @@ superclaude-codex install
 
 ## Command Routing
 
-### `/sc:brainstorm` not recognized in Codex
+### `/sc-brainstorm` not recognized in Codex
 
 1. Check installation: `superclaude-codex doctor`
 2. Verify AGENTS.md has the SuperClaude routing block
-3. Restart Codex after installation
+3. Verify `~/.codex/skills/superclaude-brainstorm/SKILL.md` exists
+4. Restart Codex after installation
+
+### `/sc-*` commands do not appear in slash completion
+
+1. Run `superclaude-codex install --force`
+2. Confirm `superclaude-codex doctor` reports `Native plugin: disabled (standalone skills mode)`
+3. Fully quit and reopen Codex so standalone skills are reloaded
+
+For native plugin command files and `argument-hint` placeholders, run:
+
+```bash
+superclaude-codex install --force --native-plugin
+```
+
+### Flags do not autocomplete one by one
+
+Codex native plugin commands currently expose command-level completion and a single
+`argument-hint` placeholder string. SuperClaude for Codex puts the most useful
+placeholders in that hint and documents the complete command-specific flags plus
+shared global flags in the generated command markdown and SKILL.md files.
 
 ### Commands show "Not implemented"
 

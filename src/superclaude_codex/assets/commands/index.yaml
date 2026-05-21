@@ -1,11 +1,13 @@
 schema_version: 1
 id: index
-display_name: /sc:index
+display_name: /sc-index
 category: utility
-description: Generate comprehensive project documentation and knowledge base with
-  intelligent organization
+description: Generate comprehensive project documentation and knowledge base with intelligent
+  organization
 aliases:
+- /sc-index
 - /sc:index
+- sc-index
 - sc:index
 - index
 triggers:
@@ -40,3 +42,25 @@ codex:
   skill_name: superclaude-index
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: target
+    required: false
+    description: Project path, source directory, API, or documentation area to index.
+  flags:
+  - name: type
+    values:
+    - docs
+    - api
+    - structure
+    - readme
+    description: Index type.
+  - name: format
+    values:
+    - md
+    - json
+    - yaml
+    description: Index output format.
+  examples:
+  - /sc-index project-root --type structure --format md
+  - /sc-index src/api --type api --format json

@@ -1,6 +1,6 @@
 """Command IR (Intermediate Representation) data model.
 
-Every /sc:* command is defined as a versioned YAML file and loaded
+Every /sc-* command is defined as a versioned YAML file and loaded
 into a CommandIR dataclass. Renderers then produce Codex skills,
 AGENTS.md routes, and commands.json from these IR objects.
 """

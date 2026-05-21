@@ -3,11 +3,11 @@ name: superclaude-brainstorm
 description: Interactive requirements discovery through Socratic dialogue and systematic exploration.
 ---
 
-# /sc:brainstorm
+# /sc-brainstorm
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:brainstorm`.
+Use this skill when the user invokes `/sc-brainstorm`.
 Also activate when:
 - user wants to explore an idea
 - user asks to brainstorm
@@ -17,15 +17,28 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-brainstorm`
 - `/sc:brainstorm`
+- `sc-brainstorm`
 - `sc:brainstorm`
 - `brainstorm`
 
 ## Inputs
 
-- **topic** (optional): The idea or topic to brainstorm about
-- `--strategy` [systematic, agile, enterprise] (default: systematic)
-- `--depth` [shallow, normal, deep] (default: normal)
+- `[topic]` (optional): Idea, product, feature, or problem to explore.
+- `--strategy` `systematic|agile|enterprise`: Discovery strategy.
+- `--depth` `shallow|normal|deep`: Exploration depth.
+- `--parallel`: Explore multiple lines of thinking in parallel.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Workflow
 
@@ -65,4 +78,4 @@ Return a structured **design doc** containing:
 
 ## Completion
 
-After completing `/sc:brainstorm`, suggest relevant follow-up commands.
+After completing `/sc-brainstorm`, suggest relevant follow-up commands.

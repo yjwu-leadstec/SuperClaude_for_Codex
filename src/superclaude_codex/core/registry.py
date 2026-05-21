@@ -1,6 +1,6 @@
 """Command registry — loads, indexes, and exports command IR assets.
 
-The registry is the single source of truth for all /sc:* commands.
+The registry is the single source of truth for all /sc-* commands.
 """
 
 from __future__ import annotations

@@ -6,6 +6,7 @@ description: SuperClaude command dispatcher - Use /sc [command] to access all Su
   features
 aliases:
 - /sc
+- /sc-sc
 - /sc:sc
 - sc
 triggers: []
@@ -27,3 +28,14 @@ codex:
   skill_name: superclaude-sc
   default_reasoning: medium
   web_search: optional
+inputs:
+  positional:
+  - name: command
+    required: false
+    description: SuperClaude command to dispatch.
+  - name: arguments
+    required: false
+    description: Arguments to forward to the dispatched command.
+  examples:
+  - /sc implement "add authentication middleware"
+  - /sc help

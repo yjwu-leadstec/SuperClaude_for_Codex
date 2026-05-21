@@ -3,11 +3,11 @@ name: superclaude-task
 description: Execute complex tasks with intelligent workflow management and delegation
 ---
 
-# /sc:task
+# /sc-task
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:task`.
+Use this skill when the user invokes `/sc-task`.
 Also activate when:
 - Complex tasks requiring multi-agent coordination and delegation
 - Projects needing structured workflow management and cross-session persistence
@@ -16,9 +16,29 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-task`
 - `/sc:task`
+- `sc-task`
 - `sc:task`
 - `task`
+
+## Inputs
+
+- `[action]` (optional): Task action such as create, execute, update, or review.
+- `[target]` (optional): Task, backlog, project, or feature target.
+- `--strategy` `systematic|agile|enterprise`: Task execution strategy.
+- `--parallel`: Execute independent task work in parallel.
+- `--delegate`: Delegate suitable subtasks to agents.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Workflow
 
@@ -60,4 +80,4 @@ Return a structured **task list** containing:
 
 ## Completion
 
-After completing `/sc:task`, suggest relevant follow-up commands.
+After completing `/sc-task`, suggest relevant follow-up commands.

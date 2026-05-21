@@ -3,11 +3,11 @@ name: superclaude-cleanup
 description: Systematically clean up code, remove dead code, and optimize project structure
 ---
 
-# /sc:cleanup
+# /sc-cleanup
 
 ## When to Use
 
-Use this skill when the user invokes `/sc:cleanup`.
+Use this skill when the user invokes `/sc-cleanup`.
 Also activate when:
 - Code maintenance and technical debt reduction requests
 - Dead code removal and import optimization needs
@@ -16,9 +16,30 @@ Also activate when:
 
 ## Aliases
 
+- `/sc-cleanup`
 - `/sc:cleanup`
+- `sc-cleanup`
 - `sc:cleanup`
 - `cleanup`
+
+## Inputs
+
+- `[target]` (optional): File, directory, or project area to clean up.
+- `--type` `code|imports|files|all`: Cleanup category.
+- `--safe`: Use conservative cleanup with validation before removal.
+- `--aggressive`: Apply broader cleanup when safe to do so.
+- `--interactive`: Ask before applying risky cleanup decisions.
+- `--preview`: Show cleanup candidates without applying changes.
+
+## Global Flags
+
+All `/sc-*` commands accept shared SuperClaude global flags such as `--think`, `--think-hard`, `--ultrathink`, `--validate`, `--safe-mode`, `--uc`, `--scope`, `--focus`, and MCP selection flags like `--c7`, `--seq`, `--serena`, `--play`, and `--no-mcp`.
+
+- Safety first: --safe-mode > --validate > optimization flags.
+- Explicit override: user-provided flags take precedence over auto-detection.
+- Depth hierarchy: --ultrathink > --think-hard > --think.
+- MCP control: --no-mcp overrides individual MCP flags.
+- Scope precedence: system > project > module > file.
 
 ## Workflow
 
@@ -53,4 +74,4 @@ Return a structured **cleanup report** containing:
 
 ## Completion
 
-After completing `/sc:cleanup`, suggest relevant follow-up commands.
+After completing `/sc-cleanup`, suggest relevant follow-up commands.
