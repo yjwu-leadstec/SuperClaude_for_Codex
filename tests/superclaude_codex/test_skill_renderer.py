@@ -218,10 +218,6 @@ class TestRenderAllSkills:
         assert len(paths) == 2
         assert (codex_home / "skills" / "superclaude-brainstorm" / "SKILL.md").exists()
         assert (
-            codex_home
-            / "skills"
-            / "superclaude-brainstorm"
-            / "agents"
-            / "openai.yaml"
+            codex_home / "skills" / "superclaude-brainstorm" / "agents" / "openai.yaml"
         ).exists()
         assert (codex_home / "skills" / "superclaude-implement" / "SKILL.md").exists()

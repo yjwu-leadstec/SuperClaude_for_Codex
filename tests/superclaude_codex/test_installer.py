@@ -53,15 +53,16 @@ class TestInstallerCommit:
         installer = Installer(codex_home=tmp_codex_home)
         installer.run()
         assert not (tmp_codex_home / "superclaude-for-codex" / "marketplace").exists()
-        assert not (tmp_codex_home / "plugins" / "cache" / "superclaude-for-codex").exists()
+        assert not (
+            tmp_codex_home / "plugins" / "cache" / "superclaude-for-codex"
+        ).exists()
 
         config = tmp_codex_home / "config.toml"
         if config.exists():
             content = config.read_text()
             assert "[marketplaces.superclaude-for-codex]" not in content
             assert (
-                '[plugins."superclaude-for-codex@superclaude-for-codex"]'
-                not in content
+                '[plugins."superclaude-for-codex@superclaude-for-codex"]' not in content
             )
 
     def test_creates_native_plugin_commands_when_enabled(self, tmp_codex_home):
@@ -122,11 +123,7 @@ class TestInstallerCommit:
         installer = Installer(codex_home=tmp_codex_home, ui_locale="zh-CN")
         installer.run()
         metadata = (
-            tmp_codex_home
-            / "skills"
-            / "superclaude-save"
-            / "agents"
-            / "openai.yaml"
+            tmp_codex_home / "skills" / "superclaude-save" / "agents" / "openai.yaml"
         )
         content = metadata.read_text()
         assert 'display_name: "sc-save"' in content
@@ -141,11 +138,7 @@ class TestInstallerCommit:
         installer = Installer(codex_home=tmp_codex_home, ui_locale="auto")
         installer.run()
         metadata = (
-            tmp_codex_home
-            / "skills"
-            / "superclaude-save"
-            / "agents"
-            / "openai.yaml"
+            tmp_codex_home / "skills" / "superclaude-save" / "agents" / "openai.yaml"
         )
         content = metadata.read_text()
         assert 'display_name: "sc-save"' in content

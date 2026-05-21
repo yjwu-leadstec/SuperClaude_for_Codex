@@ -29,14 +29,10 @@ def test_install_locale_zh_cn(tmp_codex_home):
     runner = CliRunner()
     result = runner.invoke(main, ["install", "--locale", "zh-CN"])
     assert result.exit_code == 0, result.output
-    metadata = (
-        tmp_codex_home
-        / "skills"
-        / "superclaude-save"
-        / "agents"
-        / "openai.yaml"
+    metadata = tmp_codex_home / "skills" / "superclaude-save" / "agents" / "openai.yaml"
+    assert (
+        'short_description: "保存会话上下文、学习记录和检查点"' in metadata.read_text()
     )
-    assert 'short_description: "保存会话上下文、学习记录和检查点"' in metadata.read_text()
 
 
 def test_install_locale_auto_zh_tw(tmp_codex_home):
@@ -47,14 +43,10 @@ def test_install_locale_auto_zh_tw(tmp_codex_home):
         env={"LC_ALL": "", "LC_MESSAGES": "", "LANG": "zh_TW.UTF-8"},
     )
     assert result.exit_code == 0, result.output
-    metadata = (
-        tmp_codex_home
-        / "skills"
-        / "superclaude-save"
-        / "agents"
-        / "openai.yaml"
+    metadata = tmp_codex_home / "skills" / "superclaude-save" / "agents" / "openai.yaml"
+    assert (
+        'short_description: "儲存會話上下文、學習記錄和檢查點"' in metadata.read_text()
     )
-    assert 'short_description: "儲存會話上下文、學習記錄和檢查點"' in metadata.read_text()
 
 
 def test_install_dry_run(tmp_codex_home):
